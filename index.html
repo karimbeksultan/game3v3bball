@@ -7,6 +7,11 @@
 <meta name="theme-color" content="#0e1117">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="3x3 bball">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Russo+One&family=Rubik:wght@400;500;700&display=swap">
@@ -264,6 +269,8 @@ body.playing .overlay{position:fixed;z-index:20}
           </div>
           <div class="row"><button class="btn primary" id="play" type="button">Обычная игра</button><button class="btn" id="tournamentStart" type="button">Турнир · до 30</button></div><p class="note">Во вкладке «Турнир» создай команду и смотри группы. Турнирная игра — до 30 очков.</p>
           <details class="ach"><summary>🏆 Достижения: <span id="achCount">0/16</span></summary><ul id="achList"></ul></details>
+          <div class="row" id="installRow" hidden><button class="btn" id="installBtn" type="button">📲 Установить как приложение</button></div>
+          <p class="note" id="iosTip" hidden>📲 Чтобы играть без браузера: «Поделиться» → «На экран „Домой“». Игра откроется со своей иконки, без адресной строки и вкладок.</p>
           <p class="note touch-tip">На телефоне играй горизонтально: джойстик слева, кнопки справа, <b>II</b> — пауза.</p>
           <p class="note">Пауза и настройки: <kbd>P</kbd> или <kbd>Esc</kbd>. Звук: <kbd>M</kbd>.</p>
           <p class="note">Управление: <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> ход, <kbd>Space</kbd> разгон, <kbd>U</kbd> бросок, <kbd>I</kbd> дриблинг, <kbd>O</kbd> пас, <kbd>T</kbd> понты, <kbd>Y</kbd> танец, <kbd>J</kbd> <kbd>K</kbd> <kbd>L</kbd> техники персонажа.</p>
@@ -4299,6 +4306,19 @@ document.addEventListener('visibilitychange', () => {
 window.addEventListener('keydown', () => { sfx.init(); }, { once: true });
 window.addEventListener('pointerdown', () => { sfx.init(); }, { once: true });
 document.addEventListener('click', e => { if (e.target.closest('.btn, .seg button')) sfx.uiClick(); });
+// install as an app (no browser bars): Android / desktop Chrome get a button, iPhone gets a hint
+const isStandalone = matchMedia('(display-mode: fullscreen)').matches || matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+let deferredInstall = null;
+addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferredInstall = e; if (!isStandalone) el('installRow').hidden = false; });
+el('installBtn').addEventListener('click', async () => {
+  if (!deferredInstall) return;
+  deferredInstall.prompt();
+  try { await deferredInstall.userChoice; } catch (er) {}
+  deferredInstall = null; el('installRow').hidden = true;
+});
+addEventListener('appinstalled', () => { el('installRow').hidden = true; });
+if (!isStandalone && /iPhone|iPad|iPod/.test(navigator.userAgent)) el('iosTip').hidden = false;
+if ('serviceWorker' in navigator && location.protocol !== 'file:') navigator.serviceWorker.register('sw.js').catch(() => {});
 el('touchPause').addEventListener('pointerdown', e => { e.preventDefault(); if (inGame()) setPaused(!G.paused); });
 function drawCharPortrait(canvas, ch) {
   const dpr = Math.min(2, window.devicePixelRatio || 1), sc = 1.75 / Math.max(1, ch.scale || 1);
