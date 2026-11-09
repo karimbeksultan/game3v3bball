@@ -415,9 +415,9 @@ const COL = { you: '#3f8cff', youDark: '#1d4fa8', bot: '#ff5148', botDark: '#a32
 // Slightly sharper bots, with modest improvements to steals, shooting and rebounds.
 const DIFFS = {
   // smart movement/shooting/IQ restored to original Claude level; steal+reb stay nerfed; ankle ON you = easier to break ankles
-  easy:   { speed: 0.93, react: 0.27, steal: 0.18, block: 0.21, shotErr: 0.13, shotMul: 0.80, ankleResist: 1.9,  ankleOnYou: 0.28, aggro: 0.65, fake: 0,    reb: 0.84, rebSpeed: 0.55, rebGrabDist: 22 },
-  normal: { speed: 0.99, react: 0.19, steal: 0.29, block: 0.29, shotErr: 0.09, shotMul: 0.88, ankleResist: 1.55, ankleOnYou: 0.40, aggro: 0.83, fake: 0.05, reb: 0.72, rebSpeed: 0.63, rebGrabDist: 24 },
-  hard:   { speed: 1.00, react: 0.14, steal: 0.44, block: 0.38, shotErr: 0.065, shotMul: 0.93, ankleResist: 1.15, ankleOnYou: 0.58, aggro: 0.95, fake: 0.10, reb: 0.56, rebSpeed: 0.73, rebGrabDist: 28 },
+  easy:   { speed: 0.93, react: 0.27, steal: 0.18, block: 0.21, shotErr: 0.13, shotMul: 0.80, ankleResist: 1.9,  ankleOnYou: 0.28, aggro: 0.65, fake: 0,    reb: 0.5, rebSpeed: 0.66, rebGrabDist: 24 },
+  normal: { speed: 0.99, react: 0.19, steal: 0.29, block: 0.29, shotErr: 0.09, shotMul: 0.88, ankleResist: 1.55, ankleOnYou: 0.40, aggro: 0.83, fake: 0.05, reb: 0.68, rebSpeed: 0.74, rebGrabDist: 27 },
+  hard:   { speed: 1.00, react: 0.14, steal: 0.44, block: 0.38, shotErr: 0.065, shotMul: 0.93, ankleResist: 1.15, ankleOnYou: 0.58, aggro: 0.95, fake: 0.10, reb: 0.85, rebSpeed: 0.82, rebGrabDist: 30 },
 };
 
 // ---------- helpers ----------
@@ -3104,7 +3104,7 @@ function updateBall(dt) {
 
     for (const p of order) {
       if (p.state === 'fallen' || p.state === 'layup' || p.state === 'dunk' || p.noGrab > 0) continue;
-      const reach = ((p.id === G.userCtrlId || p.remote) ? 52 : (p.team === 0 ? 34 : G.diff.rebGrabDist)) + mod(p, 'reb');
+      const reach = ((p.id === G.userCtrlId || p.remote) ? 52 : (P[G.userCtrlId] && p.team === P[G.userCtrlId].team ? 40 : G.diff.rebGrabDist)) + mod(p, 'reb');
       if (dist(p, ball) < reach && ball.z < 45 + p.z * 1.3) {
         gain(p);
         break;
@@ -3311,24 +3311,29 @@ function botOffBall(b, inp, dt, mem) {
 
 // SLOWER REBOUNDS FOR BOTS
 function botLoose(b, inp, dt, mem) {
-  const D = G.diff;
+  const D = G.diff, me = P[G.userCtrlId];
+  // your CPU team-mates fight for rebounds like a decent human player: human reaction time, a bit slower than you
+  const mate = !!me && b.team === me.team;
+  const rebBonus = b.char && b.char.ai.reb ? 0.05 * b.char.ai.reb : 0;
   if (ball.state === 'shot') {
+    // box out: drift toward the rebound area while the ball is in the air
     steer(inp, b, HOOP.x + (b.x - HOOP.x) * 0.3, HOOP.y + 120, 12);
-    inp.mx *= 0.4; inp.my *= 0.4;
+    const k = mate ? 0.7 : 0.35 + 0.35 * D.rebSpeed;
+    inp.mx *= k; inp.my *= k;
     return;
   }
 
   // Init looseDelay on fresh shot for bots
   if (ball.state === 'loose' && mem.looseDelay <= 0 && dist(b, ball) > 60) {
-    mem.looseDelay = rnd(0.18, 0.32) * (1 / D.reb);
+    mem.looseDelay = mate ? rnd(0.15, 0.3) : rnd(0.18, 0.32) * (1 / D.reb);
   }
   mem.looseDelay = Math.max(0, mem.looseDelay - dt);
   if (mem.looseDelay > 0) { inp.mx *= 0.1; inp.my *= 0.1; return; }
 
   steer(inp, b, ball.x + ball.vx * 0.18, ball.y + ball.vy * 0.18, 6);
-  const rs = Math.min(1, D.rebSpeed * (b.char && b.char.ai.reb ? 1 + 0.15 * b.char.ai.reb : 1));
+  const rs = mate ? Math.min(0.95, 0.82 + rebBonus) : Math.min(1, D.rebSpeed * (b.char && b.char.ai.reb ? 1 + 0.15 * b.char.ai.reb : 1));
   inp.mx *= rs; inp.my *= rs;
-  inp.sprint = dist(b, ball) > 80;
+  inp.sprint = dist(b, ball) > (mate ? 110 : 80);
 
   if (ball.z > 50 && ball.z < 100 && dist(b, ball) < 30 && b.jumpCD <= 0 && Math.random() < 0.25) {
     inp.shootPress = true;
@@ -4561,7 +4566,7 @@ function tournamentStageDifficulty() {
     ankleResist: base.ankleResist * (1 + boost * 0.45),
     ankleOnYou: Math.min(0.95, base.ankleOnYou * (1 + boost * 0.45)),
     aggro: Math.min(1, base.aggro * (1 + boost * 0.2)),
-    reb: Math.min(0.98, base.reb + boost * 0.2),
+    reb: Math.min(1.15, base.reb + boost * 0.2),
     rebSpeed: Math.min(0.98, base.rebSpeed + boost * 0.2),
     rebGrabDist: base.rebGrabDist + boost * 10
   };
