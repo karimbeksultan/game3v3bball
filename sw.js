@@ -1,5 +1,5 @@
 // Offline cache for the installed app. Network first, so new versions arrive as soon as you are online.
-const CACHE = 'bball-v1';
+const CACHE = 'bball-v2';
 const ASSETS = ['./', './index.html', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png', './icons/apple-touch-icon.png'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));

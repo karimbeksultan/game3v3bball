@@ -139,6 +139,7 @@ body{background:radial-gradient(ellipse at 50% -20%,#202b3d 0%,#0e1117 58%);}
 @media (prefers-reduced-motion:reduce){.btn{transition:none}.btn:hover,.btn:active{transform:none}}.touch-controls{display:none;position:absolute;inset:0;z-index:3;pointer-events:none;justify-content:space-between;align-items:flex-end;padding:12px;box-sizing:border-box;touch-action:none;user-select:none}
 .touch-controls button{pointer-events:auto;color:#fff;background:rgba(11,14,20,.76);border:1px solid rgba(255,255,255,.42);border-radius:16px;font:700 13px var(--f-body);min-width:52px;min-height:52px;padding:8px;box-shadow:0 4px 14px rgba(0,0,0,.25);backdrop-filter:blur(5px);touch-action:none;user-select:none;-webkit-user-select:none}
 .stick{pointer-events:auto;width:138px;height:138px;border-radius:50%;border:2px solid rgba(255,255,255,.42);background:rgba(11,14,20,.38);position:relative;touch-action:none;box-shadow:inset 0 0 20px rgba(0,0,0,.3)}
+.stick-knob.sprint{background:rgba(255,81,72,.9);box-shadow:0 0 18px rgba(255,120,60,.9)}
 .stick-knob{position:absolute;left:50%;top:50%;width:56px;height:56px;margin:-28px;border-radius:50%;background:rgba(255,173,43,.84);border:2px solid rgba(255,255,255,.7);box-shadow:0 3px 12px rgba(0,0,0,.35);pointer-events:none}
 .touch-actions{display:grid;grid-template-columns:repeat(2,auto);gap:6px;align-items:end}.touch-actions button{padding:8px}.touch-actions .touch-shoot{grid-column:2;grid-row:1 / span 2;min-width:84px;min-height:84px;background:rgba(255,173,43,.88);color:#1b1206;border-color:#ffe0a3;font-family:var(--f-display)}
 .touch-actions small{font:500 9px var(--f-body)}
@@ -176,6 +177,10 @@ body.playing .abil-opp{display:none} body.playing .abil,body.playing .abil-me{fl
 body.playing .overlay{position:fixed;z-index:20}
 /* ---------- phone layout ---------- */
 .touch-pause{display:none} .touch-tip{display:none}
+.net-box{border:1px solid var(--line);border-radius:10px;padding:10px;background:#0b0e14}
+.net-box .row{align-items:center}
+.net-code{font:400 26px var(--f-display);letter-spacing:.2em;color:var(--led)}
+#netCode{flex:1;min-width:0;padding:10px;border-radius:8px;background:#0e1117;color:var(--fg);border:1px solid var(--line);font:400 18px var(--f-display);letter-spacing:.2em;text-transform:uppercase}
 .rotate-hint{display:none;position:fixed;inset:0;z-index:50;background:rgba(8,10,15,.94);color:var(--fg);flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:24px;font:500 16px var(--f-body)}
 .rotate-hint b{font:400 22px var(--f-display);color:var(--led)} .rotate-hint i{font-style:normal;font-size:54px;animation:rot 1.6s ease-in-out infinite}
 @keyframes rot{0%,30%{transform:rotate(0)}60%,100%{transform:rotate(90deg)}}
@@ -199,13 +204,24 @@ body.playing .overlay{position:fixed;z-index:20}
 @media (pointer:coarse) and (orientation:landscape){
   .app{padding:4px max(6px,env(safe-area-inset-right)) 4px max(6px,env(safe-area-inset-left))}
   .wrap{width:100% !important;gap:4px}
-  body.playing .board{padding:1px 10px;width:min(440px,calc(100vw - 260px))} body.playing .board .score{font-size:18px} body.playing .board .clock{font-size:13px;padding:0 6px} body.playing .tname{font-size:9px} body.playing .board .status{font-size:8px}
+  body.playing .board{display:contents}
+  body.playing .board .team{position:fixed;top:max(6px,env(safe-area-inset-top));z-index:6;gap:6px;padding:3px 10px;border-radius:10px;background:rgba(14,17,23,.78);border:1px solid var(--line);max-width:min(140px,calc((100vw - 100dvh * 1.4118) / 2 - 12px))}
+  body.playing .board .team.you{left:max(8px,env(safe-area-inset-left))}
+  body.playing .board .team.bot{right:max(8px,env(safe-area-inset-right))}
+  body.playing .board .score{font-size:22px} body.playing .tname{font-size:9px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:70px}
+  body.playing .board .mid{position:fixed;z-index:6;top:calc(max(6px,env(safe-area-inset-top)) + 40px);left:max(8px,env(safe-area-inset-left));flex-direction:row;gap:6px;align-items:center}
+  body.playing .board .clock{font-size:13px;padding:0 6px} body.playing .board .status{font-size:8px;max-width:90px;overflow:hidden;text-overflow:ellipsis}
   body.playing .abil{display:none}
   body.playing .touch-controls{position:fixed;inset:0;padding:10px max(12px,env(safe-area-inset-right)) 10px max(12px,env(safe-area-inset-left))}
-  body.playing .touch-controls .touch-pause{position:fixed;top:6px;right:max(8px,env(safe-area-inset-right))}
+  body.playing .touch-controls .touch-pause{position:fixed;top:calc(max(6px,env(safe-area-inset-top)) + 42px);right:max(8px,env(safe-area-inset-right));min-width:36px;min-height:32px}
   .touch-actions{grid-template-columns:repeat(3,46px);gap:5px}
   .touch-controls .touch-actions button{width:46px;min-width:0;height:40px;min-height:0;font-size:9px;line-height:1.1;padding:2px;border-radius:12px}
   .touch-controls .touch-actions .touch-shoot{grid-column:3;grid-row:2 / span 2;width:46px;height:85px;font-size:10px}
+  .touch-controls .touch-actions [data-key="KeyJ"]{grid-area:1/1} .touch-controls .touch-actions [data-key="KeyK"]{grid-area:1/2} .touch-controls .touch-actions [data-key="KeyL"]{grid-area:1/3}
+  .touch-controls .touch-actions [data-key="KeyJ"],.touch-controls .touch-actions [data-key="KeyK"],.touch-controls .touch-actions [data-key="KeyL"]{margin-bottom:12px;box-shadow:0 0 0 2px rgba(250,204,21,.35)}
+  .touch-controls .touch-actions [data-key="KeyO"]{grid-area:2/1} .touch-controls .touch-actions [data-key="KeyI"]{grid-area:2/2}
+  .touch-controls .touch-actions [data-key="KeyT"]{grid-area:3/1} .touch-controls .touch-actions [data-key="KeyY"]{grid-area:3/2}
+  .touch-controls .touch-actions .touch-sprint{display:none}
   .touch-actions .touch-shoot small{display:none}
   .stick{width:108px;height:108px} .stick-knob{width:46px;height:46px;margin:-23px}
 
@@ -271,7 +287,13 @@ body.playing .overlay{position:fixed;z-index:20}
           <details class="ach"><summary>🏆 Достижения: <span id="achCount">0/16</span></summary><ul id="achList"></ul></details>
           <div class="row" id="installRow" hidden><button class="btn" id="installBtn" type="button">📲 Установить как приложение</button></div>
           <p class="note" id="iosTip" hidden>📲 Чтобы играть без браузера: «Поделиться» → «На экран „Домой“». Игра откроется со своей иконки, без адресной строки и вкладок.</p>
-          <p class="note touch-tip">На телефоне играй горизонтально: джойстик слева, кнопки справа, <b>II</b> — пауза.</p>
+          <div class="field net-box"><span class="label">🌐 Игра по сети · 1 на 1</span>
+            <div class="row"><button class="btn" id="netHostBtn" type="button">Создать комнату</button><b class="net-code" id="netCodeBox"></b></div>
+            <div class="row"><input id="netCode" maxlength="4" autocomplete="off" autocapitalize="characters" placeholder="КОД" aria-label="Код комнаты"><button class="btn" id="netJoinBtn" type="button">Подключиться</button></div>
+            <div class="row" id="netStartRow" hidden><button class="btn primary" id="netStartBtn" type="button">Начать матч</button></div>
+            <p class="note" id="netStatus">Оба открывают этот сайт. Один создаёт комнату и говорит код, второй вводит его. Каждый играет своим выбранным персонажем.</p>
+          </div>
+          <p class="note touch-tip">На телефоне играй горизонтально: джойстик слева (потяни сильнее — рывок), кнопки справа, <b>II</b> — пауза.</p>
           <p class="note">Пауза и настройки: <kbd>P</kbd> или <kbd>Esc</kbd>. Звук: <kbd>M</kbd>.</p>
           <p class="note">Управление: <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> ход, <kbd>Space</kbd> разгон, <kbd>U</kbd> бросок, <kbd>I</kbd> дриблинг, <kbd>O</kbd> пас, <kbd>T</kbd> понты, <kbd>Y</kbd> танец, <kbd>J</kbd> <kbd>K</kbd> <kbd>L</kbd> техники персонажа.</p>
         </div>
@@ -745,6 +767,164 @@ const sfx = (() => {
   };
   return api;
 })();
+
+// ---------- online 1v1 (WebRTC via PeerJS) ----------
+// The host runs the whole simulation; the guest only sends its controls and draws the host's snapshots.
+const NET = { role: null, peer: null, conn: null, active: false, peerChar: null, last: null, sfxQ: [], rin: { mx: 0, my: 0, sprint: false, shootDown: false }, rp: {}, built: false, overShown: false };
+const isGuest = () => NET.active && NET.role === 'guest';
+NET.send = m => { try { if (NET.conn && NET.conn.open) NET.conn.send(m); } catch (e) {} };
+// record every sound the host plays so the guest hears the same game
+{
+  const skip = new Set(['init', 'toggle', 'setHype', '_level']);
+  for (const k of Object.keys(sfx)) {
+    if (skip.has(k) || typeof sfx[k] !== 'function') continue;
+    const orig = sfx[k];
+    sfx[k] = (...a) => { if (NET.active && NET.role === 'host') NET.sfxQ.push([k, a]); return orig(...a); };
+  }
+}
+function loadPeer() {
+  if (window.Peer) return Promise.resolve();
+  return new Promise((res, rej) => {
+    const sc = document.createElement('script');
+    sc.src = 'https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js';
+    sc.onload = () => res(); sc.onerror = () => rej(new Error('peerjs'));
+    document.head.appendChild(sc);
+  });
+}
+function netStatus(t) { const n = document.getElementById('netStatus'); if (n) n.textContent = t; }
+function netLeave(quiet) {
+  if (NET.conn && !quiet) NET.send({ t: 'bye' });
+  try { NET.conn && NET.conn.close(); } catch (e) {}
+  try { NET.peer && NET.peer.destroy(); } catch (e) {}
+  Object.assign(NET, { role: null, peer: null, conn: null, active: false, peerChar: null, last: null, sfxQ: [], rp: {}, built: false, overShown: false });
+  document.getElementById('netStartRow').hidden = true;
+  document.getElementById('netCodeBox').textContent = '';
+}
+function netLost(msg) {
+  const wasPlaying = NET.active;
+  netLeave(true);
+  if (wasPlaying) toMenu();
+  netStatus(msg || 'Соединение потеряно.');
+}
+function wireConn(conn) {
+  conn.on('open', () => {
+    conn.send({ t: 'hello', char: selectedCharId });
+    if (NET.role === 'guest') netStatus('Подключено! Ждём, пока хост начнёт матч…');
+  });
+  conn.on('data', onNetData);
+  conn.on('close', () => { if (NET.conn === conn) netLost('Соперник отключился.'); });
+  conn.on('error', () => { if (NET.conn === conn) netLost('Ошибка соединения.'); });
+}
+async function netHost() {
+  try { await loadPeer(); } catch (e) { netStatus('Не удалось загрузить сетевой модуль — проверь интернет.'); return; }
+  netLeave(true);
+  const code = Array.from({ length: 4 }, () => 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'[Math.floor(Math.random() * 32)]).join('');
+  const peer = new Peer('bball3x3-' + code);
+  NET.peer = peer; NET.role = 'host';
+  netStatus('Создаём комнату…');
+  peer.on('open', () => { document.getElementById('netCodeBox').textContent = code; netStatus('Комната создана. Скажи код второму игроку и жди подключения.'); });
+  peer.on('connection', conn => { if (NET.conn) { conn.close(); return; } NET.conn = conn; wireConn(conn); });
+  peer.on('error', e => { if (e.type === 'unavailable-id') netHost(); else netStatus('Ошибка сети: ' + e.type); });
+}
+async function netJoin(code) {
+  code = String(code || '').trim().toUpperCase();
+  if (code.length !== 4) { netStatus('Введи код из 4 символов.'); return; }
+  try { await loadPeer(); } catch (e) { netStatus('Не удалось загрузить сетевой модуль — проверь интернет.'); return; }
+  netLeave(true);
+  const peer = new Peer();
+  NET.peer = peer; NET.role = 'guest';
+  netStatus('Подключаемся к комнате ' + code + '…');
+  peer.on('open', () => { const conn = peer.connect('bball3x3-' + code, { serialization: 'json', reliable: true }); NET.conn = conn; wireConn(conn); });
+  peer.on('error', e => netStatus(e.type === 'peer-unavailable' ? 'Комната ' + code + ' не найдена — проверь код.' : 'Ошибка сети: ' + e.type));
+}
+function netStartMatch() {
+  if (NET.role !== 'host' || !NET.conn || !NET.conn.open || !NET.peerChar) return;
+  document.getElementById('m-1v1').click();
+  NET.active = true; tournament = null; G.target = selectedTarget();
+  startGame();
+  setupChar(P[1], charById(NET.peerChar) || CHARS[0]);
+  P[1].remote = true; P[1].isBot = false;
+  buildAbilBar();
+  el('team0-name').textContent = P[0].char.short; el('team1-name').textContent = P[1].char.short + ' · сеть';
+  NET.send({ t: 'start' });
+}
+function onNetData(m) {
+  if (!m || !m.t) return;
+  if (m.t === 'hello') {
+    NET.peerChar = charById(m.char) ? m.char : 'aomine';
+    if (NET.role === 'host') { netStatus('Подключился соперник: ' + charById(NET.peerChar).name + '. Жми «Начать матч».'); document.getElementById('netStartRow').hidden = false; }
+  } else if (m.t === 'start' && NET.role === 'guest') {
+    NET.active = true; NET.built = false; NET.overShown = false;
+    G.mode = '1v1'; G.userCtrlId = 1; G.paused = false;
+    document.body.classList.add('playing'); requestAnimationFrame(resize);
+    showCard(null);
+  } else if (m.t === 's' && NET.role === 'guest') NET.last = m;
+  else if (m.t === 'in' && NET.role === 'host') {
+    Object.assign(NET.rin, { mx: +m.i.mx || 0, my: +m.i.my || 0, sprint: !!m.i.sprint, shootDown: !!m.i.shootDown });
+    for (const k of ['shootPress', 'shootUp', 'dribblePress', 'passPress']) if (m.i[k]) NET.rp[k] = true;
+    for (const k of ['J', 'K', 'L', 'T', 'Y']) if (m.k && m.k[k]) NET.rp[k] = true;
+  } else if (m.t === 'pause' && NET.role === 'host' && NET.active) setPaused(!!m.v);
+  else if (m.t === 'bye') netLost('Соперник вышел из игры.');
+}
+// host: the remote player's controls for this frame
+function netRemoteInput(p) {
+  const r = NET.rp; NET.rp = {};
+  if (G.phase === 'live') {
+    if (r.T) doTaunt(p);
+    if (r.Y) userDance(p);
+    for (const k of ['J', 'K', 'L']) if (r[k]) useAbility(p, k, true);
+  }
+  return { mx: NET.rin.mx, my: NET.rin.my, sprint: NET.rin.sprint, shootDown: NET.rin.shootDown, shootPress: !!r.shootPress, shootUp: !!r.shootUp, dribblePress: !!r.dribblePress, passPress: !!r.passPress };
+}
+const G_SYNC = ['score', 'clock', 'phase', 'phaseT', 'offense', 'needsClear', 'banner', 'popups', 'bubbles', 'dunkScene', 'fireBurst', 'ashScene', 'shards', 'confetti', 'flashes', 'parts', 'rings', 'zones', 'vs', 'slowT', 'shake', 'rimShake', 'net', 'boardBroken', 'ticker', 'time', 'winner', 'hype', 'mode', 'target', 'paused', 'deadMsg', 'match'];
+function netSnapshot() {
+  const g = {};
+  for (const k of G_SYNC) g[k] = G[k];
+  g.cutin = G.cutin ? Object.assign({}, G.cutin, { p: undefined, pid: G.cutin.p.id }) : null;
+  const ps = P.map(p => {
+    const o = {};
+    for (const k in p) if (k !== 'char' && k !== 'buffs') o[k] = p[k];
+    o.charId = p.char && p.char.id;
+    o.buffs = (p.buffs || []).map(b => ({ id: b.id, t: b.t, dur: b.dur, mods: b.mods, debuff: b.debuff, base: b.base, level: b.level, weaken: b.weaken, power: b.power }));
+    return o;
+  });
+  return { t: 's', g, p: ps, b: Object.assign({}, ball), sfx: NET.sfxQ.splice(0) };
+}
+function netHostSend() {
+  if (!NET.active || NET.role !== 'host' || !NET.conn || !NET.conn.open) return;
+  const dc = NET.conn.dataChannel;
+  if (dc && dc.bufferedAmount > 256 * 1024) return;   // slow link: skip a frame instead of piling up lag
+  NET.send(netSnapshot());
+}
+function netApply(s) {
+  const wasPaused = G.paused;
+  if (P.length !== s.p.length) P = s.p.map(() => ({}));
+  s.p.forEach((o, i) => { Object.assign(P[i], o); P[i].char = charById(o.charId) || null; });
+  for (const k in s.g) if (k !== 'cutin') G[k] = s.g[k];
+  G.cutin = s.g.cutin ? Object.assign({}, s.g.cutin, { p: P[s.g.cutin.pid] }) : null;
+  Object.assign(ball, s.b);
+  for (const [k, a] of s.sfx || []) if (sfx[k]) sfx[k](...a);
+  if (!NET.built && P[1] && P[1].char) { NET.built = true; buildAbilBar(); el('team0-name').textContent = P[0].char.short + ' · сеть'; el('team1-name').textContent = P[1].char.short; }
+  if (G.paused !== wasPaused && G.phase !== 'over') showCard(G.paused ? 'pause' : null);
+}
+// guest: draw the host's game and send our controls
+function guestFrame(real) {
+  if (NET.last) { netApply(NET.last); NET.last = null; }
+  if (G.phase === 'over' && !NET.overShown) {
+    NET.overShown = true;
+    endGame();
+    el('over-title').textContent = G.winner === 1 ? 'Победа' : 'Поражение';
+    el('over-score').textContent = G.score[1] + ' : ' + G.score[0];
+    el('over-eyebrow').textContent = 'Игра по сети · хост может начать ещё раз';
+    el('again').hidden = true; el('tournamentNext').hidden = true;
+  }
+  if (G.phase !== 'over') NET.overShown = false;
+  sfx.setHype(G.hype || 0.2);
+  render(); updateHUD();
+  abilClock -= real; if (abilClock <= 0) { abilClock = 0.12; updateAbilBar(); }
+  const i = humanInput();
+  NET.send({ t: 'in', i, k: { J: !!pressed.KeyJ, K: !!pressed.KeyK, L: !!pressed.KeyL, T: !!pressed.KeyT, Y: !!pressed.KeyY } });
+}
 
 // ---------- canvas ----------
 const cv = document.getElementById('court');
@@ -1440,8 +1620,8 @@ function startDance(p, type) {
     p.st.dances++; if (p.st.dances >= 5) unlock('dancer');
   } else if (p.team === 1) sfx.laugh();
 }
-function userDance() {
-  const p = P[G.userCtrlId];
+function userDance(who) {
+  const p = who || P[G.userCtrlId];
   if (!p || p.state !== 'idle' || p.air || (p.dance && p.dance.t < 0.4)) return;
   G.danceIdx = ((G.danceIdx || 0) + 1) % DANCES.length;
   startDance(p, DANCES[G.danceIdx].id);
@@ -1581,8 +1761,8 @@ function renderAch() {
   if (l) l.innerHTML = ACH.map(a => '<li class="' + (achDone[a.id] ? 'got' : '') + '"><b>' + (achDone[a.id] ? '🏆 ' : '🔒 ') + escapeHTML(a.t) + '</b> — ' + escapeHTML(a.d) + '</li>').join('');
 }
 // T: show-off / trash talk. Right after you score the crowd goes wild; with the ball under a defender's nose it can cost you the ball.
-function doTaunt() {
-  const p = P[G.userCtrlId];
+function doTaunt(who) {
+  const p = who || P[G.userCtrlId];
   if (!p || p.state === 'fallen' || G.time < G.tauntCD) return;
   G.tauntCD = G.time + 1.6; p.tauntT = 0.9; p.st.taunts++;
   const fresh = G.time - G.lastUserScoreT < 3.2;
@@ -1625,10 +1805,10 @@ touchControls.querySelectorAll('[data-key]').forEach(button => {
 });
 const virtualStick=document.getElementById('virtualStick'),stickKnob=document.getElementById('stickKnob');
 let stickPointer=null;
-function moveStick(event){const r=virtualStick.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2,dx=event.clientX-cx,dy=event.clientY-cy,max=r.width*0.34,d=Math.hypot(dx,dy),scale=d>max?max/d:1,x=dx*scale,y=dy*scale;stickKnob.style.transform=`translate(${x}px,${y}px)`;keys.KeyA=x < -12;keys.KeyD=x > 12;keys.KeyW=y < -12;keys.KeyS=y > 12;}
+function moveStick(event){const r=virtualStick.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2,dx=event.clientX-cx,dy=event.clientY-cy,max=r.width*0.34,d=Math.hypot(dx,dy),scale=d>max?max/d:1,x=dx*scale,y=dy*scale;stickKnob.style.transform=`translate(${x}px,${y}px)`;keys.KeyA=x < -12;keys.KeyD=x > 12;keys.KeyW=y < -12;keys.KeyS=y > 12;const sprint=d > max*0.78;keys.Space=sprint;stickKnob.classList.toggle('sprint',sprint);}
 virtualStick.addEventListener('pointerdown',e=>{e.preventDefault();if(!inGame()||G.paused)return;stickPointer=e.pointerId;virtualStick.setPointerCapture(e.pointerId);moveStick(e);});
 virtualStick.addEventListener('pointermove',e=>{if(e.pointerId===stickPointer)moveStick(e);});
-function releaseStick(e){if(e.pointerId!==stickPointer)return;stickPointer=null;keys.KeyW=keys.KeyA=keys.KeyS=keys.KeyD=false;stickKnob.style.transform='translate(0,0)';}
+function releaseStick(e){if(e.pointerId!==stickPointer)return;stickPointer=null;keys.KeyW=keys.KeyA=keys.KeyS=keys.KeyD=false;keys.Space=false;stickKnob.classList.remove('sprint');stickKnob.style.transform='translate(0,0)';}
 virtualStick.addEventListener('pointerup',releaseStick);virtualStick.addEventListener('pointercancel',releaseStick);virtualStick.addEventListener('lostpointercapture',releaseStick);
 function humanInput() {
   return {
@@ -1876,7 +2056,7 @@ function offenseActions(p, inp, dt, dir) {
   if (inp.shootPress) {
     if (G.needsClear) { if (!p.isBot) popup(p.x, p.y - 78, 'СНАЧАЛА ЗА ДУГУ', COL.led, 15); return; }
     const dH = dist(p, HOOP);
-    if (p.id === G.userCtrlId && dir && dH > CLOSE_R + 28) {
+    if ((p.id === G.userCtrlId || p.remote) && dir && dH > CLOSE_R + 28) {
       const [hx, hy] = norm(HOOP.x - p.x, HOOP.y - p.y);
       if (dir[0] * hx + dir[1] * hy < -0.35) {
         if (inp.shootUp) startStepback(p); // press and release can arrive in the same frame
@@ -2173,7 +2353,7 @@ function jumpShot(p, power) {
   let make = false;
 
   // User three-point release: 60% make / 40% miss.
-  if (p.team === 0 && p.id === G.userCtrlId && is3pt) {
+  if ((p.id === G.userCtrlId || p.remote) && is3pt) {
     make = Math.random() < (perfect ? 0.60 : 0.40) + (p.onFire ? 0.18 : 0) + mod(p, 'shot') * contestFactor(p) - Math.max(0, d - 420) / 900;
   } else {
     const timing = perfect ? 1 : Math.max(0, 1 - (err - w / 2) * 4.2);
@@ -2570,7 +2750,7 @@ function updateBall(dt) {
 
     for (const p of order) {
       if (p.state === 'fallen' || p.state === 'layup' || p.state === 'dunk' || p.noGrab > 0) continue;
-      const reach = ((p.id === G.userCtrlId) ? 52 : (p.team === 0 ? 34 : G.diff.rebGrabDist)) + mod(p, 'reb');
+      const reach = ((p.id === G.userCtrlId || p.remote) ? 52 : (p.team === 0 ? 34 : G.diff.rebGrabDist)) + mod(p, 'reb');
       if (dist(p, ball) < reach && ball.z < 45 + p.z * 1.3) {
         gain(p);
         break;
@@ -2888,7 +3068,7 @@ function step(dt) {
       if (p.id === G.userCtrlId) {
         updatePlayer(p, hi, dt);
       } else {
-        const bi = botInput(p, dt);
+        const bi = (NET.active && NET.role === 'host' && p.remote) ? netRemoteInput(p) : botInput(p, dt);
         updatePlayer(p, bi, dt);
       }
     }
@@ -3423,7 +3603,7 @@ function drawPlayerBody(p) {
   // name tag
   ctx.font = '500 11px Rubik, sans-serif'; ctx.textAlign = 'center';
   ctx.fillStyle = teamCol;
-  let tag = p.portrait ? '' : p.team === 0 && p.id === 0 ? (p.onFire ? 'ТЫ 🔥' : 'ТЫ') + (p.char ? ' · ' + p.char.short : '') : (p.char ? p.char.short : '#' + p.jerseyNum);
+  let tag = p.portrait ? '' : p.id === G.userCtrlId ? (p.onFire ? 'ТЫ 🔥' : 'ТЫ') + (p.char ? ' · ' + p.char.short : '') : (p.char ? p.char.short : '#' + p.jerseyNum);
   ctx.fillText(tag, bx, by - 64);
 
   if (p.recoverT > 0 && p.state === 'idle') { ctx.fillStyle = 'rgba(255,255,255,0.6)'; ctx.fillText('…', bx + 16, by - 56); }
@@ -3840,11 +4020,13 @@ function startGame() {
   lastHud = '';
 }
 function setPaused(v) {
+  if (isGuest()) { NET.send({ t: 'pause', v }); return; }
   G.paused = v; showCard(v ? 'pause' : null);
   if (!v) { for (const k in keys) keys[k] = false; }
   lastHud = '';
 }
 function toMenu() {
+  if (NET.active) netLeave(false);
   document.body.classList.remove('playing');
   if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(() => {});
   requestAnimationFrame(resize);
@@ -3867,8 +4049,8 @@ function endGame() {
   el('over-title').textContent = win ? 'Победа' : 'Поражение';
   el('over-score').textContent = G.score[0] + ' : ' + G.score[1];
   const margin = G.score[0] - G.score[1];
-  if (win && margin >= 8) unlock('rout');
-  if (win && G.match.maxDeficit >= 5) unlock('comeback');
+  if (win && margin >= 8 && !isGuest()) unlock('rout');
+  if (win && G.match.maxDeficit >= 5 && !isGuest()) unlock('comeback');
   
   const team0Stats = freshStats();
   const team1Stats = freshStats();
@@ -3943,7 +4125,7 @@ function finishTournamentMatch(){
 }function labelDiff() { return { easy: 'лёгкий соперник', normal: 'средний соперник', hard: 'сложный соперник' }[G.diffKey]; }
 
 el('play').addEventListener('click', () => { tournament=null; G.target=selectedTarget(); startGame(); });
-el('again').addEventListener('click', () => { tournament=null; G.target=selectedTarget(); startGame(); });
+el('again').addEventListener('click', () => { if (NET.active && NET.role === 'host') { netStartMatch(); return; } tournament=null; G.target=selectedTarget(); startGame(); });
 el('resume').addEventListener('click', () => setPaused(false));
 el('tomenu1').addEventListener('click', toMenu);
 el('tomenu2').addEventListener('click', toMenu);
@@ -4250,6 +4432,7 @@ function frame(now) {
 }
 function frameBody(now) {
   const real = Math.min(0.033, (now - lastT) / 1000); lastT = now;
+  if (isGuest()) { guestFrame(real); return; }
   const holdDunkFrame = !!(G.dunkScene && G.dunkScene.mode === 'impact' && G.dunkScene.t < G.dunkScene.hold);
   if (G.hitstop > 0 && inGame() && !G.paused) G.hitstop -= real;
   else if (inGame() && !G.paused && !holdDunkFrame) {
@@ -4286,6 +4469,7 @@ function frameBody(now) {
   }
   render();
   updateHUD();
+  netHostSend();
 }
 
 window.addEventListener('resize', resize);
@@ -4306,6 +4490,14 @@ document.addEventListener('visibilitychange', () => {
 window.addEventListener('keydown', () => { sfx.init(); }, { once: true });
 window.addEventListener('pointerdown', () => { sfx.init(); }, { once: true });
 document.addEventListener('click', e => { if (e.target.closest('.btn, .seg button')) sfx.uiClick(); });
+el('netHostBtn').addEventListener('click', () => { sfx.init(); netHost(); });
+el('netJoinBtn').addEventListener('click', () => {
+  sfx.init();
+  if (matchMedia('(pointer:coarse)').matches && document.documentElement.requestFullscreen && !document.fullscreenElement) document.documentElement.requestFullscreen().catch(() => {});
+  netJoin(el('netCode').value);
+});
+el('netCode').addEventListener('keydown', e => { e.stopPropagation(); if (e.key === 'Enter') el('netJoinBtn').click(); });
+el('netStartBtn').addEventListener('click', netStartMatch);
 // install as an app (no browser bars): Android / desktop Chrome get a button, iPhone gets a hint
 const isStandalone = matchMedia('(display-mode: fullscreen)').matches || matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
 let deferredInstall = null;
@@ -4348,17 +4540,17 @@ function renderChars() {
 function updateCharNote() { const c = charById(selectedCharId); el('charName').textContent = oppMode === 'teams' ? 'случайный' : c.name + ' — ' + ABIL[c.abil.L].name; }
 // HUD strip under the scoreboard: your three techniques + every opponent's status
 function buildAbilBar() {
-  const me = P[0], bar = document.getElementById('abilMe');
+  const me = P[G.userCtrlId] || P[0], bar = document.getElementById('abilMe');
   if (!bar || !me || !me.char) return;
   bar.innerHTML = '<span class="abil-name" style="--c:' + me.char.color + '">' + me.char.short + '</span>' +
     ['J', 'K', 'L'].map(k => '<div class="slot" id="slot-' + k + '" style="--c:' + me.char.color + '"><b><kbd>' + k + '</kbd> ' + ABIL[me.char.abil[k]].name + '</b><i id="slotst-' + k + '"></i></div>').join('');
-  document.getElementById('abilOpp').innerHTML = P.filter(p => p.team === 1 && p.char).map(p =>
+  document.getElementById('abilOpp').innerHTML = P.filter(p => p.team !== me.team && p.char).map(p =>
     '<div class="oppc" style="--c:' + p.char.color + '"><b>' + p.char.name + '</b><span>' + p.char.role + ' · ' + ABIL[p.char.abil.L].name + '</span><em id="oppst-' + p.id + '"></em></div>').join('');
   lastAbilKey = '';
 }
 let lastAbilKey = '';
 function updateAbilBar() {
-  const me = P[0];
+  const me = P[G.userCtrlId] || P[0];
   if (!me || !me.char) return;
   const parts = [];
   for (const k of ['J', 'K', 'L']) {
@@ -4367,7 +4559,7 @@ function updateAbilBar() {
     const cls = 'slot' + (on ? ' on' : (k === 'L' ? me.energy >= 1 : me.cd[k] <= 0) ? ' ready' : '');
     parts.push([k, txt, cls]);
   }
-  const opp = P.filter(p => p.team === 1 && p.char).map(p => [p.id, ['J', 'K'].map(k => p.cd[k] > 0 ? '○' : '●').join('') + (p.energy >= 1 ? '★' : '☆') + (p.buffs.some(b => !b.debuff && !b.base) ? ' ⚡' : '')]);
+  const opp = P.filter(p => p.team !== me.team && p.char).map(p => [p.id, ['J', 'K'].map(k => p.cd[k] > 0 ? '○' : '●').join('') + (p.energy >= 1 ? '★' : '☆') + (p.buffs.some(b => !b.debuff && !b.base) ? ' ⚡' : '')]);
   const key = JSON.stringify([parts, opp]);
   if (key === lastAbilKey) return;
   lastAbilKey = key;
