@@ -1,0 +1,7 @@
+# local backups and old prototype files
+index.backup-*.html
+basketball_3v3_standalone.html
+js/
+style.css
+.claude/
+zz-*.html
