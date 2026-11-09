@@ -193,6 +193,19 @@ body.playing .overlay{position:fixed;z-index:20}
 .net-box{border:1px solid var(--line);border-radius:10px;padding:10px;background:#0b0e14}
 .net-box .row{align-items:center}
 .net-code{font:400 26px var(--f-display);letter-spacing:.2em;color:var(--led)}
+.pick-card{--c:var(--led);display:grid;grid-template-columns:72px 1fr auto;gap:12px;align-items:center;padding:10px 12px;border:1px solid color-mix(in srgb,var(--c) 55%,var(--line));border-radius:12px;background:linear-gradient(120deg,color-mix(in srgb,var(--c) 16%,#0b0e14),#0b0e14 70%)}
+.pick-card canvas{width:72px;height:90px;aspect-ratio:auto;border-radius:10px;background:radial-gradient(circle at 50% 35%,color-mix(in srgb,var(--c) 35%,transparent),transparent 72%)}
+.pick-info{display:flex;flex-direction:column;gap:2px;min-width:0}
+.pick-info b{font-family:var(--f-display);font-weight:400;font-size:19px;color:var(--c);line-height:1.15}
+.pick-meta{font-size:12px;color:var(--muted)}
+.pick-abil{display:flex;flex-wrap:wrap;gap:4px 10px;margin-top:4px;font-size:11px;color:var(--fg)}
+.pick-abil kbd{font-size:10px;padding:0 4px}
+#charPick{padding:8px 12px;font-size:13px}
+#charFilter{margin:6px 0}
+#menu{background:linear-gradient(180deg,#1a2030,var(--panel) 160px)}
+#menu h1{font-size:clamp(34px,6vw,52px)}
+.btn.primary{box-shadow:0 6px 18px rgba(255,173,43,.25)}
+@media (max-width:420px){.pick-card{grid-template-columns:60px 1fr}.pick-card canvas{width:60px;height:76px}#charPick{grid-column:1 / -1}}
 .net-players{margin:4px 0 8px;padding:0;list-style:none;display:flex;flex-direction:column;gap:3px;font-size:13px}
 #netLobby{display:flex;flex-direction:column;gap:8px}
 #netLobby[hidden]{display:none}
@@ -246,7 +259,7 @@ body.playing .overlay{position:fixed;z-index:20}
 <body>
 <div class="rotate-hint" aria-live="polite"><i>📱</i><b>Поверни телефон</b><span>Игра рассчитана на горизонтальный экран</span></div>
 <div class="app">
-  <div class="wrap"><nav class="row" style="margin-bottom:6px"><button class="btn" id="tabGame">Игра</button><button class="btn" id="tabChars">Персонажи</button><button class="btn" id="tabTournament">Турнир</button></nav><section id="charsPage" hidden class="card" style="width:100%;box-sizing:border-box"><h1>Персонажи</h1><p class="lede">15 главных персонажей и 9 NPC. У каждого три техники: <kbd>J</kbd> основная и <kbd>K</kbd> вторая (с перезарядкой), <kbd>L</kbd> — ульта (шкала копится со временем, за очки, перехваты, блоки и анкл брейки). Соперники выбираются случайно из всего состава и пользуются теми же техниками.</p><div class="chars" id="charsGrid"></div><div class="row"><button class="btn primary" id="charsBack" type="button">Играть</button></div></section><section id="tournamentPage" hidden class="card" style="width:100%;box-sizing:border-box"><h1>Турнир <span class="x">3×3 / 2×2 / 1×1</span></h1><p class="lede">48 команд · 12 групп по 4 · 6 матчей у каждой команды · первые две проходят дальше.</p><div class="field"><label class="label" for="teamName">Название твоей команды</label><input id="teamName" maxlength="24" placeholder="Например, Уличные волки" style="padding:10px;border-radius:8px;background:#0b0e14;color:var(--fg);border:1px solid var(--line)"></div><div class="field"><label class="label" for="tournamentMode">Режим турнира</label><select id="tournamentMode" style="padding:10px;border-radius:8px;background:#0b0e14;color:var(--fg);border:1px solid var(--line)"><option value="3v3">Турнир 3 на 3</option><option value="2v2">Турнир 2 на 2</option><option value="1v1">Турнир 1 на 1</option></select></div><div class="field"><label class="label" for="tournamentDifficulty">Сложность соперников</label><select id="tournamentDifficulty" style="padding:10px;border-radius:8px;background:#0b0e14;color:var(--fg);border:1px solid var(--line)"><option value="easy">Лёгкая</option><option value="normal" selected>Средняя</option><option value="hard">Сложная</option></select></div><div class="row"><button class="btn primary" id="createTournament">Создать турнир</button><button class="btn" id="playTournamentMatch" disabled>Сначала создай турнир</button><button class="btn" id="backGame">Назад к игре</button></div><div id="tournamentGroups"></div></section>
+  <div class="wrap"><nav class="row" style="margin-bottom:6px"><button class="btn" id="tabGame">Игра</button><button class="btn" id="tabChars">Персонажи</button><button class="btn" id="tabTournament">Турнир</button></nav><section id="charsPage" hidden class="card" style="width:100%;box-sizing:border-box"><h1>Персонажи</h1><p class="lede">Персонажи «Баскетбола Куроко» и Slam Dunk, звёзды NBA и NPC. У каждого три техники: <kbd>J</kbd> основная и <kbd>K</kbd> вторая (с перезарядкой), <kbd>L</kbd> — ульта (шкала копится со временем, за очки, перехваты, блоки и анкл брейки). Соперники выбираются случайно из всего состава и пользуются теми же техниками.</p><div class="seg" role="radiogroup" aria-label="Фильтр" id="charFilter"><button type="button" role="radio" aria-checked="true" data-v="all">Все</button><button type="button" role="radio" aria-checked="false" data-v="kuroko">Куроко</button><button type="button" role="radio" aria-checked="false" data-v="slamdunk">Slam Dunk</button><button type="button" role="radio" aria-checked="false" data-v="nba">NBA</button><button type="button" role="radio" aria-checked="false" data-v="npc">NPC</button></div><div class="chars" id="charsGrid"></div><div class="row"><button class="btn primary" id="charsBack" type="button">Играть</button></div></section><section id="tournamentPage" hidden class="card" style="width:100%;box-sizing:border-box"><h1>Турнир <span class="x">3×3 / 2×2 / 1×1</span></h1><p class="lede">48 команд · 12 групп по 4 · 6 матчей у каждой команды · первые две проходят дальше.</p><div class="field"><label class="label" for="teamName">Название твоей команды</label><input id="teamName" maxlength="24" placeholder="Например, Уличные волки" style="padding:10px;border-radius:8px;background:#0b0e14;color:var(--fg);border:1px solid var(--line)"></div><div class="field"><label class="label" for="tournamentMode">Режим турнира</label><select id="tournamentMode" style="padding:10px;border-radius:8px;background:#0b0e14;color:var(--fg);border:1px solid var(--line)"><option value="3v3">Турнир 3 на 3</option><option value="2v2">Турнир 2 на 2</option><option value="1v1">Турнир 1 на 1</option></select></div><div class="field"><label class="label" for="tournamentDifficulty">Сложность соперников</label><select id="tournamentDifficulty" style="padding:10px;border-radius:8px;background:#0b0e14;color:var(--fg);border:1px solid var(--line)"><option value="easy">Лёгкая</option><option value="normal" selected>Средняя</option><option value="hard">Сложная</option></select></div><div class="row"><button class="btn primary" id="createTournament">Создать турнир</button><button class="btn" id="playTournamentMatch" disabled>Сначала создай турнир</button><button class="btn" id="backGame">Назад к игре</button></div><div id="tournamentGroups"></div></section>
     <header class="board" aria-live="polite">
       <div class="team you"><span class="tname" id="team0-name">Твоя команда</span><span class="score" id="s0">0</span></div>
       <div class="mid">
@@ -267,11 +280,10 @@ body.playing .overlay{position:fixed;z-index:20}
       </div>      <div class="toast" id="toast" aria-live="polite"></div>
       <div class="overlay" id="overlay">
         <div class="card" id="menu">
-          <p class="eyebrow" id="menu-eyebrow">Одно кольцо · Уличный баскетбол</p>
+          <p class="eyebrow" id="menu-eyebrow">Уличный баскетбол · аниме и NBA</p>
           <h1 id="menu-title">3 <span class="x">на</span> 3</h1>
-          <div class="field"><span class="label" id="lbl-opp">Соперники</span><div class="seg" role="radiogroup" aria-labelledby="lbl-opp" id="oppSeg"><button type="button" role="radio" aria-checked="true" data-v="random">Случайные</button><button type="button" role="radio" aria-checked="false" data-v="teams">Случайные команды</button><button type="button" role="radio" aria-checked="false" data-v="balanced">Равные по силе</button><button type="button" role="radio" aria-checked="false" data-v="open">Без ограничений</button></div></div>
-          <p class="note" id="charNote">Персонаж: <b id="charName">—</b> · техники <kbd>J</kbd><kbd>K</kbd><kbd>L</kbd> <button class="btn" id="charPick" type="button" style="padding:4px 10px;font-size:12px">выбрать</button></p>
-          <p class="lede">Из-за дуги — 3 очка (80% попаданий для тебя!). Каждый защитник привязан к своему игроку. Фолы дают короткую паузу и зрелищный сигнал, игра сразу продолжается.</p>
+          <div class="pick-card" id="charNote"><canvas id="pickPortrait" aria-hidden="true"></canvas><div class="pick-info"><span class="label">Твой персонаж</span><b id="charName">—</b><span class="pick-meta" id="charMeta"></span><div class="pick-abil" id="charAbil"></div></div><button class="btn" id="charPick" type="button">Сменить</button></div>
+          <p class="lede">Выбери персонажа, режим и соперников — и на площадку. Из-за дуги 3 очка, у кольца данк, у каждого свои техники на J / K / L.</p>
           
           <div class="field">
             <span class="label" id="lbl-mode">Режим игры</span>
@@ -300,6 +312,7 @@ body.playing .overlay{position:fixed;z-index:20}
               <button type="button" id="t-infinite" role="radio" aria-checked="false" data-v="infinite">∞ очков</button>
             </div>
           </div>
+          <div class="field"><span class="label" id="lbl-opp">Соперники</span><div class="seg" role="radiogroup" aria-labelledby="lbl-opp" id="oppSeg"><button type="button" role="radio" aria-checked="true" data-v="random">Случайные</button><button type="button" role="radio" aria-checked="false" data-v="teams">Случайные команды</button><button type="button" role="radio" aria-checked="false" data-v="balanced">Равные по силе</button><button type="button" role="radio" aria-checked="false" data-v="open">Без ограничений</button></div></div>
           <div class="row" id="playRow"><button class="btn primary" id="play" type="button">Обычная игра</button><button class="btn" id="tournamentStart" type="button">Турнир · до 30</button></div><p class="note">Во вкладке «Турнир» создай команду и смотри группы. Турнирная игра — до 30 очков.</p>
           <details class="ach"><summary>🏆 Достижения: <span id="achCount">0/16</span></summary><ul id="achList"></ul></details>
           <div class="row" id="installRow" hidden><button class="btn" id="installBtn" type="button">📲 Установить как приложение</button></div>
@@ -796,6 +809,11 @@ const sfx = (() => {
 })();
 
 // ---------- online play (WebRTC via PeerJS): rooms for up to 6 people ----------
+// Direct connection first; if a mobile network or router blocks it, traffic falls back to a public TURN relay.
+const PEER_OPTS = { config: { iceServers: [
+  { urls: 'stun:stun.l.google.com:19302' }, { urls: 'stun:stun1.l.google.com:19302' }, { urls: 'stun:global.stun.twilio.com:3478' },
+  { urls: ['turn:openrelay.metered.ca:80', 'turn:openrelay.metered.ca:443', 'turn:openrelay.metered.ca:443?transport=tcp'], username: 'openrelayproject', credential: 'openrelayproject' },
+] } };
 // The host runs the whole simulation; guests send their controls and draw the host's snapshots.
 const NET = { role: null, peer: null, conn: null, peers: [], active: false, last: null, sfxQ: [], you: -1, built: false, overShown: false, mode: '1v1', together: false };
 const isGuest = () => NET.active && NET.role === 'guest';
@@ -855,7 +873,7 @@ async function netHost() {
   try { await loadPeer(); } catch (e) { netStatus('Не удалось загрузить сетевой модуль — проверь интернет.'); return; }
   netLeave(true);
   const code = Array.from({ length: 4 }, () => 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'[Math.floor(Math.random() * 32)]).join('');
-  const peer = new Peer('bball3x3-' + code);
+  const peer = new Peer('bball3x3-' + code, PEER_OPTS);
   NET.peer = peer; NET.role = 'host';
   netStatus('Создаём комнату…');
   peer.on('open', () => { document.getElementById('netCodeBox').textContent = code; netStatus('Комната создана. Скажи код друзьям (до 5 человек) и жди подключения.'); netLobby(); });
@@ -961,7 +979,7 @@ async function netJoin(code) {
   if (code.length !== 4) { netStatus('Введи код из 4 символов.'); return; }
   try { await loadPeer(); } catch (e) { netStatus('Не удалось загрузить сетевой модуль — проверь интернет.'); return; }
   netLeave(true);
-  const peer = new Peer();
+  const peer = new Peer(PEER_OPTS);
   NET.peer = peer; NET.role = 'guest';
   netStatus('Подключаемся к комнате ' + code + '…');
   peer.on('open', () => {
@@ -1472,6 +1490,97 @@ Object.assign(ABIL, {
   nebuya_ult: { name: 'ДАНК НЕБУИ', jp: '根武谷ダンク', ult: true, need: p => !hasBall(p) ? 'нужен мяч' : dist(p, HOOP) > 210 ? 'подойди ближе к кольцу' : null, desc: 'С мячом ближе 6 м: силовой данк сквозь защиту.',
     run: (p) => { addBuff(p, { id: 'nebuya_ult', dur: 2, mods: { dunkGuard: 0.5, lay: 0.15 } }); p.dunkName = 'ДАНК НЕБУИ'; p.state = 'idle'; startDrive(p, 'dunk'); return true; }, ai: (p, s) => s.has && s.dH < 200 },
 });
+const ballNeed = p => hasBall(p) ? null : 'нужен мяч';
+const dunkNeed = r => p => !hasBall(p) ? 'нужен мяч' : dist(p, HOOP) > r ? 'подойди ближе к кольцу' : null;
+const dunkRun = (id, name) => (p) => { addBuff(p, { id, dur: 2, mods: { dunkGuard: 0.4, lay: 0.18 } }); p.dunkName = name; p.state = 'idle'; startDrive(p, 'dunk'); return true; };
+const passOr1v1 = (id, speed, safe, assist, solo) => (p, pw) => {
+  const mate = bestOpenMate(p);
+  if (G.mode !== '1v1' && mate) return passTo(p, mate, { speed, safe, assist: assist * pw });
+  addBuff(p, { id, dur: 3, power: pw, mods: solo }); return true;
+};
+Object.assign(ABIL, {
+  // LeBron James
+  chase_down: { name: 'ЧЕЙЗ-ДАУН БЛОК', jp: 'Chase-down block', cd: 10, desc: '3.5 с: догоняешь и накрываешь сзади — скорость +30%, радиус блока +30, прыжок выше.',
+    run: buffRun('chase_down', 3.5, { spd: 1.3, blockR: 30, jump: 1.2 }), ai: (p, s) => s.oppHas && s.holder && dist(s.holder, HOOP) < 260 },
+  freight_train: { name: 'ТОВАРНЯК', jp: 'Freight train', cd: 9, need: ballNeed, desc: '2.5 с: таранный проход к кольцу — сила в контакте ×2.5, добивание +18%.',
+    run: (p, pw) => { addBuff(p, { id: 'freight_train', dur: 2.5, power: pw, mods: { push: 2.5, lay: 0.18, spd: 1.2 } }); driveBurst(p, true, 0.32); return true; }, ai: (p, s) => s.has && s.dH < 330 },
+  king_mode: { name: 'РЕЖИМ КОРОЛЯ', jp: 'King mode', ult: true, desc: '6 с: скорость +15%, броски +15%, добивание +20%, мяч не выбить; команда реагирует быстрее.',
+    run: (p) => { addBuff(p, { id: 'king_mode', dur: 6, mods: { spd: 1.15, shot: 0.15, lay: 0.2, push: 2, stealRes: 0.5 } }); teamBuff(p, false, { id: 'king_team', dur: 6, mods: { react: 0.85, shot: 0.05 } }); return true; }, ai: (p, s) => s.has || s.mateHas },
+  // Michael Jordan
+  fadeaway: { name: 'ФЕЙДЭВЕЙ', jp: 'Fadeaway', cd: 9, desc: '4 с: бросок с отклонением — опека мешает на 65% меньше, накрыть вдвое сложнее.',
+    run: buffRun('fadeaway', 4, { contest: 0.65, shot: 0.1, bw: 0.5 }), ai: (p, s) => s.has && s.dD < 110 && s.dH > 120 },
+  air_jordan: { name: 'ВОЗДУШНЫЙ ПОЛЁТ', jp: 'Air', cd: 9, desc: '4 с: прыжок ×1.5, данк можно начинать с 6–7 м, его труднее накрыть.',
+    run: buffRun('air_jordan', 4, { jump: 1.5, dunkR: 205, lay: 0.1, dunkGuard: 0.7 }), ai: (p, s) => s.has && s.dH < 300 },
+  goat: { name: 'ВЕЛИЧАЙШИЙ', jp: 'G.O.A.T.', ult: true, desc: '6 с: броски +25%, опека мешает на 60% меньше, анкл брейки +30%, перехваты +12%.',
+    run: buffRun('goat', 6, { shot: 0.25, contest: 0.6, ankle: 0.3, spd: 1.15, steal: 0.12 }), ai: (p, s) => s.has || s.oppHas },
+  // Victor Wembanyama
+  alien_block: { name: 'ИНОПЛАНЕТНЫЙ БЛОК', jp: 'Alien block', cd: 9, desc: '4 с: радиус блока +55, шанс ×1.8, прыжок выше на 30%.',
+    run: buffRun('alien_block', 4, { blockR: 55, blockCh: 1.8, jump: 1.3 }), ai: (p, s) => s.oppHas && s.holder && dist(s.holder, HOOP) < 260 },
+  unicorn_three: { name: 'ТРЁХА ЕДИНОРОГА', jp: 'Unicorn three', cd: 9, desc: 'До броска (7 с): бросок с огромной высоты — зелёная зона ×1.4, бросок +10%, накрыть почти невозможно.',
+    run: buffRun('unicorn_three', 7, { sweet: 1.4, shot: 0.1, bw: 0.3 }, { untilShot: true }), ai: (p, s) => s.has && s.dH > ARC_R - 10 },
+  alien_ult: { name: 'ПРИШЕЛЕЦ', jp: 'Alien', ult: true, desc: '6 с: гигантский блок и подбор, броски +12%, зелёная зона ×1.5.',
+    run: buffRun('alien_ult', 6, { blockR: 60, blockCh: 2, reb: 30, sweet: 1.5, shot: 0.12, jump: 1.3 }), ai: (p, s) => s.has || s.oppHas },
+  // Stephen Curry
+  logo_three: { name: 'ТРЁХА С ЛОГОТИПА', jp: 'Logo three', cd: 8, desc: 'До броска (8 с): нет штрафа за дистанцию, зелёная зона ×1.8, бросок +10%.',
+    run: buffRun('logo_three', 8, { longRange: true, sweet: 1.8, shot: 0.1, arc: 1.6 }, { untilShot: true }), ai: (p, s) => s.has && s.dH > ARC_R - 10 },
+  off_ball: { name: 'ДВИЖЕНИЕ БЕЗ МЯЧА', jp: 'Off-ball', cd: 9, desc: '3 с: скорость +30%, защитник теряет тебя из виду.',
+    run: buffRun('off_ball', 3, { spd: 1.3, hide: 0.35 }), ai: (p, s) => !s.has && s.mateHas },
+  night_night: { name: 'СПОКОЙНОЙ НОЧИ', jp: 'Night night', ult: true, need: ballNeed, desc: 'До броска (8 с): бросай откуда угодно — зелёная зона ×2.3, бросок +22%, опека мешает вдвое меньше.',
+    run: buffRun('night_night', 8, { longRange: true, sweet: 2.3, shot: 0.22, contest: 0.5 }, { untilShot: true }), ai: (p, s) => s.has },
+  // Kevin Durant
+  slim_reaper: { name: 'НЕДОСЯГАЕМЫЙ БРОСОК', jp: 'Slim Reaper', cd: 9, desc: '4 с: бросок через любого защитника — опека мешает на 70% меньше, бросок +12%.',
+    run: buffRun('slim_reaper', 4, { contest: 0.7, shot: 0.12, bw: 0.4 }), ai: (p, s) => s.has && s.dD < 120 },
+  kd_handle: { name: 'ДРИБЛИНГ ГИГАНТА', jp: 'Handles', cd: 8, desc: '3 с: анкл брейки +22%, мяч трудно выбить, скорость +10%.',
+    run: buffRun('kd_handle', 3, { ankle: 0.22, stealRes: 0.5, spd: 1.1 }), ai: (p, s) => s.has && s.dD < 100 },
+  easy_money: { name: 'ЛЁГКИЕ ДЕНЬГИ', jp: 'Easy money', ult: true, desc: '6 с: броски +22%, опека мешает на 70% меньше, зелёная зона ×1.5.',
+    run: buffRun('easy_money', 6, { shot: 0.22, contest: 0.7, sweet: 1.5 }), ai: (p, s) => s.has },
+  // Giannis Antetokounmpo
+  eurostep: { name: 'ЕВРОСТЕП', jp: 'Euro step', cd: 8, need: ballNeed, desc: 'Два длинных шага в обход защитника: анкл брейки +25%, добивание +15% на 2.5 с.',
+    run: (p, pw) => { addBuff(p, { id: 'eurostep', dur: 2.5, power: pw, mods: { ankle: 0.25, lay: 0.15, stealRes: 0.6 } }); driveBurst(p, true, 0.3); return true; }, ai: (p, s) => s.has && s.dH < 300 },
+  greek_freak: { name: 'ГРЕЧЕСКИЙ ФРИК', jp: 'Greek Freak', cd: 9, desc: '4 с: скорость +25%, прыжок выше, данк с 6–7 м.',
+    run: buffRun('greek_freak', 4, { spd: 1.25, jump: 1.3, dunkR: 210 }), ai: (p, s) => s.has && s.dH < 320 },
+  freak_ult: { name: 'НЕУДЕРЖИМЫЙ', jp: 'Freak mode', ult: true, desc: '6 с: таранная сила, данки с 7 м и их почти не накрыть, подбор +25.',
+    run: buffRun('freak_ult', 6, { push: 2.5, dunkGuard: 0.4, lay: 0.2, spd: 1.2, dunkR: 230, reb: 25 }), ai: (p, s) => s.has || s.loose },
+  // Kobe Bryant
+  mamba_fade: { name: 'ФЕЙДЭВЕЙ МАМБЫ', jp: 'Mamba fadeaway', cd: 9, desc: '4 с: бросок на отклонении — опека мешает на 60% меньше, бросок +12%.',
+    run: buffRun('mamba_fade', 4, { contest: 0.6, shot: 0.12, bw: 0.5 }), ai: (p, s) => s.has && s.dD < 120 },
+  footwork: { name: 'РАБОТА НОГ', jp: 'Footwork', cd: 8, desc: '3 с: анкл брейки +30%, мяч трудно выбить.',
+    run: buffRun('footwork', 3, { ankle: 0.3, stealRes: 0.5 }), ai: (p, s) => s.has && s.dD < 100 },
+  mamba_mentality: { name: 'МЕНТАЛИТЕТ МАМБЫ', jp: 'Mamba mentality', ult: true, desc: '6 с: броски +22%, опека мешает на 60% меньше, реакция и перехваты лучше.',
+    run: buffRun('mamba_mentality', 6, { shot: 0.22, contest: 0.6, react: 0.7, steal: 0.1, spd: 1.1 }), ai: (p, s) => s.has || s.oppHas },
+  // Shaquille O'Neal
+  shaq_attack: { name: 'АТАКА ШАКА', jp: 'Shaq attack', cd: 9, desc: '5 с: сила в контакте ×3.5, добивание +20%, данки труднее накрыть.',
+    run: buffRun('shaq_attack', 5, { push: 3.5, lay: 0.2, dunkGuard: 0.5 }), ai: (p, s) => s.has && s.dH < 260 },
+  shaq_dunk: { name: 'ШАК-ДАНК', jp: 'Shaq dunk', ult: true, need: dunkNeed(215), desc: 'С мячом ближе 6 м: сокрушительный данк — щит часто не выдерживает.', run: dunkRun('shaq_dunk', 'ШАК-ДАНК'), ai: (p, s) => s.has && s.dH < 200 },
+  // Luka Dončić
+  luka_stepback: { name: 'СТЕПБЭК ЛУКИ', jp: 'Step-back', cd: 8, desc: 'До броска (6 с): отступ назад — опека мешает вдвое меньше, зелёная зона ×1.4.',
+    run: buffRun('luka_stepback', 6, { sweet: 1.4, shot: 0.1, contest: 0.5 }, { untilShot: true }), ai: (p, s) => s.has && s.dD < 110 },
+  luka_magic: { name: 'МАГИЯ ЛУКИ', jp: 'Luka magic', cd: 10, need: ballNeed, desc: 'Командные режимы: пас-«магия» самому открытому, получатель бросает +15%. 1×1: 3 с броски +12%.',
+    run: passOr1v1('luka_magic', 1.6, 0.35, 0.15, { shot: 0.12, contest: 0.3 }), ai: (p, s) => s.has },
+  luka_ult: { name: 'ЛУКА-ТАЙМ', jp: 'Luka time', ult: true, desc: '6 с: броски +20%, опека мешает на 60% меньше, анкл брейки +20%, пасы не перехватить.',
+    run: buffRun('luka_ult', 6, { shot: 0.2, contest: 0.6, ankle: 0.2, passSafe: 0.5 }), ai: (p, s) => s.has },
+  // Nikola Jokić
+  joker_pass: { name: 'ПАС ДЖОКЕРА', jp: 'Joker pass', cd: 8, need: ballNeed, desc: 'Командные режимы: молниеносный пас открытому, перехват почти невозможен. 1×1: 3 с бросок крюком +12%.',
+    run: passOr1v1('joker_pass', 2, 0.25, 0.15, { shot: 0.12, contest: 0.4 }), ai: (p, s) => s.has },
+  sombor_shuffle: { name: 'СОМБОРСКИЙ ШАФФЛ', jp: 'Sombor shuffle', cd: 9, desc: 'До броска (5 с): бросок на одной ноге — опека мешает на 70% меньше, накрыть сложно.',
+    run: buffRun('sombor_shuffle', 5, { contest: 0.7, shot: 0.1, bw: 0.4 }, { untilShot: true }), ai: (p, s) => s.has && s.dD < 110 },
+  joker_ult: { name: 'ДЖОКЕР', jp: 'The Joker', ult: true, desc: '7 с: видишь всю площадку, подбор +30, твои пасы не перехватить, вся команда бросает +8%.',
+    run: (p) => { addBuff(p, { id: 'joker_ult', dur: 7, mods: { vision: true, reb: 30, passSafe: 0.3, shot: 0.1, seeHidden: true } }); teamBuff(p, false, { id: 'joker_team', dur: 7, mods: { shot: 0.08 } }); return true; }, ai: (p, s) => s.has || s.mateHas },
+  // Slam Dunk
+  genius_jump: { name: 'ПРЫЖОК ГЕНИЯ', jp: '天才ジャンプ', cd: 9, desc: '4 с: прыжок ×1.5, блок шире, подбор +22.',
+    run: buffRun('genius_jump', 4, { jump: 1.5, blockR: 25, reb: 22 }), ai: (p, s) => s.loose || (s.oppHas && dist(p, HOOP) < 200) },
+  genius_ult: { name: 'ГЕНИЙ БАСКЕТБОЛА', jp: '天才', ult: true, desc: '6 с: подбор +40, прыжок ×1.5, данк с 6–7 м, сила в контакте ×2.',
+    run: buffRun('genius_ult', 6, { reb: 40, jump: 1.5, lay: 0.2, dunkR: 200, push: 2 }), ai: (p, s) => s.has || s.loose },
+  ace_ult: { name: 'АС СЁХОКУ', jp: 'エース', ult: true, desc: '6 с: броски +20%, анкл брейки +25%, скорость +20%, опека мешает вдвое меньше.',
+    run: buffRun('ace_ult', 6, { shot: 0.2, ankle: 0.25, spd: 1.2, contest: 0.5 }), ai: (p, s) => s.has },
+  never_give_up: { name: 'НЕ СДАВАТЬСЯ', jp: '諦めない', cd: 12, desc: '5 с: второе дыхание — броски +12%, реакция и скорость лучше.',
+    run: buffRun('never_give_up', 5, { shot: 0.12, react: 0.8, spd: 1.1 }), ai: (p, s) => s.has },
+  mitsui_ult: { name: 'ДОЖДЬ ИЗ ТРЁХОЧКОВЫХ', jp: 'スリーポイントの雨', ult: true, need: ballNeed, desc: 'До броска (8 с): нет штрафа за дистанцию, зелёная зона ×2, бросок +20%.',
+    run: buffRun('mitsui_ult', 8, { longRange: true, sweet: 2, shot: 0.2 }, { untilShot: true }), ai: (p, s) => s.has },
+  gori_dunk: { name: 'ГОРИЛЛА-ДАНК', jp: 'ゴリラダンク', ult: true, need: dunkNeed(210), desc: 'С мячом ближе 6 м: мощнейший данк сквозь защиту.', run: dunkRun('gori_dunk', 'ГОРИЛЛА-ДАНК'), ai: (p, s) => s.has && s.dH < 200 },
+  steal_rush: { name: 'ПЕРЕХВАТ НА СКОРОСТИ', jp: 'スティール', cd: 9, desc: '3 с: перехваты +25%, реакция и скорость лучше.',
+    run: buffRun('steal_rush', 3, { steal: 0.25, react: 0.6, spd: 1.15 }), ai: (p, s) => s.oppHas },
+});
 // cooldowns are 1.6x the base numbers above
 for (const id in ABIL) { ABIL[id].id = id; if (ABIL[id].cd) ABIL[id].cd = Math.round(ABIL[id].cd * 1.6); }
 
@@ -1604,6 +1713,64 @@ CHARS.push(
     color: '#b9a0ff', hair: '#141418', eyeL: '#1a1a1a', eyeR: '#1a1a1a', style: 'short', pitch: 0.8, abil: { J: 'post_block', K: 'rebound_king', L: 'big_ult' }, ai: { rim: 1.4, reb: 1.2 },
     lines: { power: NPC_LINE('通さない。', 'Tōsanai.', 'Не пропущу.'), score: NPC_LINE('よし。', 'Yoshi.', 'Хорошо.'), taunt: NPC_LINE('小さいね。', 'Chiisai ne.', 'Маленький ты.'), win: NPC_LINE('陽泉の守りだ。', 'Yōsen no mamori da.', 'Вот защита Ёсэн.') } },
 );
+// NBA stars: play calls instead of quotes, team colours, techniques built on their style of play
+const CALL = (en, ru) => [[en, en, ru]];
+const nba = (o) => Object.assign({ series: 'nba', pitch: 0.9 }, o);
+CHARS.push(
+  nba({ id: 'lebron', short: 'ЛЕБРОН', name: 'Леброн Джеймс', jpName: 'LeBron James', school: 'Лейкерс', num: '23', role: 'Лёгкий форвард', rating: 97, scale: 1.1,
+    color: '#fdb927', hair: '#1a1410', skin: '#6b4428', beard: '#1a1410', eyeL: '#1a1410', eyeR: '#1a1410', style: 'buzz', abil: { J: 'chase_down', K: 'freight_train', L: 'king_mode' }, ai: { drive: 1.4, pass: 1.2 },
+    lines: { power: CALL('CHASE DOWN!', 'Догнал и накрыл!'), score: CALL('AND ONE!', 'Плюс один!'), taunt: CALL('TOO EASY!', 'Слишком просто!'), win: CALL('GG!', 'Хорошая игра!') } }),
+  nba({ id: 'jordan', short: 'ДЖОРДАН', name: 'Майкл Джордан', jpName: 'Michael Jordan', school: 'Буллз', num: '23', role: 'Атакующий защитник', rating: 99, scale: 1.04,
+    color: '#ce1141', hair: '#1a1410', skin: '#5b3a24', eyeL: '#1a1410', eyeR: '#1a1410', style: 'bald', abil: { J: 'fadeaway', K: 'air_jordan', L: 'goat' }, ai: { drive: 1.3, feint: 1.3, shoot3: 0.6 },
+    lines: { power: CALL('FADEAWAY!', 'Фейдэвей!'), score: CALL('BUCKETS!', 'Кэш!'), taunt: CALL('NEXT!', 'Следующий!'), win: CALL('GG!', 'Хорошая игра!') } }),
+  nba({ id: 'wemby', short: 'ВЕМБИ', name: 'Виктор Вембаньяма', jpName: 'Victor Wembanyama', school: 'Сперс', num: '1', role: 'Центровой', rating: 95, scale: 1.32,
+    color: '#c4ced4', hair: '#141414', skin: '#4a2e1c', eyeL: '#140c08', eyeR: '#140c08', style: 'short', abil: { J: 'alien_block', K: 'unicorn_three', L: 'alien_ult' }, ai: { rim: 1.2, shoot3: 0.8, reb: 1.2 },
+    lines: { power: CALL('ALIEN!', 'Пришелец!'), score: CALL('SPLASH!', 'В сетку!'), taunt: CALL('NOT TODAY!', 'Не сегодня!'), win: CALL('GG!', 'Хорошая игра!') } }),
+  nba({ id: 'curry', short: 'КАРРИ', name: 'Стефен Карри', jpName: 'Stephen Curry', school: 'Уорриорз', num: '30', role: 'Разыгрывающий', rating: 96, scale: 0.98,
+    color: '#ffc72c', hair: '#1a1410', skin: '#9b6b48', eyeL: '#2a1a10', eyeR: '#2a1a10', style: 'buzz', abil: { J: 'logo_three', K: 'off_ball', L: 'night_night' }, ai: { shoot3: 2.2 },
+    lines: { power: CALL('NIGHT NIGHT!', 'Спокойной ночи!'), score: CALL('SPLASH!', 'В сетку!'), taunt: CALL('FROM DOWNTOWN!', 'Издалека!'), win: CALL('GG!', 'Хорошая игра!') } }),
+  nba({ id: 'durant', short: 'ДЮРАНТ', name: 'Кевин Дюрант', jpName: 'Kevin Durant', school: 'Санз', num: '35', role: 'Лёгкий форвард', rating: 96, scale: 1.15,
+    color: '#e56020', hair: '#141414', skin: '#5b3a24', beard: '#141414', eyeL: '#140c08', eyeR: '#140c08', style: 'buzz', abil: { J: 'slim_reaper', K: 'kd_handle', L: 'easy_money' }, ai: { shoot3: 1.2, feint: 0.8 },
+    lines: { power: CALL('EASY MONEY!', 'Лёгкие деньги!'), score: CALL('CASH!', 'Кэш!'), taunt: CALL('TOO TALL!', 'Не дотянешься!'), win: CALL('GG!', 'Хорошая игра!') } }),
+  nba({ id: 'giannis', short: 'ЯННИС', name: 'Яннис Адетокунбо', jpName: 'Giannis Antetokounmpo', school: 'Бакс', num: '34', role: 'Тяжёлый форвард', rating: 96, scale: 1.15,
+    color: '#eee1c6', hair: '#141414', skin: '#4a2e1c', eyeL: '#140c08', eyeR: '#140c08', style: 'short', abil: { J: 'eurostep', K: 'greek_freak', L: 'freak_ult' }, ai: { drive: 1.8, reb: 1.2 },
+    lines: { power: CALL('GREEK FREAK!', 'Греческий фрик!'), score: CALL('SLAM!', 'Сверху!'), taunt: CALL('MOVE!', 'С дороги!'), win: CALL('GG!', 'Хорошая игра!') } }),
+  nba({ id: 'kobe', short: 'КОБИ', name: 'Коби Брайант', jpName: 'Kobe Bryant', school: 'Лейкерс', num: '24', role: 'Атакующий защитник', rating: 97, scale: 1.03,
+    color: '#552583', hair: '#1a1410', skin: '#7a5034', eyeL: '#1a1410', eyeR: '#1a1410', style: 'bald', abil: { J: 'mamba_fade', K: 'footwork', L: 'mamba_mentality' }, ai: { feint: 1.4, shoot3: 0.8 },
+    lines: { power: CALL('MAMBA!', 'Мамба!'), score: CALL('BUCKETS!', 'Кэш!'), taunt: CALL('NEXT!', 'Следующий!'), win: CALL('GG!', 'Хорошая игра!') } }),
+  nba({ id: 'shaq', short: 'ШАК', name: "Шакил О'Нил", jpName: "Shaquille O'Neal", school: 'Лейкерс', num: '34', role: 'Центровой', rating: 96, scale: 1.28, pitch: 0.7,
+    color: '#fdb927', hair: '#1a1410', skin: '#4a2e1c', beard: '#140c08', eyeL: '#140c08', eyeR: '#140c08', style: 'bald', abil: { J: 'shaq_attack', K: 'post_block', L: 'shaq_dunk' }, ai: { drive: 1.6, rim: 1.3, reb: 1.4 },
+    lines: { power: CALL('SHAQ ATTACK!', 'Атака Шака!'), score: CALL('SLAM!', 'Сверху!'), taunt: CALL('MOVE!', 'С дороги!'), win: CALL('GG!', 'Хорошая игра!') } }),
+  nba({ id: 'luka', short: 'ЛУКА', name: 'Лука Дончич', jpName: 'Luka Dončić', school: 'Лейкерс', num: '77', role: 'Разыгрывающий', rating: 95, scale: 1.07,
+    color: '#fdb927', hair: '#6b4a2b', skin: '#f0cfaa', beard: '#7a5a3a', eyeL: '#3b5a7a', eyeR: '#3b5a7a', style: 'short', abil: { J: 'luka_stepback', K: 'luka_magic', L: 'luka_ult' }, ai: { pass: 1.3, shoot3: 1.2, feint: 1 },
+    lines: { power: CALL('STEP-BACK!', 'Степбэк!'), score: CALL('MAGIC!', 'Магия!'), taunt: CALL('TOO SLOW!', 'Медленно!'), win: CALL('GG!', 'Хорошая игра!') } }),
+  nba({ id: 'jokic', short: 'ЙОКИЧ', name: 'Никола Йокич', jpName: 'Nikola Jokić', school: 'Наггетс', num: '15', role: 'Центровой', rating: 97, scale: 1.16,
+    color: '#fec524', hair: '#5a3b22', skin: '#f0cfaa', beard: '#6b4a2b', eyeL: '#3b5a3a', eyeR: '#3b5a3a', style: 'short', abil: { J: 'joker_pass', K: 'sombor_shuffle', L: 'joker_ult' }, ai: { pass: 2, reb: 1.2 },
+    lines: { power: CALL('JOKER!', 'Джокер!'), score: CALL('EASY!', 'Легко!'), taunt: CALL('LOOK AWAY!', 'Пас не глядя!'), win: CALL('GG!', 'Хорошая игра!') } }),
+);
+// Slam Dunk (Shohoku)
+const sd = (o) => Object.assign({ series: 'slamdunk', school: 'Сёхоку' }, o);
+CHARS.push(
+  sd({ id: 'sakuragi', short: 'САКУРАГИ', name: 'Ханамити Сакураги', jpName: '桜木花道', num: '10', role: 'Тяжёлый форвард', rating: 84, scale: 1.1, pitch: 1.0,
+    color: '#ff4d4d', hair: '#d11f1f', eyeL: '#3a2a1a', eyeR: '#3a2a1a', style: 'short', abil: { J: 'rebound_king', K: 'genius_jump', L: 'genius_ult' }, ai: { reb: 2, drive: 1 },
+    lines: { power: [['天才ですから！', 'Tensai desu kara!', 'Потому что я гений!'], ['リバウンドを制する者は試合を制す！', 'Ribaundo o seisuru mono wa shiai o seisu!', 'Кто владеет подбором — владеет игрой!']],
+      score: [['ハッハッハ！', 'Hahhahha!', 'Ха-ха-ха!']], taunt: [['この天才にかなうか！', 'Kono tensai ni kanau ka!', 'Куда тебе до гения!']], win: [['天才の勝利だ！', 'Tensai no shōri da!', 'Победа гения!']] } }),
+  sd({ id: 'rukawa', short: 'РУКАВА', name: 'Каэдэ Рукава', jpName: '流川楓', num: '11', role: 'Лёгкий форвард', rating: 90, scale: 1.06, pitch: 1.0,
+    color: '#7fa8ff', hair: '#121216', eyeL: '#1a1a2a', eyeR: '#1a1a2a', style: 'soft', abil: { J: 'speed_drive', K: 'barrier_jumper', L: 'ace_ult' }, ai: { drive: 1.5, feint: 1.2 },
+    lines: { power: [['どあほう。', 'Do-ahō.', 'Придурок.']], score: [['…', '…', '…']], taunt: [['どあほう。', 'Do-ahō.', 'Придурок.']], win: [['当然だ。', 'Tōzen da.', 'Само собой.']] } }),
+  sd({ id: 'mitsui', short: 'МИЦУИ', name: 'Хисаси Мицуи', jpName: '三井寿', num: '14', role: 'Атакующий защитник', rating: 87, scale: 1.0, pitch: 0.95,
+    color: '#9fb4ff', hair: '#1c1c2a', eyeL: '#2a2a3a', eyeR: '#2a2a3a', style: 'short', abil: { J: 'quick_release', K: 'never_give_up', L: 'mitsui_ult' }, ai: { shoot3: 2 },
+    lines: { power: [['バスケがしたいです…', 'Basuke ga shitai desu…', 'Я хочу играть в баскетбол…'], ['俺は三井寿だ！', 'Ore wa Mitsui Hisashi da!', 'Я — Мицуи Хисаси!']],
+      score: [['入れ！', 'Haire!', 'Залетай!']], taunt: [['あきらめが悪いのさ。', 'Akirame ga warui no sa.', 'Я не умею сдаваться.']], win: [['最高だ！', 'Saikō da!', 'Лучше не бывает!']] } }),
+  sd({ id: 'akagi', short: 'АКАГИ', name: 'Такэнори Акаги', jpName: '赤木剛憲', num: '4', role: 'Центровой', rating: 88, scale: 1.18, pitch: 0.75,
+    color: '#ff8a5c', hair: '#141414', eyeL: '#1a1a1a', eyeR: '#1a1a1a', style: 'buzz', brows: 'thick', abil: { J: 'post_block', K: 'rebound_king', L: 'gori_dunk' }, ai: { rim: 1.4, reb: 1.3, drive: 1 },
+    lines: { power: [['ゴリラダンク！', 'Gorira danku!', 'Горилла-данк!'], ['全国制覇だ！', 'Zenkoku seiha da!', 'Покорим всю страну!']],
+      score: [['よし！', 'Yoshi!', 'Есть!']], taunt: [['ゴール下は俺の領域だ。', 'Gōru-shita wa ore no ryōiki da.', 'Под кольцом — моя территория.']], win: [['湘北の勝利だ！', 'Shōhoku no shōri da!', 'Победа Сёхоку!']] } }),
+  sd({ id: 'miyagi', short: 'МИЯГИ', name: 'Рёта Мияги', jpName: '宮城リョータ', num: '7', role: 'Разыгрывающий', rating: 84, scale: 0.92, pitch: 1.1,
+    color: '#ffd166', hair: '#141414', skin: '#c08a5a', eyeL: '#2a1a10', eyeR: '#2a1a10', style: 'spiky', abil: { J: 'speed_drive', K: 'steal_rush', L: 'leader_ult' }, ai: { drive: 1.3, pass: 1.3, press: 1.2 },
+    lines: { power: [['ドリブルこそがチビの生きる道！', 'Doriburu koso ga chibi no ikiru michi!', 'Дриблинг — путь маленьких!'], ['速さで勝負だ！', 'Hayasa de shōbu da!', 'Решит скорость!']],
+      score: [['いただき！', 'Itadaki!', 'Моё!']], taunt: [['遅いぜ！', 'Osoi ze!', 'Медленно!']], win: [['湘北最強！', 'Shōhoku saikyō!', 'Сёхоку сильнейшие!']] } }),
+);
 // school uniforms: body, shorts, trim, number colour
 const UNI = {
   'Сэйрин': { body: '#f3f4f6', shorts: '#e9eaee', trim: '#111318', num: '#c8102e' },
@@ -1614,11 +1781,19 @@ const UNI = {
   'Ёсэн': { body: '#7a52c7', shorts: '#6b47b0', trim: '#ffffff', num: '#ffffff' },
   'Кирисаки Дайичи': { body: '#1f4d36', shorts: '#1a422e', trim: '#0f1a14', num: '#ffffff' },
   'Фукуда Сого': { body: '#2f3340', shorts: '#2a2d38', trim: '#d43c3c', num: '#ffffff' },
+  'Лейкерс': { body: '#552583', shorts: '#4a2070', trim: '#fdb927', num: '#fdb927' },
+  'Буллз': { body: '#ce1141', shorts: '#b80f3a', trim: '#111111', num: '#ffffff' },
+  'Сперс': { body: '#141414', shorts: '#141414', trim: '#c4ced4', num: '#ffffff' },
+  'Уорриорз': { body: '#1d428a', shorts: '#1a3b7c', trim: '#ffc72c', num: '#ffc72c' },
+  'Санз': { body: '#1d1160', shorts: '#1a0f56', trim: '#e56020', num: '#ffffff' },
+  'Бакс': { body: '#00471b', shorts: '#003d17', trim: '#eee1c6', num: '#eee1c6' },
+  'Наггетс': { body: '#0e2240', shorts: '#0c1d38', trim: '#fec524', num: '#fec524' },
+  'Сёхоку': { body: '#c8102e', shorts: '#b30e29', trim: '#111111', num: '#ffffff' },
   'Jabberwock': { body: '#121214', shorts: '#121214', trim: '#e2b33a', num: '#e2b33a' },
 };
 // heights relative to the base sprite
 const HEIGHT = { hyuga: 1.0, kasamatsu: 0.98, imayoshi: 1.02, sakurai: 0.98, wakamatsu: 1.14, hayama: 1.0, mibuchi: 1.06, nebuya: 1.18, liu: 1.16, akashi: 0.97, aomine: 1.08, kise: 1.05, midorima: 1.08, murasakibara: 1.22, kuroko: 0.94, kagami: 1.08, himuro: 1.04, haizaki: 1.05, takao: 1.0, izuki: 1.0, kiyoshi: 1.12, hanamiya: 1.0, nash: 1.06, silver: 1.25 };
-for (const c of CHARS) c.scale = HEIGHT[c.id] || 1;
+for (const c of CHARS) c.scale = HEIGHT[c.id] || c.scale || 1;
 const LUCKY = ['плюшевая лягушка', 'кукла-кокеси', 'мишка-тануки', 'кактус в горшке', 'ракетка для бадминтона', 'бумажный журавлик'];
 let selectedCharId = 'akashi', oppMode = 'random';
 try { const saved = localStorage.getItem('street3x3-char'); if (CHARS.some(c => c.id === saved)) selectedCharId = saved; oppMode = localStorage.getItem('street3x3-opp') || 'random'; } catch (e) {}
@@ -3393,8 +3568,11 @@ function drawHead(p, bx, hy) {
   const ch = p.char, pw = !!(p.buffs && p.buffs.some(b => !b.debuff && !b.base)), eyeFx = flag(p, 'predict') || flag(p, 'formless') || flag(p, 'vision') || flag(p, 'lanes');
   const skin = ch && ch.skin || '#d29a6a', back = p.fy < -0.5;
   ctx.fillStyle = skin; ctx.beginPath(); ctx.arc(bx, hy, 8.5, 0, Math.PI * 2); ctx.fill();
-  ctx.fillStyle = ch ? ch.hair : '#2a1c14'; ctx.beginPath(); ctx.arc(bx, hy - 1, 8.7, Math.PI * 1.05, Math.PI * 1.95); ctx.fill();
-  if (back) { ctx.beginPath(); ctx.arc(bx, hy, 8.6, 0, Math.PI * 2); ctx.fill(); }
+  const bald = ch && ch.style === 'bald';
+  ctx.fillStyle = ch ? ch.hair : '#2a1c14';
+  if (!bald) { ctx.beginPath(); ctx.arc(bx, hy - 1, 8.7, Math.PI * 1.05, Math.PI * 1.95); ctx.fill(); }
+  if (back && !bald) { ctx.beginPath(); ctx.arc(bx, hy, 8.6, 0, Math.PI * 2); ctx.fill(); }
+  if (bald) { ctx.fillStyle = 'rgba(255,255,255,0.18)'; ctx.beginPath(); ctx.arc(bx - 2.5, hy - 4.5, 2.6, 0, Math.PI * 2); ctx.fill(); }
   if (ch) drawHairStyle(ch, bx, hy, back);
   else { ctx.fillStyle = COL.you; ctx.fillRect(bx - 8.5, hy - 4, 17, 3); }
   if (back) return;
@@ -3404,6 +3582,7 @@ function drawHead(p, bx, hy) {
   ctx.fillStyle = ch && ch.eyeL || '#1a1d24'; ctx.fillRect(bx - 4 + ex, hy + 1, 2, 2);
   ctx.fillStyle = ch && ch.eyeR || '#1a1d24'; ctx.fillRect(bx + 2 + ex, hy + 1, 2, 2);
   ctx.restore();
+  if (ch && ch.beard) { ctx.fillStyle = ch.beard; ctx.beginPath(); ctx.arc(bx + ex * 0.4, hy + 1.5, 8.3, Math.PI * 0.12, Math.PI * 0.88); ctx.lineTo(bx + ex * 0.4 - 6, hy + 2.5); ctx.closePath(); ctx.fill(); }
   if (ch && ch.glasses) { ctx.strokeStyle = '#1a1d24'; ctx.lineWidth = 0.9; ctx.strokeRect(bx - 5.5 + ex, hy - 0.5, 4.5, 3.5); ctx.strokeRect(bx + 0.8 + ex, hy - 0.5, 4.5, 3.5); }
   if (ch && ch.brows) { ctx.fillStyle = '#1a1414'; const bw2 = ch.brows === 'thick' ? 2 : 1.2; ctx.fillRect(bx - 5 + ex, hy - 2.2, 4, bw2); ctx.fillRect(bx + 1 + ex, hy - 2.2, 4, bw2); if (ch.brows === 'split') { ctx.fillStyle = ch.hair; ctx.fillRect(bx - 3 + ex, hy - 2.4, 1, 2); ctx.fillRect(bx + 3 + ex, hy - 2.4, 1, 2); } }
   if (ch && ch.style === 'bangs') { ctx.fillStyle = ch.hair; ctx.beginPath(); ctx.moveTo(bx - 9, hy - 6); ctx.lineTo(bx + 3, hy - 7); ctx.lineTo(bx - 2 + ex, hy + 5); ctx.lineTo(bx - 9, hy + 2); ctx.closePath(); ctx.fill(); }
@@ -3869,6 +4048,7 @@ function drawHoopFront() {
 
 function render() {
   ctx.setTransform(scale, 0, 0, scale, 0, 0);
+  ctx.fillStyle = '#07090d'; ctx.fillRect(0, 0, W, H);
   ctx.save();
   if (G.shake > 0) ctx.translate(rnd(-1, 1) * G.shake, rnd(-1, 1) * G.shake);
   if (G.dunkScene) {
@@ -3877,7 +4057,7 @@ function render() {
     const subject = G.dunkScene.mode === 'approach' && P[G.dunkScene.playerId];
     const focusX = subject ? subject.x : G.dunkScene.focusX;
     const focusY = subject ? subject.y - subject.z * ZS - 38 : G.dunkScene.focusY;
-    ctx.translate(W / 2 - focusX * zoom, H / 2 - focusY * zoom);
+    ctx.translate(clamp(W / 2 - focusX * zoom, W - W * zoom, 0), clamp(H / 2 - focusY * zoom, H - H * zoom, 0));
     ctx.scale(zoom, zoom);
   }
   ctx.drawImage(courtCv, 0, 0, W, H);
@@ -4717,9 +4897,11 @@ function drawCharPortrait(canvas, ch) {
     drawPlayer(fake);
   } finally { ctx = old; }
 }
+let charFilter = 'all';
 function renderChars() {
   const g = el('charsGrid');
-  g.innerHTML = CHARS.map(c => {
+  const series = c => c.series || (c.npc ? 'npc' : 'kuroko');
+  g.innerHTML = CHARS.filter(c => charFilter === 'all' || series(c) === charFilter).map(c => {
     const sel = c.id === selectedCharId;
     const ab = ['J', 'K', 'L'].map(k => { const a = ABIL[c.abil[k]]; return '<li><kbd>' + k + '</kbd> <b>' + a.name + '</b> <span class="jp">' + a.jp + (a.cd ? ' · ' + a.cd + ' с' : ' · ульта') + '</span><span>' + a.desc + '</span></li>'; }).join('');
     const l = c.lines.power[0];
@@ -4731,7 +4913,14 @@ function renderChars() {
   }).join('');
   g.querySelectorAll('canvas[data-c]').forEach(cnv => drawCharPortrait(cnv, CHARS.find(c => c.id === cnv.dataset.c)));
 }
-function updateCharNote() { const c = charById(selectedCharId); el('charName').textContent = oppMode === 'teams' ? 'случайный' : c.name + ' — ' + ABIL[c.abil.L].name; }
+function updateCharNote() {
+  const c = charById(selectedCharId) || CHARS[0], rnd2 = oppMode === 'teams';
+  el('charNote').style.setProperty('--c', rnd2 ? '#ffad2b' : c.color);
+  el('charName').textContent = rnd2 ? 'Случайный (режим «Случайные команды»)' : c.name;
+  el('charMeta').textContent = rnd2 ? 'персонаж выпадет при старте матча' : c.school + ' · ' + c.role + ' · ★' + c.rating;
+  el('charAbil').innerHTML = rnd2 ? '' : ['J', 'K', 'L'].map(k => '<span><kbd>' + k + '</kbd> ' + ABIL[c.abil[k]].name + '</span>').join('');
+  const cv2 = el('pickPortrait'); cv2.hidden = rnd2; if (!rnd2) drawCharPortrait(cv2, c);
+}
 // HUD strip under the scoreboard: your three techniques + every opponent's status
 function buildAbilBar() {
   const me = P[G.userCtrlId] || P[0], bar = document.getElementById('abilMe');
@@ -4771,6 +4960,7 @@ function showCharsPage(show) {
   const hideGame = show || !el('tournamentPage').hidden;
   ['.stage', '.board', '.legend', '.foot', '#abilBar'].forEach(q => { document.querySelector(q).hidden = hideGame; });
 }
+setupSeg('charFilter', v => { charFilter = v; renderChars(); });
 el('charsGrid').addEventListener('click', e => {
   const b = e.target.closest('[data-pick]'); if (!b) return;
   selectedCharId = b.dataset.pick;
