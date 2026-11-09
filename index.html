@@ -525,11 +525,13 @@ const sfx = (() => {
   }
 
   // ---- timed building blocks ----
+  // clean net "chk-shhh": crisp snap of the cords, a short downward rush, soft thump of the ball in the net
   function _swish(t, v) {
-    const d = bus(0.3);
-    hiss(t, 0.42, 'bandpass', 4200, 0.9, 1.6 * v, d, { a: 0.012, f1: 1600, am: [26, 0.2] });
-    hiss(t, 0.2, 'highpass', 6000, 0.7, 0.3 * v, d, { a: 0.01 });
-    hiss(t, 0.05, 'bandpass', 1000, 2, 0.3 * v, d);
+    const d = bus(0.22);
+    hiss(t, 0.045, 'bandpass', 3400, 1.3, 1.4 * v, d, { a: 0.002 });
+    hiss(t + 0.01, 0.2, 'bandpass', 2600, 1.1, 1.1 * v, d, { a: 0.008, f1: 850 });
+    hiss(t + 0.02, 0.12, 'highpass', 5200, 0.7, 0.25 * v, d, { a: 0.006 });
+    tone(t + 0.015, 'sine', 190, 115, 0.09, 0.3 * v, d, { a: 0.003 });
   }
   function _clank(t, v, base, len) {
     const d = bus(0.4), b = base || R(480, 560), L = len || 1;
