@@ -156,7 +156,7 @@ body{background:radial-gradient(ellipse at 50% -20%,#202b3d 0%,#0e1117 58%);}
 .ach ul{margin:8px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:3px;font-size:12px;color:var(--muted);max-height:150px;overflow:auto}
 .ach li.got{color:var(--fg)}.ach li.got b{color:var(--gold)}
 @media (prefers-reduced-motion:reduce){.score.bump{animation:none}.toast{transition:none}}.touch-actions .touch-power{background:rgba(250,204,21,.85);color:#1b1206;border-color:#fff2b0;font-family:var(--f-display)}.touch-actions .touch-taunt{background:rgba(255,81,72,.8);border-color:#ffb3ad}
-@media (pointer:coarse){.touch-controls{display:flex}.app{padding:6px 8px}.wrap{gap:6px}.legend{display:none}.foot{font-size:10px}.board{padding:6px 8px}.score{font-size:25px}.clock{font-size:17px}.status{font-size:10px}.stage{touch-action:none}.overlay{padding:8px}.card{max-height:94%;overflow:auto;padding:16px;gap:10px}.seg button{padding:7px 3px;font-size:12px}}
+@media (pointer:coarse){.touch-controls{display:flex}.app{padding:6px 8px}.wrap{gap:6px}.legend{display:none}.foot{font-size:10px}.board{padding:6px 8px}.score{font-size:25px}.clock{font-size:17px}.status{font-size:10px}body.playing .stage{touch-action:none}.overlay{padding:8px}.card{max-height:94%;overflow:auto;padding:16px;gap:10px}.seg button{padding:7px 3px;font-size:12px}}
 @media (orientation:portrait) and (pointer:coarse){.touch-controls{padding:10px}.stick{width:118px;height:118px}.stick-knob{width:50px;height:50px;margin:-25px}.touch-actions .touch-shoot{min-width:76px;min-height:76px}}
 /* ---------- menu page / full-screen game ---------- */
 .legend,.foot{display:none !important}
@@ -177,6 +177,17 @@ body.playing .abil-opp{display:none} body.playing .abil,body.playing .abil-me{fl
 body.playing .overlay{position:fixed;z-index:20}
 /* ---------- phone layout ---------- */
 .touch-pause{display:none} .touch-tip{display:none}
+.charcard{content-visibility:auto;contain-intrinsic-size:auto 300px}
+@media (pointer:coarse){
+  .kb-note{display:none}
+  #charsPage,#tournamentPage{max-height:none;overflow:visible}
+  body:not(.playing) .card{padding:16px 14px;gap:12px}
+  body:not(.playing) .seg button{min-height:40px}
+  body:not(.playing) nav.row{position:sticky;top:0;z-index:5;background:var(--bg);padding:6px 0;margin:0}
+  body:not(.playing) nav.row{flex-wrap:nowrap;gap:6px} body:not(.playing) nav.row .btn{min-width:0;flex:1;padding:10px 4px;font-size:13px}
+  #playRow{position:sticky;bottom:0;z-index:4;padding:12px 0 calc(6px + env(safe-area-inset-bottom));margin:0 -2px;background:linear-gradient(rgba(22,27,36,0),var(--panel) 40%)}
+  #playRow .btn{padding:14px 10px;font-size:17px}
+}
 .net-box{border:1px solid var(--line);border-radius:10px;padding:10px;background:#0b0e14}
 .net-box .row{align-items:center}
 .net-code{font:400 26px var(--f-display);letter-spacing:.2em;color:var(--led)}
@@ -283,7 +294,7 @@ body.playing .overlay{position:fixed;z-index:20}
               <button type="button" id="t-infinite" role="radio" aria-checked="false" data-v="infinite">∞ очков</button>
             </div>
           </div>
-          <div class="row"><button class="btn primary" id="play" type="button">Обычная игра</button><button class="btn" id="tournamentStart" type="button">Турнир · до 30</button></div><p class="note">Во вкладке «Турнир» создай команду и смотри группы. Турнирная игра — до 30 очков.</p>
+          <div class="row" id="playRow"><button class="btn primary" id="play" type="button">Обычная игра</button><button class="btn" id="tournamentStart" type="button">Турнир · до 30</button></div><p class="note">Во вкладке «Турнир» создай команду и смотри группы. Турнирная игра — до 30 очков.</p>
           <details class="ach"><summary>🏆 Достижения: <span id="achCount">0/16</span></summary><ul id="achList"></ul></details>
           <div class="row" id="installRow" hidden><button class="btn" id="installBtn" type="button">📲 Установить как приложение</button></div>
           <p class="note" id="iosTip" hidden>📲 Чтобы играть без браузера: «Поделиться» → «На экран „Домой“». Игра откроется со своей иконки, без адресной строки и вкладок.</p>
@@ -294,8 +305,8 @@ body.playing .overlay{position:fixed;z-index:20}
             <p class="note" id="netStatus">Оба открывают этот сайт. Один создаёт комнату и говорит код, второй вводит его. Каждый играет своим выбранным персонажем.</p>
           </div>
           <p class="note touch-tip">На телефоне играй горизонтально: джойстик слева (потяни сильнее — рывок), кнопки справа, <b>II</b> — пауза.</p>
-          <p class="note">Пауза и настройки: <kbd>P</kbd> или <kbd>Esc</kbd>. Звук: <kbd>M</kbd>.</p>
-          <p class="note">Управление: <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> ход, <kbd>Space</kbd> разгон, <kbd>U</kbd> бросок, <kbd>I</kbd> дриблинг, <kbd>O</kbd> пас, <kbd>T</kbd> понты, <kbd>Y</kbd> танец, <kbd>J</kbd> <kbd>K</kbd> <kbd>L</kbd> техники персонажа.</p>
+          <p class="note kb-note">Пауза и настройки: <kbd>P</kbd> или <kbd>Esc</kbd>. Звук: <kbd>M</kbd>.</p>
+          <p class="note kb-note">Управление: <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> ход, <kbd>Space</kbd> разгон, <kbd>U</kbd> бросок, <kbd>I</kbd> дриблинг, <kbd>O</kbd> пас, <kbd>T</kbd> понты, <kbd>Y</kbd> танец, <kbd>J</kbd> <kbd>K</kbd> <kbd>L</kbd> техники персонажа.</p>
         </div>
 
         <div class="card" id="pause" hidden>
@@ -4026,6 +4037,7 @@ function setPaused(v) {
   lastHud = '';
 }
 function toMenu() {
+  sfx.setHype(0.06);
   if (NET.active) netLeave(false);
   document.body.classList.remove('playing');
   if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(() => {});
@@ -4434,6 +4446,7 @@ function frameBody(now) {
   const real = Math.min(0.033, (now - lastT) / 1000); lastT = now;
   if (isGuest()) { guestFrame(real); return; }
   const holdDunkFrame = !!(G.dunkScene && G.dunkScene.mode === 'impact' && G.dunkScene.t < G.dunkScene.hold);
+  if (!document.body.classList.contains('playing')) return;   // menu pages: nothing to animate, keep scrolling smooth
   if (G.hitstop > 0 && inGame() && !G.paused) G.hitstop -= real;
   else if (inGame() && !G.paused && !holdDunkFrame) {
     const ts = G.slowT > 0 ? 0.35 : 1;
