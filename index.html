@@ -259,7 +259,7 @@ body.playing .overlay{position:fixed;z-index:20}
 <body>
 <div class="rotate-hint" aria-live="polite"><i>📱</i><b>Поверни телефон</b><span>Игра рассчитана на горизонтальный экран</span></div>
 <div class="app">
-  <div class="wrap"><nav class="row" style="margin-bottom:6px"><button class="btn" id="tabGame">Игра</button><button class="btn" id="tabChars">Персонажи</button><button class="btn" id="tabTournament">Турнир</button></nav><section id="charsPage" hidden class="card" style="width:100%;box-sizing:border-box"><h1>Персонажи</h1><p class="lede">Персонажи «Баскетбола Куроко» и Slam Dunk, звёзды NBA и NPC. У каждого три техники: <kbd>J</kbd> основная и <kbd>K</kbd> вторая (с перезарядкой), <kbd>L</kbd> — ульта (шкала копится со временем, за очки, перехваты, блоки и анкл брейки). Соперники выбираются случайно из всего состава и пользуются теми же техниками.</p><div class="seg" role="radiogroup" aria-label="Фильтр" id="charFilter"><button type="button" role="radio" aria-checked="true" data-v="all">Все</button><button type="button" role="radio" aria-checked="false" data-v="kuroko">Куроко</button><button type="button" role="radio" aria-checked="false" data-v="slamdunk">Slam Dunk</button><button type="button" role="radio" aria-checked="false" data-v="nba">NBA</button><button type="button" role="radio" aria-checked="false" data-v="npc">NPC</button></div><div class="chars" id="charsGrid"></div><div class="row"><button class="btn primary" id="charsBack" type="button">Играть</button></div></section><section id="tournamentPage" hidden class="card" style="width:100%;box-sizing:border-box"><h1>Турнир <span class="x">3×3 / 2×2 / 1×1</span></h1><p class="lede">48 команд · 12 групп по 4 · 6 матчей у каждой команды · первые две проходят дальше.</p><div class="field"><label class="label" for="teamName">Название твоей команды</label><input id="teamName" maxlength="24" placeholder="Например, Уличные волки" style="padding:10px;border-radius:8px;background:#0b0e14;color:var(--fg);border:1px solid var(--line)"></div><div class="field"><label class="label" for="tournamentMode">Режим турнира</label><select id="tournamentMode" style="padding:10px;border-radius:8px;background:#0b0e14;color:var(--fg);border:1px solid var(--line)"><option value="3v3">Турнир 3 на 3</option><option value="2v2">Турнир 2 на 2</option><option value="1v1">Турнир 1 на 1</option></select></div><div class="field"><label class="label" for="tournamentDifficulty">Сложность соперников</label><select id="tournamentDifficulty" style="padding:10px;border-radius:8px;background:#0b0e14;color:var(--fg);border:1px solid var(--line)"><option value="easy">Лёгкая</option><option value="normal" selected>Средняя</option><option value="hard">Сложная</option></select></div><div class="row"><button class="btn primary" id="createTournament">Создать турнир</button><button class="btn" id="playTournamentMatch" disabled>Сначала создай турнир</button><button class="btn" id="backGame">Назад к игре</button></div><div id="tournamentGroups"></div></section>
+  <div class="wrap"><nav class="row" style="margin-bottom:6px"><button class="btn" id="tabGame">Игра</button><button class="btn" id="tabChars">Персонажи</button><button class="btn" id="tabTournament">Турнир</button></nav><section id="charsPage" hidden class="card" style="width:100%;box-sizing:border-box"><h1>Персонажи</h1><p class="lede">Персонажи «Баскетбола Куроко» и Slam Dunk, 30 звёзд NBA и NPC. У каждого три техники: <kbd>J</kbd> основная и <kbd>K</kbd> вторая (с перезарядкой), <kbd>L</kbd> — ульта (шкала копится со временем, за очки, перехваты, блоки и анкл брейки). Соперники выбираются случайно из всего состава и пользуются теми же техниками.</p><div class="seg" role="radiogroup" aria-label="Фильтр" id="charFilter"><button type="button" role="radio" aria-checked="true" data-v="all">Все</button><button type="button" role="radio" aria-checked="false" data-v="kuroko">Куроко</button><button type="button" role="radio" aria-checked="false" data-v="slamdunk">Slam Dunk</button><button type="button" role="radio" aria-checked="false" data-v="nba">NBA</button><button type="button" role="radio" aria-checked="false" data-v="npc">NPC</button></div><div class="chars" id="charsGrid"></div><div class="row"><button class="btn primary" id="charsBack" type="button">Играть</button></div></section><section id="tournamentPage" hidden class="card" style="width:100%;box-sizing:border-box"><h1>Турнир <span class="x">3×3 / 2×2 / 1×1</span></h1><p class="lede">48 команд · 12 групп по 4 · 6 матчей у каждой команды · первые две проходят дальше.</p><div class="field"><label class="label" for="teamName">Название твоей команды</label><input id="teamName" maxlength="24" placeholder="Например, Уличные волки" style="padding:10px;border-radius:8px;background:#0b0e14;color:var(--fg);border:1px solid var(--line)"></div><div class="field"><label class="label" for="tournamentMode">Режим турнира</label><select id="tournamentMode" style="padding:10px;border-radius:8px;background:#0b0e14;color:var(--fg);border:1px solid var(--line)"><option value="3v3">Турнир 3 на 3</option><option value="2v2">Турнир 2 на 2</option><option value="1v1">Турнир 1 на 1</option></select></div><div class="field"><label class="label" for="tournamentDifficulty">Сложность соперников</label><select id="tournamentDifficulty" style="padding:10px;border-radius:8px;background:#0b0e14;color:var(--fg);border:1px solid var(--line)"><option value="easy">Лёгкая</option><option value="normal" selected>Средняя</option><option value="hard">Сложная</option></select></div><div class="row"><button class="btn primary" id="createTournament">Создать турнир</button><button class="btn" id="playTournamentMatch" disabled>Сначала создай турнир</button><button class="btn" id="backGame">Назад к игре</button></div><div id="tournamentGroups"></div></section>
     <header class="board" aria-live="polite">
       <div class="team you"><span class="tname" id="team0-name">Твоя команда</span><span class="score" id="s0">0</span></div>
       <div class="mid">
@@ -415,9 +415,9 @@ const COL = { you: '#3f8cff', youDark: '#1d4fa8', bot: '#ff5148', botDark: '#a32
 // Slightly sharper bots, with modest improvements to steals, shooting and rebounds.
 const DIFFS = {
   // smart movement/shooting/IQ restored to original Claude level; steal+reb stay nerfed; ankle ON you = easier to break ankles
-  easy:   { speed: 0.93, react: 0.27, steal: 0.18, block: 0.21, shotErr: 0.13, shotMul: 0.80, ankleResist: 1.9,  ankleOnYou: 0.28, aggro: 0.65, fake: 0,    reb: 0.5, rebSpeed: 0.66, rebGrabDist: 24 },
-  normal: { speed: 0.99, react: 0.19, steal: 0.29, block: 0.29, shotErr: 0.09, shotMul: 0.88, ankleResist: 1.55, ankleOnYou: 0.40, aggro: 0.83, fake: 0.05, reb: 0.68, rebSpeed: 0.74, rebGrabDist: 27 },
-  hard:   { speed: 1.00, react: 0.14, steal: 0.44, block: 0.38, shotErr: 0.065, shotMul: 0.93, ankleResist: 1.15, ankleOnYou: 0.58, aggro: 0.95, fake: 0.10, reb: 0.85, rebSpeed: 0.82, rebGrabDist: 30 },
+  easy:   { speed: 0.93, react: 0.27, steal: 0.18, block: 0.21, shotErr: 0.13, shotMul: 0.80, ankleResist: 1.9,  ankleOnYou: 0.28, aggro: 0.65, fake: 0,    reb: 0.7, rebSpeed: 0.74, rebGrabDist: 28 },
+  normal: { speed: 0.99, react: 0.19, steal: 0.29, block: 0.29, shotErr: 0.09, shotMul: 0.88, ankleResist: 1.55, ankleOnYou: 0.40, aggro: 0.83, fake: 0.05, reb: 1.0, rebSpeed: 0.83, rebGrabDist: 34 },
+  hard:   { speed: 1.00, react: 0.14, steal: 0.44, block: 0.38, shotErr: 0.065, shotMul: 0.93, ankleResist: 1.15, ankleOnYou: 0.58, aggro: 0.95, fake: 0.10, reb: 1.1, rebSpeed: 0.86, rebGrabDist: 36 },
 };
 
 // ---------- helpers ----------
@@ -1325,8 +1325,8 @@ const ABIL = {
       } });
       return true;
     }, ai: (p, s) => s.has && s.dD > 85 && s.dH > 200 },
-  miracle: { name: 'ЧУДО ЧЕРЕЗ ВСЮ ПЛОЩАДКУ', jp: '全コート3Pシュート', ult: true, need: need.ball, desc: 'До броска (8 с): бросай хоть из своей половины — зелёная зона ×2.5, бросок +15%, мяч уходит в небо с кометным следом. Накрыть можно только в самом начале, опека мешает вдвое меньше.',
-    run: buffRun('miracle', 8, { longRange: true, sweet: 2.5, shot: 0.15, arc: 3.2, contest: 0.5, bw: 0.47, trailGreen: true }, { untilShot: true }), ai: (p, s) => s.has && s.dD > 70 },
+  miracle: { name: 'ЧУДО ЧЕРЕЗ ВСЮ ПЛОЩАДКУ', jp: '全コート3Pシュート', ult: true, need: need.ball, desc: 'До броска (8 с): вся шкала броска зелёная — бросок из любой точки площадки, хоть со своей половины, залетает гарантированно. Мяч уходит в небо с кометным следом. Накрыть можно только в начале полёта.',
+    run: buffRun('miracle', 8, { longRange: true, sureShot: true, sweet: 60, arc: 3.2, trailGreen: true }, { untilShot: true }), ai: (p, s) => s.has && s.dD > 70 },
   // ---- Murasakibara ----
   giant_block: { name: 'ГИГАНТСКИЙ БЛОК', jp: '巨大ブロック', cd: 9, desc: '4 с: радиус блока +40, шанс блока ×1.6, прыжок выше на 25%.',
     run: buffRun('giant_block', 4, { blockR: 40, blockCh: 1.6, jump: 1.25 }), ai: (p, s) => s.oppHas && s.holder && dist(s.holder, HOOP) < 240 },
@@ -1581,6 +1581,55 @@ Object.assign(ABIL, {
   steal_rush: { name: 'ПЕРЕХВАТ НА СКОРОСТИ', jp: 'スティール', cd: 9, desc: '3 с: перехваты +25%, реакция и скорость лучше.',
     run: buffRun('steal_rush', 3, { steal: 0.25, react: 0.6, spd: 1.15 }), ai: (p, s) => s.oppHas },
 });
+// more NBA stars: shared and signature techniques
+Object.assign(ABIL, {
+  stepback3: { name: 'СТЕПБЭК', jp: 'Step-back', cd: 8, desc: 'До броска (6 с): шаг назад — опека мешает вдвое меньше, зелёная зона ×1.4, бросок +10%.',
+    run: buffRun('stepback3', 6, { sweet: 1.4, shot: 0.1, contest: 0.5 }, { untilShot: true }), ai: (p, s) => s.has && s.dD < 110 },
+  air_ja: { name: 'ВЫСОКИЙ ПОЛЁТ', jp: 'High flyer', cd: 9, desc: '4 с: прыжок ×1.55, данк с 6–7 м, его труднее накрыть.',
+    run: buffRun('air_ja', 4, { jump: 1.55, dunkR: 210, dunkGuard: 0.6, lay: 0.1 }), ai: (p, s) => s.has && s.dH < 310 },
+  poster_ult: { name: 'ПОСТЕР-МЭН', jp: 'Posterizer', ult: true, desc: '6 с: данки с 7 м через любого, прыжок ×1.6, накрыть почти нельзя.',
+    run: buffRun('poster_ult', 6, { dunkR: 230, jump: 1.6, dunkGuard: 0.35, lay: 0.2, spd: 1.1 }), ai: (p, s) => s.has },
+  dame_time: { name: 'DAME TIME', jp: 'Dame time', ult: true, need: ballNeed, desc: 'До броска (8 с): бросок из-за логотипа — нет штрафа за дистанцию, зелёная зона ×2, бросок +20%.',
+    run: buffRun('dame_time', 8, { longRange: true, sweet: 2, shot: 0.2, contest: 0.5 }, { untilShot: true }), ai: (p, s) => s.has },
+  harden_ult: { name: 'ШОУ БОРОДЫ', jp: 'The Beard', ult: true, desc: '6 с: степбэки и проходы — броски +18%, анкл брейки +20%, опека мешает вдвое меньше, пасы не перехватить.',
+    run: buffRun('harden_ult', 6, { sweet: 1.6, shot: 0.18, contest: 0.5, passSafe: 0.5, ankle: 0.2 }), ai: (p, s) => s.has },
+  pg13: { name: 'PLAYOFF P', jp: 'Playoff P', ult: true, desc: '6 с: броски +18%, перехваты +15%, реакция быстрее, опека мешает вдвое меньше.',
+    run: buffRun('pg13', 6, { shot: 0.18, steal: 0.15, react: 0.7, contest: 0.5 }), ai: (p, s) => s.has || s.oppHas },
+  dream_shake: { name: 'ДРИМ-ШЕЙК', jp: 'Dream shake', cd: 9, desc: 'До броска (5 с): финты спиной к кольцу — анкл брейки +30%, опека мешает вдвое меньше.',
+    run: buffRun('dream_shake', 5, { ankle: 0.3, contest: 0.5, shot: 0.1 }, { untilShot: true }), ai: (p, s) => s.has && s.dH < 260 },
+  process: { name: 'ПРОЦЕСС', jp: 'The Process', ult: true, desc: '6 с: хозяин краски — сила ×2.5, огромный блок, броски +15%, добивание +20%.',
+    run: buffRun('process', 6, { push: 2.5, blockR: 40, blockCh: 1.6, shot: 0.15, lay: 0.2 }), ai: (p, s) => s.has || s.oppHas },
+  flashy_pass: { name: 'ПАС ЗА СПИНОЙ', jp: 'No-look', cd: 8, need: ballNeed, desc: 'Командные режимы: пас не глядя открытому, перехватить трудно, получатель бросает +15%. 1×1: 3 с броски +12%.',
+    run: passOr1v1('flashy_pass', 2, 0.3, 0.15, { shot: 0.12, contest: 0.3 }), ai: (p, s) => s.has },
+  showtime: { name: 'ШОУТАЙМ', jp: 'Showtime', ult: true, desc: '6 с: скорость +15%, броски +15%, анкл брейки +20%, пасы не перехватить.',
+    run: buffRun('showtime', 6, { spd: 1.15, shot: 0.15, passSafe: 0.4, ankle: 0.2 }), ai: (p, s) => s.has },
+  ant_ult: { name: 'ВЗРЫВ ЭНТА', jp: 'Ant-Man', ult: true, desc: '6 с: скорость +20%, прыжок ×1.4, данки с 7 м, броски +15%.',
+    run: buffRun('ant_ult', 6, { spd: 1.2, jump: 1.4, dunkR: 210, shot: 0.15, dunkGuard: 0.5 }), ai: (p, s) => s.has },
+  midrange: { name: 'УБИЙЦА СРЕДНЕЙ ДИСТАНЦИИ', jp: 'Mid-range', cd: 9, desc: '4 с: броски с отрыва +14%, опека мешает на 60% меньше.',
+    run: buffRun('midrange', 4, { shot: 0.14, contest: 0.6 }), ai: (p, s) => s.has && s.dH < 260 },
+  mvp: { name: 'MVP-РЕЖИМ', jp: 'MVP', ult: true, desc: '6 с: броски +22%, опека мешает на 60% меньше, анкл брейки +25%, скорость +10%.',
+    run: buffRun('mvp', 6, { shot: 0.22, contest: 0.6, ankle: 0.25, spd: 1.1 }), ai: (p, s) => s.has },
+  kyrie_handle: { name: 'ДРИБЛИНГ-МАГИЯ', jp: 'Handles', cd: 8, desc: '3 с: анкл брейки +35%, мяч почти не выбить, скорость +10%.',
+    run: buffRun('kyrie_handle', 3, { ankle: 0.35, stealRes: 0.3, spd: 1.1 }), ai: (p, s) => s.has && s.dD < 110 },
+  spin_finish: { name: 'КРУЧЁНЫЙ ЛЕЙАП', jp: 'Finish', cd: 8, need: ballNeed, desc: 'Рывок к кольцу и лейап с любой руки: добивание +25%, его трудно накрыть.',
+    run: (p, pw) => { addBuff(p, { id: 'spin_finish', dur: 2.5, power: pw, mods: { lay: 0.25, dunkGuard: 0.6 } }); driveBurst(p, true, 0.3); return true; }, ai: (p, s) => s.has && s.dH < 300 },
+  impossible: { name: 'НЕВОЗМОЖНЫЙ БРОСОК', jp: 'Impossible', ult: true, desc: '6 с: анкл брейки +40%, добивание +25%, броски +15% из любых положений.',
+    run: buffRun('impossible', 6, { ankle: 0.4, lay: 0.25, shot: 0.15, formless: true }), ai: (p, s) => s.has },
+  paw: { name: 'ЛАПА', jp: 'The Claw', cd: 9, desc: '3 с: огромные руки — перехваты +30%, реакция быстрее.',
+    run: buffRun('paw', 3, { steal: 0.3, react: 0.6, intercept: 14 }), ai: (p, s) => s.oppHas },
+  silent_killer: { name: 'ТИХИЙ УБИЙЦА', jp: 'Silent killer', ult: true, desc: '6 с: броски +20%, опека мешает на 60% меньше, перехваты +20%.',
+    run: buffRun('silent_killer', 6, { shot: 0.2, contest: 0.6, steal: 0.2, react: 0.7 }), ai: (p, s) => s.has || s.oppHas },
+  hot_hand: { name: 'ГОРЯЧАЯ РУКА', jp: 'Heat check', ult: true, desc: '6 с: броски +20%, зелёная зона ×1.6, опека мешает вдвое меньше.',
+    run: buffRun('hot_hand', 6, { shot: 0.2, sweet: 1.6, contest: 0.5 }), ai: (p, s) => s.has },
+  floater: { name: 'ФЛОАТЕР', jp: 'Floater', cd: 8, desc: 'До броска (5 с): высокий бросок над гигантами — бросок +15%, накрыть почти нельзя.',
+    run: buffRun('floater', 5, { shot: 0.15, bw: 0.3, arc: 1.5 }, { untilShot: true }), ai: (p, s) => s.has && s.dH < 230 },
+  ice_trae: { name: 'ICE TRAE', jp: 'Ice Trae', ult: true, need: ballNeed, desc: 'До броска (8 с): нет штрафа за дистанцию, зелёная зона ×1.8, бросок +20%.',
+    run: buffRun('ice_trae', 8, { longRange: true, sweet: 1.8, shot: 0.2 }, { untilShot: true }), ai: (p, s) => s.has },
+  bully: { name: 'ТАРАН', jp: 'Bully ball', cd: 9, desc: '5 с: сила в контакте ×3, добивание +20%, данки труднее накрыть.',
+    run: buffRun('bully', 5, { push: 3, lay: 0.2, dunkGuard: 0.5 }), ai: (p, s) => s.has && s.dH < 260 },
+  athletic: { name: 'АТЛЕТИЗМ', jp: 'Athleticism', cd: 9, desc: '4 с: скорость +25%, прыжок выше, данк с 6–7 м.',
+    run: buffRun('athletic', 4, { spd: 1.25, jump: 1.3, dunkR: 210 }), ai: (p, s) => s.has && s.dH < 320 },
+});
 // cooldowns are 1.6x the base numbers above
 for (const id in ABIL) { ABIL[id].id = id; if (ABIL[id].cd) ABIL[id].cd = Math.round(ABIL[id].cd * 1.6); }
 
@@ -1771,6 +1820,73 @@ CHARS.push(
     lines: { power: [['ドリブルこそがチビの生きる道！', 'Doriburu koso ga chibi no ikiru michi!', 'Дриблинг — путь маленьких!'], ['速さで勝負だ！', 'Hayasa de shōbu da!', 'Решит скорость!']],
       score: [['いただき！', 'Itadaki!', 'Моё!']], taunt: [['遅いぜ！', 'Osoi ze!', 'Медленно!']], win: [['湘北最強！', 'Shōhoku saikyō!', 'Сёхоку сильнейшие!']] } }),
 );
+CHARS.push(
+  nba({ id: 'morant', short: 'МОРАНТ', name: 'Джа Морант', jpName: 'Ja Morant', school: 'Гриззлис', num: '12', role: 'Разыгрывающий', rating: 92, scale: 0.97,
+    color: '#5d76a9', hair: '#141414', skin: '#6b4428', eyeL: '#140c08', eyeR: '#140c08', style: 'short', abil: { J: 'air_ja', K: 'eurostep', L: 'poster_ult' }, ai: { drive: 1.9, feint: 1 },
+    lines: { power: CALL('POSTER!', 'На постер!'), score: CALL('SLAM!', 'Сверху!'), taunt: CALL('TOO HIGH!', 'Слишком высоко!'), win: CALL('GG!', 'Хорошая игра!') } }),
+  nba({ id: 'lillard', short: 'ЛИЛЛАРД', name: 'Дэмиан Лиллард', jpName: 'Damian Lillard', school: 'Трэйл Блэйзерс', num: '0', role: 'Разыгрывающий', rating: 93, scale: 0.98,
+    color: '#e03a3e', hair: '#141414', skin: '#5b3a24', beard: '#141414', eyeL: '#140c08', eyeR: '#140c08', style: 'short', abil: { J: 'logo_three', K: 'quick_release', L: 'dame_time' }, ai: { shoot3: 1.9, drive: 0.8 },
+    lines: { power: CALL('DAME TIME!', 'Время Дэйма!'), score: CALL('BANG!', 'Бах!'), taunt: CALL('LOOK AT MY WRIST!', 'Время!'), win: CALL('GG!', 'Хорошая игра!') } }),
+  nba({ id: 'tatum', short: 'ТЕЙТУМ', name: 'Джейсон Тейтум', jpName: 'Jayson Tatum', school: 'Селтикс', num: '0', role: 'Лёгкий форвард', rating: 94, scale: 1.08,
+    color: '#5fd38a', hair: '#141414', skin: '#7a5034', beard: '#2a1a10', eyeL: '#140c08', eyeR: '#140c08', style: 'short', abil: { J: 'fadeaway', K: 'stepback3', L: 'hot_hand' }, ai: { shoot3: 1.2, feint: 1 },
+    lines: { power: CALL('BUCKETS!', 'Кэш!'), score: CALL('SPLASH!', 'В сетку!'), taunt: CALL('TOO EASY!', 'Слишком просто!'), win: CALL('GG!', 'Хорошая игра!') } }),
+  nba({ id: 'harden', short: 'ХАРДЕН', name: 'Джеймс Харден', jpName: 'James Harden', school: 'Клипперс', num: '1', role: 'Атакующий защитник', rating: 92, scale: 1.03,
+    color: '#c8102e', hair: '#1a1410', skin: '#6b4428', beard: '#1a1410', eyeL: '#140c08', eyeR: '#140c08', style: 'short', abil: { J: 'stepback3', K: 'eurostep', L: 'harden_ult' }, ai: { feint: 1.6, shoot3: 1.2, pass: 1 },
+    lines: { power: CALL('STEP-BACK!', 'Степбэк!'), score: CALL('COOK!', 'Готовлю!'), taunt: CALL('TOO SLOW!', 'Медленно!'), win: CALL('GG!', 'Хорошая игра!') } }),
+  nba({ id: 'george', short: 'ДЖОРДЖ', name: 'Пол Джордж', jpName: 'Paul George', school: '76ers', num: '8', role: 'Лёгкий форвард', rating: 89, scale: 1.08,
+    color: '#ed174c', hair: '#141414', skin: '#7a5034', eyeL: '#140c08', eyeR: '#140c08', style: 'buzz', abil: { J: 'fadeaway', K: 'steal_rush', L: 'pg13' }, ai: { shoot3: 1.1, press: 1 },
+    lines: { power: CALL('PLAYOFF P!', 'Плей-офф Пи!'), score: CALL('BUCKETS!', 'Кэш!'), taunt: CALL('LOCKED UP!', 'Под замком!'), win: CALL('GG!', 'Хорошая игра!') } }),
+  nba({ id: 'embiid', short: 'ЭМБИИД', name: 'Джоэл Эмбиид', jpName: 'Joel Embiid', school: '76ers', num: '21', role: 'Центровой', rating: 94, scale: 1.22, pitch: 0.75,
+    color: '#006bb6', hair: '#141414', skin: '#4a2e1c', eyeL: '#140c08', eyeR: '#140c08', style: 'short', abil: { J: 'dream_shake', K: 'post_block', L: 'process' }, ai: { rim: 1.2, reb: 1.3, feint: 1 },
+    lines: { power: CALL('TRUST THE PROCESS!', 'Верь в процесс!'), score: CALL('AND ONE!', 'Плюс один!'), taunt: CALL('NOT IN HERE!', 'Не здесь!'), win: CALL('GG!', 'Хорошая игра!') } }),
+  nba({ id: 'cunningham', short: 'КАННИНГЕМ', name: 'Кейд Каннингем', jpName: 'Cade Cunningham', school: 'Пистонс', num: '2', role: 'Разыгрывающий', rating: 90, scale: 1.06,
+    color: '#1d42ba', hair: '#141414', skin: '#6b4428', eyeL: '#140c08', eyeR: '#140c08', style: 'short', abil: { J: 'stepback3', K: 'precision', L: 'leader_ult' }, ai: { pass: 1.4, feint: 1, shoot3: 0.8 },
+    lines: { power: CALL('CADE!', 'Кейд!'), score: CALL('BUCKETS!', 'Кэш!'), taunt: CALL('TOO SLOW!', 'Медленно!'), win: CALL('GG!', 'Хорошая игра!') } }),
+  nba({ id: 'lamelo', short: 'ЛАМЕЛО', name: 'Ламело Болл', jpName: 'LaMelo Ball', school: 'Хорнетс', num: '1', role: 'Разыгрывающий', rating: 88, scale: 1.07,
+    color: '#00788c', hair: '#d9b26a', skin: '#a0704a', eyeL: '#2a1a10', eyeR: '#2a1a10', style: 'messy', abil: { J: 'logo_three', K: 'flashy_pass', L: 'showtime' }, ai: { pass: 1.6, shoot3: 1.2 },
+    lines: { power: CALL('SHOWTIME!', 'Шоутайм!'), score: CALL('MELO!', 'Мело!'), taunt: CALL('NO LOOK!', 'Не глядя!'), win: CALL('GG!', 'Хорошая игра!') } }),
+  nba({ id: 'edwards', short: 'ЭДВАРДС', name: 'Энтони Эдвардс', jpName: 'Anthony Edwards', school: 'Тимбервулвз', num: '5', role: 'Атакующий защитник', rating: 94, scale: 1.0,
+    color: '#78be20', hair: '#141414', skin: '#5b3a24', eyeL: '#140c08', eyeR: '#140c08', style: 'short', abil: { J: 'air_ja', K: 'freight_train', L: 'ant_ult' }, ai: { drive: 1.7, shoot3: 0.9 },
+    lines: { power: CALL('ANT!', 'Энт!'), score: CALL('SLAM!', 'Сверху!'), taunt: CALL('NEXT!', 'Следующий!'), win: CALL('GG!', 'Хорошая игра!') } }),
+  nba({ id: 'sga', short: 'ШАЙ', name: 'Шай Гилджес-Александер', jpName: 'Shai Gilgeous-Alexander', school: 'Тандер', num: '2', role: 'Разыгрывающий', rating: 97, scale: 1.04,
+    color: '#ef3b24', hair: '#141414', skin: '#6b4428', eyeL: '#140c08', eyeR: '#140c08', style: 'short', abil: { J: 'midrange', K: 'footwork', L: 'mvp' }, ai: { feint: 1.4, drive: 1.2 },
+    lines: { power: CALL('MVP!', 'MVP!'), score: CALL('BUCKETS!', 'Кэш!'), taunt: CALL('TOO SMOOTH!', 'Слишком плавно!'), win: CALL('GG!', 'Хорошая игра!') } }),
+  nba({ id: 'kyrie', short: 'КАЙРИ', name: 'Кайри Ирвинг', jpName: 'Kyrie Irving', school: 'Маверикс', num: '11', role: 'Разыгрывающий', rating: 92, scale: 0.98,
+    color: '#b8c4ca', hair: '#141414', skin: '#9b6b48', beard: '#1a1410', eyeL: '#2a1a10', eyeR: '#2a1a10', style: 'short', abil: { J: 'kyrie_handle', K: 'spin_finish', L: 'impossible' }, ai: { feint: 1.8, drive: 1.2 },
+    lines: { power: CALL('UNCLE DREW!', 'Дядя Дрю!'), score: CALL('WHAT A FINISH!', 'Какой лейап!'), taunt: CALL('ANKLES!', 'Где твои ноги?'), win: CALL('GG!', 'Хорошая игра!') } }),
+  nba({ id: 'kawhi', short: 'КАВАЙ', name: 'Кавай Леонард', jpName: 'Kawhi Leonard', school: 'Клипперс', num: '2', role: 'Лёгкий форвард', rating: 93, scale: 1.05,
+    color: '#1d428a', hair: '#141414', skin: '#6b4428', beard: '#1a1410', eyeL: '#140c08', eyeR: '#140c08', style: 'short', abil: { J: 'fadeaway', K: 'paw', L: 'silent_killer' }, ai: { press: 1.4, feint: 0.8 },
+    lines: { power: CALL('THE CLAW!', 'Лапа!'), score: CALL('BOARD MAN!', 'Борд-мэн!'), taunt: CALL('...', '...'), win: CALL('GG!', 'Хорошая игра!') } }),
+  nba({ id: 'butler', short: 'БАТЛЕР', name: 'Джимми Батлер', jpName: 'Jimmy Butler', school: 'Уорриорз', num: '10', role: 'Лёгкий форвард', rating: 89, scale: 1.04,
+    color: '#ffc72c', hair: '#141414', skin: '#6b4428', beard: '#1a1410', eyeL: '#140c08', eyeR: '#140c08', style: 'short', abil: { J: 'freight_train', K: 'steal_rush', L: 'clutch' }, ai: { drive: 1.3, press: 1.3 },
+    lines: { power: CALL('JIMMY BUCKETS!', 'Джимми Бакетс!'), score: CALL('BUCKETS!', 'Кэш!'), taunt: CALL('TOUGH!', 'Жёстко!'), win: CALL('GG!', 'Хорошая игра!') } }),
+  nba({ id: 'booker', short: 'БУКЕР', name: 'Девин Букер', jpName: 'Devin Booker', school: 'Санз', num: '1', role: 'Атакующий защитник', rating: 92, scale: 1.02,
+    color: '#e56020', hair: '#1a1410', skin: '#9b6b48', eyeL: '#2a1a10', eyeR: '#2a1a10', style: 'short', abil: { J: 'fadeaway', K: 'quick_release', L: 'hot_hand' }, ai: { shoot3: 1.3, feint: 1 },
+    lines: { power: CALL('BOOK!', 'Бук!'), score: CALL('SPLASH!', 'В сетку!'), taunt: CALL('TOO HOT!', 'Горячо!'), win: CALL('GG!', 'Хорошая игра!') } }),
+  nba({ id: 'trae', short: 'ТРЕЙ', name: 'Трей Янг', jpName: 'Trae Young', school: 'Хокс', num: '11', role: 'Разыгрывающий', rating: 88, scale: 0.92,
+    color: '#e03a3e', hair: '#141414', skin: '#9b6b48', eyeL: '#2a1a10', eyeR: '#2a1a10', style: 'short', abil: { J: 'logo_three', K: 'floater', L: 'ice_trae' }, ai: { shoot3: 1.8, pass: 1.3 },
+    lines: { power: CALL('ICE TRAE!', 'Лёд Трей!'), score: CALL('SPLASH!', 'В сетку!'), taunt: CALL('SHHH!', 'Тсс!'), win: CALL('GG!', 'Хорошая игра!') } }),
+  nba({ id: 'brunson', short: 'БРАНСОН', name: 'Джейлен Брансон', jpName: 'Jalen Brunson', school: 'Никс', num: '11', role: 'Разыгрывающий', rating: 91, scale: 0.95,
+    color: '#f58426', hair: '#141414', skin: '#9b6b48', eyeL: '#2a1a10', eyeR: '#2a1a10', style: 'short', abil: { J: 'footwork', K: 'fadeaway', L: 'clutch' }, ai: { feint: 1.4, drive: 1 },
+    lines: { power: CALL('CLUTCH!', 'Клатч!'), score: CALL('BUCKETS!', 'Кэш!'), taunt: CALL('TOO CRAFTY!', 'Слишком хитро!'), win: CALL('GG!', 'Хорошая игра!') } }),
+  nba({ id: 'davis', short: 'ДЭВИС', name: 'Энтони Дэвис', jpName: 'Anthony Davis', school: 'Маверикс', num: '3', role: 'Центровой', rating: 92, scale: 1.18,
+    color: '#00538c', hair: '#141414', skin: '#5b3a24', eyeL: '#140c08', eyeR: '#140c08', style: 'short', brows: 'thick', abil: { J: 'post_block', K: 'rebound_king', L: 'big_ult' }, ai: { rim: 1.4, reb: 1.4 },
+    lines: { power: CALL('BLOCKED!', 'Накрыл!'), score: CALL('SLAM!', 'Сверху!'), taunt: CALL('NOT IN HERE!', 'Не здесь!'), win: CALL('GG!', 'Хорошая игра!') } }),
+  nba({ id: 'zion', short: 'ЗАЙОН', name: 'Зайон Уильямсон', jpName: 'Zion Williamson', school: 'Пеликанс', num: '1', role: 'Тяжёлый форвард', rating: 89, scale: 1.06,
+    color: '#85714d', hair: '#141414', skin: '#5b3a24', eyeL: '#140c08', eyeR: '#140c08', style: 'short', abil: { J: 'bully', K: 'athletic', L: 'freak_ult' }, ai: { drive: 1.9, reb: 1.2 },
+    lines: { power: CALL('ZION!', 'Зайон!'), score: CALL('SLAM!', 'Сверху!'), taunt: CALL('MOVE!', 'С дороги!'), win: CALL('GG!', 'Хорошая игра!') } }),
+  nba({ id: 'mitchell', short: 'МИТЧЕЛЛ', name: 'Донован Митчелл', jpName: 'Donovan Mitchell', school: 'Кавальерс', num: '45', role: 'Атакующий защитник', rating: 91, scale: 0.97,
+    color: '#fdbb30', hair: '#141414', skin: '#6b4428', eyeL: '#140c08', eyeR: '#140c08', style: 'buzz', abil: { J: 'air_jordan', K: 'quick_release', L: 'hot_hand' }, ai: { drive: 1.3, shoot3: 1.2 },
+    lines: { power: CALL('SPIDA!', 'Паук!'), score: CALL('SLAM!', 'Сверху!'), taunt: CALL('TOO QUICK!', 'Слишком быстро!'), win: CALL('GG!', 'Хорошая игра!') } }),
+  nba({ id: 'haliburton', short: 'ХАЛИБЁРТОН', name: 'Тайриз Халибёртон', jpName: 'Tyrese Haliburton', school: 'Пэйсерс', num: '0', role: 'Разыгрывающий', rating: 89, scale: 1.04,
+    color: '#fdbb30', hair: '#141414', skin: '#7a5034', eyeL: '#140c08', eyeR: '#140c08', style: 'short', glasses: false, abil: { J: 'flashy_pass', K: 'logo_three', L: 'leader_ult' }, ai: { pass: 1.8, shoot3: 1.3 },
+    lines: { power: CALL('HALI!', 'Хали!'), score: CALL('SPLASH!', 'В сетку!'), taunt: CALL('NO LOOK!', 'Не глядя!'), win: CALL('GG!', 'Хорошая игра!') } }),
+  nba({ id: 'banchero', short: 'БАНКЕРО', name: 'Паоло Банкеро', jpName: 'Paolo Banchero', school: 'Мэджик', num: '5', role: 'Тяжёлый форвард', rating: 89, scale: 1.1,
+    color: '#0077c0', hair: '#1a1410', skin: '#c08a5a', eyeL: '#2a1a10', eyeR: '#2a1a10', style: 'short', abil: { J: 'freight_train', K: 'fadeaway', L: 'hot_hand' }, ai: { drive: 1.4, feint: 0.8 },
+    lines: { power: CALL('PAOLO!', 'Паоло!'), score: CALL('AND ONE!', 'Плюс один!'), taunt: CALL('MOVE!', 'С дороги!'), win: CALL('GG!', 'Хорошая игра!') } }),
+);
+// Durant now plays in Houston
+{ const kd = CHARS.find(c => c.id === 'durant'); if (kd) { kd.school = 'Рокетс'; kd.num = '7'; kd.color = '#ce1141'; } }
 // school uniforms: body, shorts, trim, number colour
 const UNI = {
   'Сэйрин': { body: '#f3f4f6', shorts: '#e9eaee', trim: '#111318', num: '#c8102e' },
@@ -1789,6 +1905,23 @@ const UNI = {
   'Бакс': { body: '#00471b', shorts: '#003d17', trim: '#eee1c6', num: '#eee1c6' },
   'Наггетс': { body: '#0e2240', shorts: '#0c1d38', trim: '#fec524', num: '#fec524' },
   'Сёхоку': { body: '#c8102e', shorts: '#b30e29', trim: '#111111', num: '#ffffff' },
+  'Гриззлис': { body: '#5d76a9', shorts: '#4f6694', trim: '#12173f', num: '#ffffff' },
+  'Трэйл Блэйзерс': { body: '#141414', shorts: '#141414', trim: '#e03a3e', num: '#ffffff' },
+  'Селтикс': { body: '#007a33', shorts: '#006b2d', trim: '#ffffff', num: '#ffffff' },
+  'Клипперс': { body: '#1d428a', shorts: '#1a3b7c', trim: '#c8102e', num: '#ffffff' },
+  '76ers': { body: '#006bb6', shorts: '#005fa2', trim: '#ed174c', num: '#ffffff' },
+  'Пистонс': { body: '#1d42ba', shorts: '#1a3ba6', trim: '#c8102e', num: '#ffffff' },
+  'Хорнетс': { body: '#00788c', shorts: '#006b7d', trim: '#1d1160', num: '#ffffff' },
+  'Тимбервулвз': { body: '#0c2340', shorts: '#0a1e37', trim: '#78be20', num: '#ffffff' },
+  'Тандер': { body: '#007ac1', shorts: '#006dad', trim: '#ef3b24', num: '#ffffff' },
+  'Маверикс': { body: '#00538c', shorts: '#00497b', trim: '#b8c4ca', num: '#ffffff' },
+  'Хокс': { body: '#e03a3e', shorts: '#c93337', trim: '#26282a', num: '#ffffff' },
+  'Никс': { body: '#006bb6', shorts: '#005fa2', trim: '#f58426', num: '#ffffff' },
+  'Пеликанс': { body: '#0c2340', shorts: '#0a1e37', trim: '#85714d', num: '#ffffff' },
+  'Кавальерс': { body: '#860038', shorts: '#760031', trim: '#fdbb30', num: '#fdbb30' },
+  'Пэйсерс': { body: '#002d62', shorts: '#002756', trim: '#fdbb30', num: '#fdbb30' },
+  'Мэджик': { body: '#0077c0', shorts: '#006aab', trim: '#111111', num: '#ffffff' },
+  'Рокетс': { body: '#ce1141', shorts: '#b80f3a', trim: '#c4ced4', num: '#ffffff' },
   'Jabberwock': { body: '#121214', shorts: '#121214', trim: '#e2b33a', num: '#e2b33a' },
 };
 // heights relative to the base sprite
@@ -2454,7 +2587,7 @@ function stepbackTick(p, dt) {
   faceTo(p, HOOP.x, HOOP.y);
   if (t >= 1) {
     p.z = 0; p.state = 'idle'; p.stepback = null;
-    jumpShot(p, idealPower(dist(p, HOOP)));
+    jumpShot(p, clamp(idealPower(dist(p, HOOP)) + (p.isBot ? gauss() * G.diff.shotErr : 0), 0.05, 0.98));
   }
 }
 
@@ -2471,6 +2604,7 @@ function passToTeammate(p) {
     const dot = p.fx * nx + p.fy * ny;
     let score = dot * 120 - d * 0.15;
   if (flag(p, 'vision') || (p.char && p.char.ai.pass)) score += Math.min(120, nearestOppDist(tm)) * 0.8;
+  else if (p.isBot) score += Math.min(120, nearestOppDist(tm)) * 0.4;
     // CPU teammates prioritize passing directly to YOU (Player 0)
     if (p.isBot && tm.id === 0) score += 200;
     if (score > bestScore) {
@@ -2722,6 +2856,7 @@ function jumpShot(p, power) {
     pct = clamp(pct, 0.02, 0.95);
     make = Math.random() < pct;
   }
+  if (flag(p, 'sureShot')) make = true;
   if (perfect && mod(p, 'sweet') > 1.25) { popup(p.x, p.y - 112, 'ЗЕЛЁНЫЙ РЕЛИЗ', '#4fe08d', 26); ring(p.x, p.y - 30, '#4fe08d', 95, 0.7); burst(p.x, p.y, 40, 20, 'star', '#4fe08d'); }
   if (p.id === G.userCtrlId && perfect) { G.match.perfects++; sfx.perfect(Math.min(scoringRun[0], 8)); ring(p.x, p.y - 30, COL.good, 52, 0.5); if (G.match.perfects >= 5) unlock('perfect5'); }
   if (p.id === G.userCtrlId) {
@@ -2942,6 +3077,7 @@ function blockShot(def, shooterId) {
 }
 
 function looseBall(x, y, z, vx, vy, vz) {
+  G.looseStamp = (G.looseStamp || 0) + 1;
   ball.state = 'loose'; ball.shot = null; ball.pass = null;
   Object.assign(ball, { x, y, z, vx, vy, vz });
 }
@@ -3104,7 +3240,7 @@ function updateBall(dt) {
 
     for (const p of order) {
       if (p.state === 'fallen' || p.state === 'layup' || p.state === 'dunk' || p.noGrab > 0) continue;
-      const reach = ((p.id === G.userCtrlId || p.remote) ? 52 : (P[G.userCtrlId] && p.team === P[G.userCtrlId].team ? 40 : G.diff.rebGrabDist)) + mod(p, 'reb');
+      const reach = ((p.id === G.userCtrlId || p.remote) ? 52 : (P[G.userCtrlId] && p.team === P[G.userCtrlId].team ? 34 : G.diff.rebGrabDist)) + mod(p, 'reb');
       if (dist(p, ball) < reach && ball.z < 45 + p.z * 1.3) {
         gain(p);
         break;
@@ -3143,6 +3279,7 @@ function botInput(b, dt) {
   const oppTeamHas = ball.state === 'held' && P[ball.owner] && P[ball.owner].team !== b.team;
 
   botAbilities(b, dt);
+  if (!bHas) mem.withBall = false;
   if (b.pendingShot || b.delayShot) return inp;
   if (bHas) { botOffense(b, inp, dt, mem); return inp; }
   if (myTeamHas) { botOffBall(b, inp, dt, mem); return inp; }
@@ -3183,14 +3320,9 @@ function botOffense(b, inp, dt, mem) {
   if ((b.buffs || []).some(x => x.id === 'form')) { inp.mx = 0; inp.my = 0; return; }
   const fr = mod(b, 'dunkR');
   if (fr && dH < fr - 10) { steer(inp, b, HOOP.x, HOOP.y, 0); inp.sprint = true; inp.shootPress = true; return; }
-  if (ai.pass && G.mode !== '1v1' && dD < 85 && Math.random() < 0.035 * ai.pass) { passToTeammate(b); return; }
-  if (ai.shoot3 && isThree(b.x, b.y) && dD > 85 && Math.random() < 0.04 * ai.shoot3) { botStartShot(b, inp, mem); return; }
-  if (ai.feint && dD < 95 && b.crossCD <= 0 && Math.random() < 0.025 * ai.feint) {
-    const s2 = Math.random() < 0.5 ? 1 : -1, [cx, cy] = norm(hy * s2 + hx * 0.5, -hx * s2 + hy * 0.5);
-    inp.dribblePress = true; inp.mx = cx; inp.my = cy; mem.crossDir = [cx, cy]; mem.crossHold = 0.32; return;
-  }
-  if (ai.drive && dH < 320 && mem.spot && !mem.spot.drive && Math.random() < 0.02 * ai.drive) mem.spot = { x: HOOP.x, y: HOOP.y + 20, drive: true };
-  if (G.mode !== '1v1' && dD < 48 && Math.random() < 0.05 * D.aggro) {
+  // a fresh possession for this player -> choose a play
+  if (!mem.withBall) { mem.withBall = true; mem.play = pickPlay(b); mem.spot = playSpot(b, mem.play); mem.playT = rnd(2.2, 3.8); mem.moves = 0; }
+  if (G.mode !== '1v1' && dD < 40 && Math.random() < 0.03 * D.aggro) {
     const teammates = P.filter(tm => tm.team === b.team && tm.id !== b.id);
     const openTm = teammates.find(tm => {
       const g = P[tm.matchupId];
@@ -3214,37 +3346,103 @@ function botOffense(b, inp, dt, mem) {
     return;
   }
 
-  if (mem.think <= 0) {
-    mem.think = rnd(0.25, 0.45);
-    if (dH < 380) {
-      const three = isThree(b.x, b.y);
-      const want = (dD > 100 ? 0.45 : dD > 70 ? 0.2 : 0.03) * (three ? 1 : dH < 220 ? 0.85 : 0.65) * D.aggro;
-      if (Math.random() < want) { botStartShot(b, inp, mem); return; }
-    }
-    if (dD < 58 && b.crossCD <= 0 && Math.random() < 0.28 * D.aggro) {
-      const s = Math.random() < 0.5 ? 1 : -1;
-      const [cx, cy] = norm(hy * s + hx * 0.5, -hx * s + hy * 0.5);
-      inp.dribblePress = true; inp.mx = cx; inp.my = cy; mem.crossDir = [cx, cy]; mem.crossHold = 0.32;
+  mem.playT -= dt;
+  const play = mem.play, open = dD > 75, wideOpen = dD > 110, toSpot = dist(b, mem.spot);
+  // play clock ran out: take what you have
+  if (mem.playT <= 0 && dH < 360) {
+    if (dD < 55 && b.crossCD <= 0 && Math.random() < 0.4) { botCross(b, inp, mem, hx, hy); mem.playT = 0.6; return; }
+    botStartShot(b, inp, mem); return;
+  }
+  if (play === 'pullup' || play === 'three') {
+    const range = play === 'three' ? 330 : 260;
+    if ((toSpot < 28 && (open || Math.random() < 0.03)) || (wideOpen && dH < range && dH > 140 && Math.random() < 0.08)) { botStartShot(b, inp, mem); return; }
+    if (dD < 50 && b.crossCD <= 0 && Math.random() < 0.05 * D.aggro) { botCross(b, inp, mem, hx, hy); return; }
+    steer(inp, b, mem.spot.x, mem.spot.y, 8); inp.sprint = toSpot > 120;
+    return;
+  }
+  if (play === 'iso') {
+    if (toSpot > 60 && mem.moves === 0) { steer(inp, b, mem.spot.x, mem.spot.y, 8); return; }
+    if (mem.moves < 2 && dD < 95 && b.crossCD <= 0 && Math.random() < 0.06) {
+      mem.moves++;
+      if (b.spinCD <= 0 && dH < 240 && Math.random() < 0.3) startSpinMove(b, [hx, hy]); else botCross(b, inp, mem, hx, hy);
       return;
     }
-    if (!mem.spot || Math.random() < 0.15) {
-      const a = rnd(0.3, Math.PI - 0.3);
-      const R = Math.random() < 0.5 ? 280 : 190;
-      mem.spot = { x: HOOP.x + Math.cos(a) * R, y: HOOP.y + Math.sin(a) * R, drive: Math.random() < 0.5 };
+    if (mem.moves >= 1 && dD < 70 && dH > CLOSE_R + 40 && Math.random() < 0.04) { startStepback(b); return; }
+    if ((mem.moves >= 2 || open) && Math.random() < 0.05) {
+      if (laneOpen(b)) { mem.play = 'drive'; mem.spot = playSpot(b, 'drive'); }
+      else { botStartShot(b, inp, mem); return; }
     }
+    // jab and probe at the top
+    steer(inp, b, mem.spot.x + Math.sin(G.time * 3 + b.id) * 30, mem.spot.y, 6); inp.mx *= 0.6; inp.my *= 0.6;
+    return;
   }
-
-  if (!mem.spot) {
-    mem.spot = { x: HOOP.x, y: HOOP.y + 20, drive: true };
+  if (play === 'post') {
+    // back the defender down slowly, then drop-step or hook
+    steer(inp, b, mem.spot.x, mem.spot.y, 6); inp.mx *= 0.7; inp.my *= 0.7;
+    if (toSpot < 30 && Math.random() < 0.03) { if (Math.random() < 0.5) { mem.play = 'drive'; mem.spot = playSpot(b, 'drive'); } else { botStartShot(b, inp, mem); return; } }
+    return;
   }
-  let tx = mem.spot.x, ty = mem.spot.y;
-  if (mem.spot.drive) {
-    tx = HOOP.x; ty = HOOP.y + 10;
-    inp.sprint = dH < 260;
+  if (play === 'kick') {
+    if (dH < 210 && G.mode !== '1v1') {
+      const mate = bestOpenMate(b);
+      if (mate && nearestOppDist(mate) > 70) { passTo(b, mate, {}); mem.play = null; mem.withBall = false; return; }
+      mem.play = 'drive';
+    }
+    steer(inp, b, mem.spot.x, mem.spot.y, 8); inp.sprint = true;
+    return;
   }
-  steer(inp, b, tx, ty, 10);
+  // drive: attack the rim, beat the man in the way with a cross or a spin, pull up if the paint is packed
+  if (dD < 55 && b.crossCD <= 0 && !laneOpen(b) && Math.random() < 0.1 * D.aggro) {
+    if (b.spinCD <= 0 && Math.random() < 0.35) startSpinMove(b, [hx, hy]); else botCross(b, inp, mem, hx, hy);
+    return;
+  }
+  if (!laneOpen(b) && dH > 170 && dD < 45 && Math.random() < 0.03) { mem.play = G.mode !== '1v1' && Math.random() < 0.5 ? 'kick' : 'pullup'; mem.spot = playSpot(b, mem.play); }
+  steer(inp, b, HOOP.x, HOOP.y + 10, 6); inp.sprint = dH < 300;
 }
 
+// mid-range lovers
+const MID_TEND = { jordan: 1.6, kobe: 1.6, durant: 1.4, akashi: 1, kise: 1, aomine: 0.8, mibuchi: 1.2, himuro: 1, rukawa: 1, nash: 1, hyuga: 0.8, luka: 1, lebron: 0.6, kasamatsu: 0.6, sga: 1.6, brunson: 1.2, booker: 1.3, tatum: 1, kawhi: 1.4, george: 1, embiid: 1, mitchell: 0.8, harden: 0.6, kyrie: 1 };
+// nobody standing between the ball handler and the rim
+function laneOpen(b) {
+  const [hx, hy] = norm(HOOP.x - b.x, HOOP.y - b.y), L = dist(b, HOOP);
+  return !oppsOf(b).some(o => {
+    if (o.state === 'fallen') return false;
+    const vx = o.x - b.x, vy = o.y - b.y, along = vx * hx + vy * hy;
+    return along > 0 && along < L && Math.abs(vx * hy - vy * hx) < 45;
+  });
+}
+function pickPlay(b) {
+  const ai = b.char ? b.char.ai : {}, role = b.char ? b.char.role : '', big = /Центровой/.test(role), guard = /Разыгрывающий|Атакующий/.test(role);
+  const dD = nearestOppDist(b), team = G.mode !== '1v1';
+  const w = {
+    pullup: 1 + (MID_TEND[b.char && b.char.id] || 0) + (dD > 80 ? 0.8 : 0),
+    three: 0.8 + (ai.shoot3 || 0) * 1.2 + (guard ? 0.3 : 0) - (big ? 0.6 : 0),
+    drive: 1 + (ai.drive || 0) * 1.2 + (laneOpen(b) ? 1.5 : 0),
+    kick: team ? 0.5 + (ai.pass || 0) : 0,
+    iso: 0.5 + (ai.feint || 0) * 0.9,
+    post: big ? 1.4 + (ai.rim || 0) * 0.5 : 0,
+  };
+  let sum = 0; for (const k in w) { w[k] = Math.max(0, w[k]); sum += w[k]; }
+  let r = Math.random() * sum;
+  for (const k in w) { r -= w[k]; if (r <= 0) return k; }
+  return 'drive';
+}
+function playSpot(b, play) {
+  // aim for the side away from the nearest defender
+  const opp = oppsOf(b).sort((a, c) => dist(a, b) - dist(c, b))[0];
+  const side = opp && opp.x > b.x ? -1 : 1;
+  const ang = clamp(Math.atan2(b.y - HOOP.y, b.x - HOOP.x) + side * rnd(0.15, 0.5), 0.25, Math.PI - 0.25);
+  if (play === 'three') return Math.random() < 0.35 ? { x: HOOP.x + (b.x < HOOP.x ? -1 : 1) * 245, y: HOOP.y + 40 } : { x: HOOP.x + Math.cos(ang) * 285, y: HOOP.y + Math.sin(ang) * 285 };
+  if (play === 'pullup') { const R = rnd(150, 225); return { x: HOOP.x + Math.cos(ang) * R, y: HOOP.y + Math.sin(ang) * R }; }
+  if (play === 'post') { const sd2 = b.x < HOOP.x ? -1 : 1; return { x: HOOP.x + sd2 * rnd(55, 85), y: HOOP.y + rnd(70, 105) }; }
+  if (play === 'iso') return { x: HOOP.x + rnd(-60, 60), y: HOOP.y + rnd(250, 300) };
+  if (play === 'kick') return { x: HOOP.x + rnd(-40, 40), y: HOOP.y + 170 };
+  return { x: HOOP.x, y: HOOP.y + 10 };
+}
+function botCross(b, inp, mem, hx, hy) {
+  const s2 = Math.random() < 0.5 ? 1 : -1, [cx, cy] = norm(hy * s2 + hx * 0.5, -hx * s2 + hy * 0.5);
+  inp.dribblePress = true; inp.mx = cx; inp.my = cy; mem.crossDir = [cx, cy]; mem.crossHold = 0.32;
+}
 function botStartShot(b, inp, mem) {
   const d = dist(b, HOOP);
   inp.shootPress = true; inp.shootDown = true;
@@ -3269,6 +3467,11 @@ function botDefenseFixed(b, inp, dt, mem) {
   if (prof.rim && dHt > 190) { tx = T.x + (HOOP.x - T.x) * 0.55; ty = T.y + (HOOP.y - T.y) * 0.55; }   // rim protector sags into the paint
   if ((prof.lane || flag(b, 'lanes')) && holder && holder.team !== b.team && holder.id !== target.id && G.mode !== '1v1') {   // deny the passing lane
     tx = T.x + (holder.x - T.x) * 0.4; ty = T.y + (holder.y - T.y) * 0.4;
+  }
+  // help defense: the closest other defender steps into the lane when someone drives at the rim
+  if (holder && holder.team !== b.team && holder.id !== target.id && dist(holder, HOOP) < 190 && Math.hypot(holder.vx, holder.vy) > 90) {
+    const helper = P.filter(q => q.team === b.team && q.state !== 'fallen' && P[q.matchupId] !== holder).sort((a, c) => dist(a, holder) - dist(c, holder))[0];
+    if (helper === b) { tx = holder.x + (HOOP.x - holder.x) * 0.45; ty = holder.y + (HOOP.y - holder.y) * 0.45; }
   }
 
   steer(inp, b, tx, ty, 6);
@@ -3296,48 +3499,58 @@ function botDefenseFixed(b, inp, dt, mem) {
   }
 }
 
+const OFF_SPOTS = [[230, 158], [730, 158], [275, 310], [685, 310], [480, 405], [395, 150], [565, 150], [400, 280], [560, 280]];
 function botOffBall(b, inp, dt, mem) {
-  let tx = 480, ty = 430;
-  if (b.roleNum === 1) { tx = 270; ty = 370; }
-  else if (b.roleNum === 2) { tx = 690; ty = 370; }
-  else { tx = 480; ty = 460; }
-
-  if (Math.sin(G.time * 1.5 + b.id) > 0.75) {
-    tx = (tx + HOOP.x) / 2;
-    ty = (ty + HOOP.y) / 2 + 50;
+  const holder = ball.state === 'held' ? P[ball.owner] : null;
+  mem.offT = (mem.offT || 0) - dt; mem.cutT = Math.max(0, (mem.cutT || 0) - dt);
+  const myDef = P.find(o => o.team !== b.team && o.matchupId === b.id);
+  // back-door cut when my defender is far or ball-watching
+  if (mem.cutT <= 0 && holder && myDef && dist(myDef, b) > 85 && dist(b, HOOP) > 160 && Math.random() < dt * 0.6) mem.cutT = 1.3;
+  if (mem.cutT > 0) { steer(inp, b, HOOP.x + (b.x < HOOP.x ? -40 : 40), HOOP.y + 50, 10); inp.sprint = true; return; }
+  // the ball handler is driving: drift to the corner on my side for the kick-out
+  if (holder && holder.team === b.team && holder.id !== b.id && dist(holder, HOOP) < 200) {
+    steer(inp, b, HOOP.x + (b.x < HOOP.x ? -245 : 245), HOOP.y + 45, 12); return;
   }
-  steer(inp, b, tx, ty, 15);
+  // relocate to a free spot every few seconds, spaced from team-mates
+  if (mem.offT <= 0 || !b.offSpot) {
+    mem.offT = rnd(2, 4);
+    const mates = P.filter(q => q.team === b.team && q.id !== b.id);
+    const free = OFF_SPOTS.filter(([x, y]) => mates.every(m => Math.hypot(m.x - x, m.y - y) > 130 && (!m.offSpot || Math.hypot(m.offSpot[0] - x, m.offSpot[1] - y) > 100)));
+    b.offSpot = pick(free.length ? free : OFF_SPOTS);
+  }
+  steer(inp, b, b.offSpot[0], b.offSpot[1], 15);
 }
 
 // SLOWER REBOUNDS FOR BOTS
+// Rebounds like a real player: keep moving (no freezing) while reading the bounce,
+// run to where the ball will come down, wait for it and go up when it drops into reach.
 function botLoose(b, inp, dt, mem) {
   const D = G.diff, me = P[G.userCtrlId];
-  // your CPU team-mates fight for rebounds like a decent human player: human reaction time, a bit slower than you
   const mate = !!me && b.team === me.team;
   const rebBonus = b.char && b.char.ai.reb ? 0.05 * b.char.ai.reb : 0;
+  const crashX = HOOP.x + (b.x - HOOP.x) * 0.35, crashY = HOOP.y + 115;
+  // speed: your team-mates a bit slower than you, opponents scale with difficulty
+  const rs = mate ? Math.min(0.92, 0.8 + rebBonus) : Math.min(0.95, D.rebSpeed * (1 + rebBonus));
   if (ball.state === 'shot') {
-    // box out: drift toward the rebound area while the ball is in the air
-    steer(inp, b, HOOP.x + (b.x - HOOP.x) * 0.3, HOOP.y + 120, 12);
-    const k = mate ? 0.7 : 0.35 + 0.35 * D.rebSpeed;
-    inp.mx *= k; inp.my *= k;
+    // ball in the air: get into rebounding position under the rim, without stopping
+    steer(inp, b, crashX, crashY, 12);
+    inp.mx *= rs; inp.my *= rs;
     return;
   }
-
-  // Init looseDelay on fresh shot for bots
-  if (ball.state === 'loose' && mem.looseDelay <= 0 && dist(b, ball) > 60) {
-    mem.looseDelay = mate ? rnd(0.15, 0.3) : rnd(0.18, 0.32) * (1 / D.reb);
-  }
-  mem.looseDelay = Math.max(0, mem.looseDelay - dt);
-  if (mem.looseDelay > 0) { inp.mx *= 0.1; inp.my *= 0.1; return; }
-
-  steer(inp, b, ball.x + ball.vx * 0.18, ball.y + ball.vy * 0.18, 6);
-  const rs = mate ? Math.min(0.95, 0.82 + rebBonus) : Math.min(1, D.rebSpeed * (b.char && b.char.ai.reb ? 1 + 0.15 * b.char.ai.reb : 1));
+  // read the bounce: where does the ball come down to a catchable height?
+  const zc = 40, g = GRAV_B;
+  let tl = 0.18;
+  if (ball.z > zc) tl = (ball.vz + Math.sqrt(Math.max(0, ball.vz * ball.vz + 2 * g * (ball.z - zc)))) / g;
+  const lx = clamp(ball.x + ball.vx * tl, CT.l + 20, CT.r - 20), ly = clamp(ball.y + ball.vy * tl, CT.t + 20, CT.b - 20);
+  // reaction time: for a moment keep going where you were heading, then commit to the read
+  if (mem.looseStamp !== G.looseStamp) { mem.looseStamp = G.looseStamp; mem.readT = mate ? rnd(0.15, 0.3) : rnd(0.16, 0.3) / Math.max(0.4, D.reb); }
+  mem.readT = Math.max(0, mem.readT - dt);
+  const tx = mem.readT > 0 ? crashX : lx, ty = mem.readT > 0 ? crashY : ly;
+  steer(inp, b, tx, ty, 6);
   inp.mx *= rs; inp.my *= rs;
-  inp.sprint = dist(b, ball) > (mate ? 110 : 80);
-
-  if (ball.z > 50 && ball.z < 100 && dist(b, ball) < 30 && b.jumpCD <= 0 && Math.random() < 0.25) {
-    inp.shootPress = true;
-  }
+  inp.sprint = Math.hypot(tx - b.x, ty - b.y) > 110;
+  // go up for it when it is falling into reach
+  if (ball.z > 45 && ball.z < 110 && ball.vz < 0 && dist(b, ball) < 34 && b.jumpCD <= 0 && Math.random() < 0.3) inp.shootPress = true;
 }
 
 // ---------- flow ----------
