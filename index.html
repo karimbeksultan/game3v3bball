@@ -159,6 +159,8 @@ body{background:radial-gradient(ellipse at 50% -20%,#202b3d 0%,#0e1117 58%);}
 @media (pointer:coarse){.touch-controls{display:flex}.app{padding:6px 8px}.wrap{gap:6px}.legend{display:none}.foot{font-size:10px}.board{padding:6px 8px}.score{font-size:25px}.clock{font-size:17px}.status{font-size:10px}body.playing .stage{touch-action:none}.overlay{padding:8px}.card{max-height:94%;overflow:auto;padding:16px;gap:10px}.seg button{padding:7px 3px;font-size:12px}}
 @media (orientation:portrait) and (pointer:coarse){.touch-controls{padding:10px}.stick{width:118px;height:118px}.stick-knob{width:50px;height:50px;margin:-25px}.touch-actions .touch-shoot{min-width:76px;min-height:76px}}
 /* ---------- menu page / full-screen game ---------- */
+body.playing,body.playing *{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+body.playing #court{touch-action:none}
 .legend,.foot{display:none !important}
 body:not(.playing) #court,body:not(.playing) .board,body:not(.playing) #abilBar,body:not(.playing) .touch-controls{display:none !important}
 body:not(.playing) .stage{border:0;background:transparent;overflow:visible}
@@ -191,6 +193,9 @@ body.playing .overlay{position:fixed;z-index:20}
 .net-box{border:1px solid var(--line);border-radius:10px;padding:10px;background:#0b0e14}
 .net-box .row{align-items:center}
 .net-code{font:400 26px var(--f-display);letter-spacing:.2em;color:var(--led)}
+.net-players{margin:4px 0 8px;padding:0;list-style:none;display:flex;flex-direction:column;gap:3px;font-size:13px}
+#netLobby{display:flex;flex-direction:column;gap:8px}
+#netLobby[hidden]{display:none}
 #netCode{flex:1;min-width:0;padding:10px;border-radius:8px;background:#0e1117;color:var(--fg);border:1px solid var(--line);font:400 18px var(--f-display);letter-spacing:.2em;text-transform:uppercase}
 .rotate-hint{display:none;position:fixed;inset:0;z-index:50;background:rgba(8,10,15,.94);color:var(--fg);flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:24px;font:500 16px var(--f-body)}
 .rotate-hint b{font:400 22px var(--f-display);color:var(--led)} .rotate-hint i{font-style:normal;font-size:54px;animation:rot 1.6s ease-in-out infinite}
@@ -241,7 +246,7 @@ body.playing .overlay{position:fixed;z-index:20}
 <body>
 <div class="rotate-hint" aria-live="polite"><i>📱</i><b>Поверни телефон</b><span>Игра рассчитана на горизонтальный экран</span></div>
 <div class="app">
-  <div class="wrap"><nav class="row" style="margin-bottom:6px"><button class="btn" id="tabGame">Игра</button><button class="btn" id="tabChars">Персонажи</button><button class="btn" id="tabTournament">Турнир</button></nav><section id="charsPage" hidden class="card" style="width:100%;box-sizing:border-box"><h1>Персонажи</h1><p class="lede">15 персонажей. У каждого три техники: <kbd>J</kbd> основная и <kbd>K</kbd> вторая (с перезарядкой), <kbd>L</kbd> — ульта (шкала копится со временем, за очки, перехваты, блоки и анкл брейки). Соперники выбираются случайно из всего состава и пользуются теми же техниками.</p><div class="chars" id="charsGrid"></div><div class="row"><button class="btn primary" id="charsBack" type="button">Играть</button></div></section><section id="tournamentPage" hidden class="card" style="width:100%;box-sizing:border-box"><h1>Турнир <span class="x">3×3 / 1×1</span></h1><p class="lede">48 команд · 12 групп по 4 · 6 матчей у каждой команды · первые две проходят дальше.</p><div class="field"><label class="label" for="teamName">Название твоей команды</label><input id="teamName" maxlength="24" placeholder="Например, Уличные волки" style="padding:10px;border-radius:8px;background:#0b0e14;color:var(--fg);border:1px solid var(--line)"></div><div class="field"><label class="label" for="tournamentMode">Режим турнира</label><select id="tournamentMode" style="padding:10px;border-radius:8px;background:#0b0e14;color:var(--fg);border:1px solid var(--line)"><option value="3v3">Турнир 3 на 3</option><option value="1v1">Турнир 1 на 1</option></select></div><div class="field"><label class="label" for="tournamentDifficulty">Сложность соперников</label><select id="tournamentDifficulty" style="padding:10px;border-radius:8px;background:#0b0e14;color:var(--fg);border:1px solid var(--line)"><option value="easy">Лёгкая</option><option value="normal" selected>Средняя</option><option value="hard">Сложная</option></select></div><div class="row"><button class="btn primary" id="createTournament">Создать турнир</button><button class="btn" id="playTournamentMatch" disabled>Сначала создай турнир</button><button class="btn" id="backGame">Назад к игре</button></div><div id="tournamentGroups"></div></section>
+  <div class="wrap"><nav class="row" style="margin-bottom:6px"><button class="btn" id="tabGame">Игра</button><button class="btn" id="tabChars">Персонажи</button><button class="btn" id="tabTournament">Турнир</button></nav><section id="charsPage" hidden class="card" style="width:100%;box-sizing:border-box"><h1>Персонажи</h1><p class="lede">15 главных персонажей и 9 NPC. У каждого три техники: <kbd>J</kbd> основная и <kbd>K</kbd> вторая (с перезарядкой), <kbd>L</kbd> — ульта (шкала копится со временем, за очки, перехваты, блоки и анкл брейки). Соперники выбираются случайно из всего состава и пользуются теми же техниками.</p><div class="chars" id="charsGrid"></div><div class="row"><button class="btn primary" id="charsBack" type="button">Играть</button></div></section><section id="tournamentPage" hidden class="card" style="width:100%;box-sizing:border-box"><h1>Турнир <span class="x">3×3 / 2×2 / 1×1</span></h1><p class="lede">48 команд · 12 групп по 4 · 6 матчей у каждой команды · первые две проходят дальше.</p><div class="field"><label class="label" for="teamName">Название твоей команды</label><input id="teamName" maxlength="24" placeholder="Например, Уличные волки" style="padding:10px;border-radius:8px;background:#0b0e14;color:var(--fg);border:1px solid var(--line)"></div><div class="field"><label class="label" for="tournamentMode">Режим турнира</label><select id="tournamentMode" style="padding:10px;border-radius:8px;background:#0b0e14;color:var(--fg);border:1px solid var(--line)"><option value="3v3">Турнир 3 на 3</option><option value="2v2">Турнир 2 на 2</option><option value="1v1">Турнир 1 на 1</option></select></div><div class="field"><label class="label" for="tournamentDifficulty">Сложность соперников</label><select id="tournamentDifficulty" style="padding:10px;border-radius:8px;background:#0b0e14;color:var(--fg);border:1px solid var(--line)"><option value="easy">Лёгкая</option><option value="normal" selected>Средняя</option><option value="hard">Сложная</option></select></div><div class="row"><button class="btn primary" id="createTournament">Создать турнир</button><button class="btn" id="playTournamentMatch" disabled>Сначала создай турнир</button><button class="btn" id="backGame">Назад к игре</button></div><div id="tournamentGroups"></div></section>
     <header class="board" aria-live="polite">
       <div class="team you"><span class="tname" id="team0-name">Твоя команда</span><span class="score" id="s0">0</span></div>
       <div class="mid">
@@ -272,6 +277,7 @@ body.playing .overlay{position:fixed;z-index:20}
             <span class="label" id="lbl-mode">Режим игры</span>
             <div class="seg" role="radiogroup" aria-labelledby="lbl-mode" id="mode">
               <button type="button" id="m-3v3" role="radio" aria-checked="true" data-v="3v3">3 на 3 (Команды)</button>
+              <button type="button" id="m-2v2" role="radio" aria-checked="false" data-v="2v2">2 на 2</button>
               <button type="button" id="m-1v1" role="radio" aria-checked="false" data-v="1v1">1 на 1 (Дуэль)</button>
             </div>
           </div>
@@ -298,11 +304,21 @@ body.playing .overlay{position:fixed;z-index:20}
           <details class="ach"><summary>🏆 Достижения: <span id="achCount">0/16</span></summary><ul id="achList"></ul></details>
           <div class="row" id="installRow" hidden><button class="btn" id="installBtn" type="button">📲 Установить как приложение</button></div>
           <p class="note" id="iosTip" hidden>📲 Чтобы играть без браузера: «Поделиться» → «На экран „Домой“». Игра откроется со своей иконки, без адресной строки и вкладок.</p>
-          <div class="field net-box"><span class="label">🌐 Игра по сети · 1 на 1</span>
+          <div class="field net-box"><span class="label">🌐 Игра по сети · до 6 человек</span>
             <div class="row"><button class="btn" id="netHostBtn" type="button">Создать комнату</button><b class="net-code" id="netCodeBox"></b></div>
             <div class="row"><input id="netCode" maxlength="4" autocomplete="off" autocapitalize="characters" placeholder="КОД" aria-label="Код комнаты"><button class="btn" id="netJoinBtn" type="button">Подключиться</button></div>
-            <div class="row" id="netStartRow" hidden><button class="btn primary" id="netStartBtn" type="button">Начать матч</button></div>
-            <p class="note" id="netStatus">Оба открывают этот сайт. Один создаёт комнату и говорит код, второй вводит его. Каждый играет своим выбранным персонажем.</p>
+            <div id="netLobby" hidden>
+              <ul class="net-players" id="netPlayers"></ul>
+              <div class="seg" role="radiogroup" aria-label="Формат" id="netModeSeg">
+                <button type="button" role="radio" aria-checked="true" data-v="1v1">1 на 1</button><button type="button" role="radio" aria-checked="false" data-v="2v2">2 на 2</button><button type="button" role="radio" aria-checked="false" data-v="3v3">3 на 3</button>
+              </div>
+              <div class="seg" role="radiogroup" aria-label="Команды" id="netTeamSeg">
+                <button type="button" role="radio" aria-checked="true" data-v="versus">Друг против друга</button><button type="button" role="radio" aria-checked="false" data-v="together">Вместе против ботов</button>
+              </div>
+              <div class="row" id="netStartRow" hidden><button class="btn primary" id="netStartBtn" type="button">Начать матч</button></div>
+              <div class="row"><button class="btn" id="netTourBtn" type="button" hidden>🏆 Матч турнира вместе</button></div>
+            </div>
+            <p class="note" id="netStatus">Все открывают этот сайт. Один создаёт комнату и говорит код, остальные вводят его (до 6 человек). Каждый играет своим выбранным персонажем, пустые места займут боты. Для турнира: создай турнир во вкладке «Турнир», и друзья сыграют его матчи в твоей команде.</p>
           </div>
           <p class="note touch-tip">На телефоне играй горизонтально: джойстик слева (потяни сильнее — рывок), кнопки справа, <b>II</b> — пауза.</p>
           <p class="note kb-note">Пауза и настройки: <kbd>P</kbd> или <kbd>Esc</kbd>. Звук: <kbd>M</kbd>.</p>
@@ -779,12 +795,14 @@ const sfx = (() => {
   return api;
 })();
 
-// ---------- online 1v1 (WebRTC via PeerJS) ----------
-// The host runs the whole simulation; the guest only sends its controls and draws the host's snapshots.
-const NET = { role: null, peer: null, conn: null, active: false, peerChar: null, last: null, sfxQ: [], rin: { mx: 0, my: 0, sprint: false, shootDown: false }, rp: {}, built: false, overShown: false };
+// ---------- online play (WebRTC via PeerJS): rooms for up to 6 people ----------
+// The host runs the whole simulation; guests send their controls and draw the host's snapshots.
+const NET = { role: null, peer: null, conn: null, peers: [], active: false, last: null, sfxQ: [], you: -1, built: false, overShown: false, mode: '1v1', together: false };
 const isGuest = () => NET.active && NET.role === 'guest';
+const netHostHasGuests = () => NET.role === 'host' && NET.peers.some(e => e.conn.open && e.char);
 NET.send = m => { try { if (NET.conn && NET.conn.open) NET.conn.send(m); } catch (e) {} };
-// record every sound the host plays so the guest hears the same game
+NET.broadcast = m => { for (const e of NET.peers) { try { if (e.conn.open) e.conn.send(m); } catch (er) {} } };
+// record every sound the host plays so the guests hear the same game
 {
   const skip = new Set(['init', 'toggle', 'setHype', '_level']);
   for (const k of Object.keys(sfx)) {
@@ -803,13 +821,28 @@ function loadPeer() {
   });
 }
 function netStatus(t) { const n = document.getElementById('netStatus'); if (n) n.textContent = t; }
+function netLobby() {
+  const box = document.getElementById('netLobby'); if (!box) return;
+  const host = NET.role === 'host';
+  box.hidden = !host;
+  if (!host) return;
+  const me = charById(selectedCharId);
+  const list = ['<li>👑 Ты — ' + (me ? me.name : '?') + '</li>'].concat(NET.peers.map((e, i) => '<li>' + (i + 2) + '. ' + (e.char ? charById(e.char).name : 'подключается…') + '</li>'));
+  document.getElementById('netPlayers').innerHTML = list.join('');
+  const humans = 1 + NET.peers.filter(e => e.char).length;
+  document.getElementById('netStartRow').hidden = humans < 2;
+  const tb = document.getElementById('netTourBtn');
+  tb.hidden = !(tournament && !tournament.done) || humans < 2;
+  if (!tb.hidden) tb.textContent = '🏆 Матч турнира вместе (' + ({ '3v3': '3 на 3', '2v2': '2 на 2', '1v1': '1 на 1' }[tournament.mode]) + ')';
+}
 function netLeave(quiet) {
-  if (NET.conn && !quiet) NET.send({ t: 'bye' });
+  if (!quiet) { NET.send({ t: 'bye' }); NET.broadcast({ t: 'bye' }); }
   try { NET.conn && NET.conn.close(); } catch (e) {}
+  for (const e of NET.peers) { try { e.conn.close(); } catch (er) {} }
   try { NET.peer && NET.peer.destroy(); } catch (e) {}
-  Object.assign(NET, { role: null, peer: null, conn: null, active: false, peerChar: null, last: null, sfxQ: [], rp: {}, built: false, overShown: false });
-  document.getElementById('netStartRow').hidden = true;
+  Object.assign(NET, { role: null, peer: null, conn: null, peers: [], active: false, last: null, sfxQ: [], you: -1, built: false, overShown: false });
   document.getElementById('netCodeBox').textContent = '';
+  netLobby();
 }
 function netLost(msg) {
   const wasPlaying = NET.active;
@@ -817,15 +850,7 @@ function netLost(msg) {
   if (wasPlaying) toMenu();
   netStatus(msg || 'Соединение потеряно.');
 }
-function wireConn(conn) {
-  conn.on('open', () => {
-    conn.send({ t: 'hello', char: selectedCharId });
-    if (NET.role === 'guest') netStatus('Подключено! Ждём, пока хост начнёт матч…');
-  });
-  conn.on('data', onNetData);
-  conn.on('close', () => { if (NET.conn === conn) netLost('Соперник отключился.'); });
-  conn.on('error', () => { if (NET.conn === conn) netLost('Ошибка соединения.'); });
-}
+// ---- host side ----
 async function netHost() {
   try { await loadPeer(); } catch (e) { netStatus('Не удалось загрузить сетевой модуль — проверь интернет.'); return; }
   netLeave(true);
@@ -833,59 +858,78 @@ async function netHost() {
   const peer = new Peer('bball3x3-' + code);
   NET.peer = peer; NET.role = 'host';
   netStatus('Создаём комнату…');
-  peer.on('open', () => { document.getElementById('netCodeBox').textContent = code; netStatus('Комната создана. Скажи код второму игроку и жди подключения.'); });
-  peer.on('connection', conn => { if (NET.conn) { conn.close(); return; } NET.conn = conn; wireConn(conn); });
-  peer.on('error', e => { if (e.type === 'unavailable-id') netHost(); else netStatus('Ошибка сети: ' + e.type); });
+  peer.on('open', () => { document.getElementById('netCodeBox').textContent = code; netStatus('Комната создана. Скажи код друзьям (до 5 человек) и жди подключения.'); netLobby(); });
+  peer.on('connection', conn => {
+    if (NET.peers.length >= 5) { conn.on('open', () => { conn.send({ t: 'full' }); setTimeout(() => conn.close(), 300); }); return; }
+    const e = { id: conn.peer, conn, char: null, rin: { mx: 0, my: 0, sprint: false, shootDown: false }, rp: {}, pid: -1 };
+    NET.peers.push(e);
+    conn.on('data', m => onHostData(e, m));
+    conn.on('close', () => hostDropPeer(e));
+    conn.on('error', () => hostDropPeer(e));
+    netLobby();
+  });
+  peer.on('error', er => { if (er.type === 'unavailable-id') netHost(); else netStatus('Ошибка сети: ' + er.type); });
 }
-async function netJoin(code) {
-  code = String(code || '').trim().toUpperCase();
-  if (code.length !== 4) { netStatus('Введи код из 4 символов.'); return; }
-  try { await loadPeer(); } catch (e) { netStatus('Не удалось загрузить сетевой модуль — проверь интернет.'); return; }
-  netLeave(true);
-  const peer = new Peer();
-  NET.peer = peer; NET.role = 'guest';
-  netStatus('Подключаемся к комнате ' + code + '…');
-  peer.on('open', () => { const conn = peer.connect('bball3x3-' + code, { serialization: 'json', reliable: true }); NET.conn = conn; wireConn(conn); });
-  peer.on('error', e => netStatus(e.type === 'peer-unavailable' ? 'Комната ' + code + ' не найдена — проверь код.' : 'Ошибка сети: ' + e.type));
+function hostDropPeer(e) {
+  if (!NET.peers.includes(e)) return;
+  NET.peers = NET.peers.filter(x => x !== e);
+  const pl = P.find(p => p.remote === e.id);
+  if (pl) { pl.remote = null; pl.isBot = true; popup(pl.x, pl.y - 96, 'ИГРОК ОТКЛЮЧИЛСЯ — ИГРАЕТ БОТ', '#cfd6e4', 13); }
+  netStatus((e.char ? charById(e.char).name : 'Игрок') + ' отключился.');
+  netLobby();
 }
-function netStartMatch() {
-  if (NET.role !== 'host' || !NET.conn || !NET.conn.open || !NET.peerChar) return;
-  document.getElementById('m-1v1').click();
-  NET.active = true; tournament = null; G.target = selectedTarget();
-  startGame();
-  setupChar(P[1], charById(NET.peerChar) || CHARS[0]);
-  P[1].remote = true; P[1].isBot = false;
-  buildAbilBar();
-  el('team0-name').textContent = P[0].char.short; el('team1-name').textContent = P[1].char.short + ' · сеть';
-  NET.send({ t: 'start' });
-}
-function onNetData(m) {
+function onHostData(e, m) {
   if (!m || !m.t) return;
-  if (m.t === 'hello') {
-    NET.peerChar = charById(m.char) ? m.char : 'aomine';
-    if (NET.role === 'host') { netStatus('Подключился соперник: ' + charById(NET.peerChar).name + '. Жми «Начать матч».'); document.getElementById('netStartRow').hidden = false; }
-  } else if (m.t === 'start' && NET.role === 'guest') {
-    NET.active = true; NET.built = false; NET.overShown = false;
-    G.mode = '1v1'; G.userCtrlId = 1; G.paused = false;
-    document.body.classList.add('playing'); requestAnimationFrame(resize);
-    showCard(null);
-  } else if (m.t === 's' && NET.role === 'guest') NET.last = m;
-  else if (m.t === 'in' && NET.role === 'host') {
-    Object.assign(NET.rin, { mx: +m.i.mx || 0, my: +m.i.my || 0, sprint: !!m.i.sprint, shootDown: !!m.i.shootDown });
-    for (const k of ['shootPress', 'shootUp', 'dribblePress', 'passPress']) if (m.i[k]) NET.rp[k] = true;
-    for (const k of ['J', 'K', 'L', 'T', 'Y']) if (m.k && m.k[k]) NET.rp[k] = true;
-  } else if (m.t === 'pause' && NET.role === 'host' && NET.active) setPaused(!!m.v);
-  else if (m.t === 'bye') netLost('Соперник вышел из игры.');
+  if (m.t === 'hello') { e.char = charById(m.char) ? m.char : 'aomine'; netStatus('Подключился: ' + charById(e.char).name + '.'); netLobby(); }
+  else if (m.t === 'in') {
+    Object.assign(e.rin, { mx: +m.i.mx || 0, my: +m.i.my || 0, sprint: !!m.i.sprint, shootDown: !!m.i.shootDown });
+    for (const k of ['shootPress', 'shootUp', 'dribblePress', 'passPress']) if (m.i[k]) e.rp[k] = true;
+    for (const k of ['J', 'K', 'L', 'T', 'Y']) if (m.k && m.k[k]) e.rp[k] = true;
+  } else if (m.t === 'pause' && NET.active) setPaused(!!m.v);
+  else if (m.t === 'bye') hostDropPeer(e);
 }
-// host: the remote player's controls for this frame
+// who plays where: 'together' = all humans in your team vs bots, otherwise humans alternate between teams
+function netStartMatch(fromTournament) {
+  if (!netHostHasGuests()) return;
+  const mode = fromTournament ? tournament.mode : NET.mode, together = fromTournament || NET.together;
+  const size = { '1v1': 1, '2v2': 2, '3v3': 3 }[mode];
+  const guests = NET.peers.filter(e => e.conn.open && e.char);
+  const humans = 1 + guests.length;
+  if (together && humans > size) { netStatus('Вместе против ботов в режиме ' + size + ' на ' + size + ' помещается максимум ' + size + ' игрока. Выбери формат побольше.'); return; }
+  if (!together && humans > size * 2) { netStatus('Для ' + humans + ' игроков выбери формат побольше.'); return; }
+  if (mode === '1v1' && together) { netStatus('В 1 на 1 вместе играть нельзя — выбери «Друг против друга».'); return; }
+  const btn = document.getElementById('m-' + mode); if (btn) btn.click();
+  if (!fromTournament) { tournament = null; G.target = selectedTarget(); }
+  NET.active = true; NET.you = 0;
+  startGame();
+  // seat the guests: host is always player 0 (team 0)
+  const t0 = P.filter(p => p.team === 0), t1 = P.filter(p => p.team === 1);
+  let i0 = 1, i1 = 0;
+  guests.forEach((e, k) => {
+    const toTeam1 = !together && k % 2 === 0;
+    const p = toTeam1 ? t1[i1++] : t0[i0++];
+    if (!p) { e.pid = -1; return; }
+    setupChar(p, charById(e.char)); p.remote = e.id; p.isBot = false; e.pid = p.id;
+  });
+  // bots never wear a character a human picked
+  const taken = new Set(P.filter(p => p.id === 0 || p.remote).map(p => p.char.id));
+  P.forEach(p => { if (p.id !== 0 && !p.remote && taken.has(p.char.id)) { const c = pick(CHARS.filter(x => !taken.has(x.id))); setupChar(p, c); taken.add(c.id); } });
+  buildAbilBar();
+  el('team0-name').textContent = together ? 'Ваша команда' : 'Команда A'; el('team1-name').textContent = together ? 'Боты' : 'Команда B';
+  if (tournament) { el('team0-name').textContent = tournamentTeams[0] || 'Ваша команда'; el('team1-name').textContent = tournamentOpponent(); }
+  for (const e of NET.peers) { try { if (e.conn.open) e.conn.send({ t: 'start', you: e.pid, names: [el('team0-name').textContent, el('team1-name').textContent] }); } catch (er) {} }
+}
+// host: a remote player's controls for this frame
 function netRemoteInput(p) {
-  const r = NET.rp; NET.rp = {};
+  const e = NET.peers.find(x => x.id === p.remote);
+  if (!e) return emptyInput();
+  const r = e.rp; e.rp = {};
   if (G.phase === 'live') {
     if (r.T) doTaunt(p);
     if (r.Y) userDance(p);
     for (const k of ['J', 'K', 'L']) if (r[k]) useAbility(p, k, true);
   }
-  return { mx: NET.rin.mx, my: NET.rin.my, sprint: NET.rin.sprint, shootDown: NET.rin.shootDown, shootPress: !!r.shootPress, shootUp: !!r.shootUp, dribblePress: !!r.dribblePress, passPress: !!r.passPress };
+  return { mx: e.rin.mx, my: e.rin.my, sprint: e.rin.sprint, shootDown: e.rin.shootDown, shootPress: !!r.shootPress, shootUp: !!r.shootUp, dribblePress: !!r.dribblePress, passPress: !!r.passPress };
 }
 const G_SYNC = ['score', 'clock', 'phase', 'phaseT', 'offense', 'needsClear', 'banner', 'popups', 'bubbles', 'dunkScene', 'fireBurst', 'ashScene', 'shards', 'confetti', 'flashes', 'parts', 'rings', 'zones', 'vs', 'slowT', 'shake', 'rimShake', 'net', 'boardBroken', 'ticker', 'time', 'winner', 'hype', 'mode', 'target', 'paused', 'deadMsg', 'match'];
 function netSnapshot() {
@@ -902,10 +946,46 @@ function netSnapshot() {
   return { t: 's', g, p: ps, b: Object.assign({}, ball), sfx: NET.sfxQ.splice(0) };
 }
 function netHostSend() {
-  if (!NET.active || NET.role !== 'host' || !NET.conn || !NET.conn.open) return;
-  const dc = NET.conn.dataChannel;
-  if (dc && dc.bufferedAmount > 256 * 1024) return;   // slow link: skip a frame instead of piling up lag
-  NET.send(netSnapshot());
+  if (!NET.active || NET.role !== 'host' || !NET.peers.length) return;
+  const snap = netSnapshot();
+  for (const e of NET.peers) {
+    if (!e.conn.open) continue;
+    const dc = e.conn.dataChannel;
+    if (dc && dc.bufferedAmount > 256 * 1024) continue;   // slow link: skip a frame for that player instead of piling up lag
+    try { e.conn.send(snap); } catch (er) {}
+  }
+}
+// ---- guest side ----
+async function netJoin(code) {
+  code = String(code || '').trim().toUpperCase();
+  if (code.length !== 4) { netStatus('Введи код из 4 символов.'); return; }
+  try { await loadPeer(); } catch (e) { netStatus('Не удалось загрузить сетевой модуль — проверь интернет.'); return; }
+  netLeave(true);
+  const peer = new Peer();
+  NET.peer = peer; NET.role = 'guest';
+  netStatus('Подключаемся к комнате ' + code + '…');
+  peer.on('open', () => {
+    const conn = peer.connect('bball3x3-' + code, { serialization: 'json', reliable: true });
+    NET.conn = conn;
+    conn.on('open', () => { conn.send({ t: 'hello', char: selectedCharId }); netStatus('Подключено! Ждём, пока хост начнёт матч…'); });
+    conn.on('data', onGuestData);
+    conn.on('close', () => { if (NET.conn === conn) netLost('Хост закрыл комнату.'); });
+    conn.on('error', () => { if (NET.conn === conn) netLost('Ошибка соединения.'); });
+  });
+  peer.on('error', e => netStatus(e.type === 'peer-unavailable' ? 'Комната ' + code + ' не найдена — проверь код.' : 'Ошибка сети: ' + e.type));
+}
+function onGuestData(m) {
+  if (!m || !m.t) return;
+  if (m.t === 'start') {
+    NET.active = true; NET.built = false; NET.overShown = false; NET.you = typeof m.you === 'number' ? m.you : -1; NET.names = m.names;
+    G.userCtrlId = NET.you; G.paused = false;
+    document.body.classList.add('playing'); requestAnimationFrame(resize);
+    showCard(null);
+    if (NET.you < 0) netStatus('Ты зритель: в этом формате не хватило места.');
+  } else if (m.t === 's') NET.last = m;
+  else if (m.t === 'full') netLost('Комната заполнена (максимум 6 игроков).');
+  else if (m.t === 'lobby') { NET.active = false; toMenu(); netStatus('Хост вернулся в меню — жди следующий матч.'); }
+  else if (m.t === 'bye') netLost('Хост закрыл комнату.');
 }
 function netApply(s) {
   const wasPaused = G.paused;
@@ -914,8 +994,13 @@ function netApply(s) {
   for (const k in s.g) if (k !== 'cutin') G[k] = s.g[k];
   G.cutin = s.g.cutin ? Object.assign({}, s.g.cutin, { p: P[s.g.cutin.pid] }) : null;
   Object.assign(ball, s.b);
+  G.userCtrlId = NET.you;
   for (const [k, a] of s.sfx || []) if (sfx[k]) sfx[k](...a);
-  if (!NET.built && P[1] && P[1].char) { NET.built = true; buildAbilBar(); el('team0-name').textContent = P[0].char.short + ' · сеть'; el('team1-name').textContent = P[1].char.short; }
+  if (!NET.built && P.every(p => p.char)) {
+    NET.built = true; buildAbilBar();
+    const n = NET.names || ['Команда A', 'Команда B'], myTeam = P[NET.you] ? P[NET.you].team : -1;
+    el('team0-name').textContent = n[0] + (myTeam === 0 ? ' · ты' : ''); el('team1-name').textContent = n[1] + (myTeam === 1 ? ' · ты' : '');
+  }
   if (G.paused !== wasPaused && G.phase !== 'over') showCard(G.paused ? 'pause' : null);
 }
 // guest: draw the host's game and send our controls
@@ -923,9 +1008,10 @@ function guestFrame(real) {
   if (NET.last) { netApply(NET.last); NET.last = null; }
   if (G.phase === 'over' && !NET.overShown) {
     NET.overShown = true;
+    const myTeam = P[NET.you] ? P[NET.you].team : 0;
     endGame();
-    el('over-title').textContent = G.winner === 1 ? 'Победа' : 'Поражение';
-    el('over-score').textContent = G.score[1] + ' : ' + G.score[0];
+    el('over-title').textContent = G.winner === myTeam ? 'Победа' : 'Поражение';
+    el('over-score').textContent = G.score[myTeam] + ' : ' + G.score[1 - myTeam];
     el('over-eyebrow').textContent = 'Игра по сети · хост может начать ещё раз';
     el('again').hidden = true; el('tournamentNext').hidden = true;
   }
@@ -1027,6 +1113,12 @@ function initPlayers(mode) {
     P.push(newPlayer(3, 1, 0, '01'));
     P.push(newPlayer(4, 1, 1, '02'));
     P.push(newPlayer(5, 1, 2, '03'));
+  } else if (mode === '2v2') {
+    P.push(newPlayer(0, 0, 0, '23'));
+    P.push(newPlayer(1, 0, 1, '11'));
+    P.push(newPlayer(2, 1, 0, '01'));
+    P.push(newPlayer(3, 1, 1, '02'));
+    P.forEach(q => { q.matchupId = q.team === 0 ? q.id + 2 : q.id - 2; });
   } else {
     P.push(newPlayer(0, 0, 0, '23'));
     const bot = newPlayer(1, 1, 0, '07');
@@ -1235,13 +1327,13 @@ const ABIL = {
   phantom: { name: 'ФАНТОМНЫЙ ПАС', jp: '幻の六人目のパス', cd: 7, need: need.ball, desc: '3×3: молниеносный пас самому открытому — перехватить почти невозможно, получатель бросает +15%. 1×1: «Исчезающий проход» — рывок к кольцу, защитник теряет тебя.',
     run: (p, pw) => {
       const mate = bestOpenMate(p);
-      if (G.mode === '3v3' && mate) { if (p.id === G.userCtrlId) popup(p.x, p.y - 100, 'ФАНТОМНЫЙ ПАС', '#9fe7ff', 15); return passTo(p, mate, { speed: 2.2, safe: 0.2, assist: 0.15 * pw }); }
+      if (G.mode !== '1v1' && mate) { if (p.id === G.userCtrlId) popup(p.x, p.y - 100, 'ФАНТОМНЫЙ ПАС', '#9fe7ff', 15); return passTo(p, mate, { speed: 2.2, safe: 0.2, assist: 0.15 * pw }); }
       addBuff(p, { id: 'vanish', dur: 1.5, power: pw, mods: { hide: 0.9, spd: 1.25, ankle: 0.2, afterimage: true } }); driveBurst(p, true, 0.3);
       if (p.id === G.userCtrlId) popup(p.x, p.y - 100, 'ИСЧЕЗАЮЩИЙ ПРОХОД', '#9fe7ff', 15); return true;
-    }, ai: (p, s) => s.has && (G.mode !== '3v3' || s.dD < 120) },
+    }, ai: (p, s) => s.has && (G.mode === '1v1' || s.dD < 120) },
   overflow: { name: 'ПЕРЕГРУЗКА МИСДИРЕКШНА', jp: 'ミスディレクション・オーバーフロー', ult: true, desc: '5 с: все соперники отвлечены — хуже опекают любого и медленнее реагируют, напарники бросают +10%. В 1×1 ты почти невидим и бросаешь +15%.',
     run: (p) => {
-      if (G.mode === '3v3') { oppDebuff(p, { id: 'distracted', dur: 5, mods: { blind: 0.6, react: 1.8 } }); teamBuff(p, false, { id: 'open', dur: 5, mods: { shot: 0.1 } }); addBuff(p, { id: 'overflow', dur: 5, mods: { hide: 0.85, afterimage: true } }); }
+      if (G.mode !== '1v1') { oppDebuff(p, { id: 'distracted', dur: 5, mods: { blind: 0.6, react: 1.8 } }); teamBuff(p, false, { id: 'open', dur: 5, mods: { shot: 0.1 } }); addBuff(p, { id: 'overflow', dur: 5, mods: { hide: 0.85, afterimage: true } }); }
       else addBuff(p, { id: 'overflow', dur: 5, mods: { hide: 0.9, shot: 0.15, afterimage: true } });
       return true;
     }, ai: (p, s) => s.mateHas || s.has },
@@ -1283,13 +1375,13 @@ const ABIL = {
   precision: { name: 'ТОЧНЫЙ ПАС', jp: '精密パス', cd: 6, need: need.ball, desc: '3×3: быстрый точный пас самому открытому (перехват −75%), получатель бросает +12%. 1×1: 3 с броски +12% и опека мешает меньше.',
     run: (p, pw) => {
       const mate = bestOpenMate(p);
-      if (G.mode === '3v3' && mate) return passTo(p, mate, { speed: 1.8, safe: 0.25, assist: 0.12 * pw });
+      if (G.mode !== '1v1' && mate) return passTo(p, mate, { speed: 1.8, safe: 0.25, assist: 0.12 * pw });
       addBuff(p, { id: 'hawk_drive', dur: 3, power: pw, mods: { shot: 0.12, contest: 0.3 } }); return true;
-    }, ai: (p, s) => s.has && (G.mode !== '3v3' || s.dD < 110) },
+    }, ai: (p, s) => s.has && (G.mode === '1v1' || s.dD < 110) },
   hawk_vision: { name: 'ВЗГЛЯД ЯСТРЕБА', jp: 'ホークアイ・全視界', ult: true, desc: '7 с: вся площадка как на ладони, напарники быстрее на 10% и бросают +8% (быстрый отрыв). В 1×1: скорость +15%, броски +12%, перехваты +10%.',
     run: (p) => {
       addBuff(p, { id: 'hawk_vision', dur: 7, mods: { vision: true, seeHidden: true, react: 0.75 } });
-      if (G.mode === '3v3') teamBuff(p, true, { id: 'fastbreak', dur: 7, mods: { spd: 1.1, shot: 0.08 } });
+      if (G.mode !== '1v1') teamBuff(p, true, { id: 'fastbreak', dur: 7, mods: { spd: 1.1, shot: 0.08 } });
       else addBuff(p, { id: 'fastbreak', dur: 7, mods: { spd: 1.15, shot: 0.12, steal: 0.1 } });
       return true;
     }, ai: (p, s) => s.mateHas || s.has },
@@ -1297,7 +1389,7 @@ const ABIL = {
   eagle: { name: 'ОРЛИНЫЙ ГЛАЗ', jp: 'イーグルアイ', cd: 10, desc: '6 с: видишь линии передач соперника, перехватываешь пасы с дальше (+16), перехваты +8%, мисдирекшн не действует.',
     run: buffRun('eagle', 6, { lanes: true, intercept: 16, icept: 0.15, react: 0.8, steal: 0.08, seeHidden: true }), ai: (p, s) => s.oppHas },
   predict_pass: { name: 'ПРЕДСКАЗАНИЕ ПЕРЕХВАТА', jp: 'パスカット予測', cd: 8, desc: '3 с: любой пас рядом с тобой перехватывается с шансом 55% (радиус +34). В 1×1 — перехват дриблинга +20%.',
-    run: (p, pw) => { addBuff(p, { id: 'predict_pass', dur: 3, power: pw, mods: G.mode === '3v3' ? { lanes: true, intercept: 34, icept: 0.55 } : { steal: 0.2, react: 0.6 } }); return true; },
+    run: (p, pw) => { addBuff(p, { id: 'predict_pass', dur: 3, power: pw, mods: G.mode !== '1v1' ? { lanes: true, intercept: 34, icept: 0.55 } : { steal: 0.2, react: 0.6 } }); return true; },
     ai: (p, s) => s.oppHas && s.holder && dist(p, s.holder) < 200 },
   eagle_control: { name: 'КОНТРОЛЬ ОРЛИНОГО ГЛАЗА', jp: '鷲の鉤爪', ult: true, desc: '6 с: ты перехватываешь пасы в огромном радиусе (+40, шанс 60%), вся команда +16 к радиусу перехвата и +10% к перехватам.',
     run: (p) => { teamBuff(p, false, { id: 'eagle_team', dur: 6, mods: { intercept: 16, icept: 0.2, steal: 0.1 } }); addBuff(p, { id: 'eagle_control', dur: 6, mods: { lanes: true, intercept: 40, icept: 0.6, steal: 0.12, seeHidden: true } }); return true; },
@@ -1335,6 +1427,51 @@ const ABIL = {
     run: (p) => { addBuff(p, { id: 'monster_dunk', dur: 2, mods: { dunkGuard: 0.5, lay: 0.2 } }); p.dunkName = 'МОНСТР-ДАНК'; p.state = 'idle'; startDrive(p, 'dunk'); return true; },
     ai: (p, s) => s.has && s.dH < 220 },
 };
+// ---- techniques of the side characters (NPC) ----
+Object.assign(ABIL, {
+  barrier_jumper: { name: 'БАРЬЕР-ДЖАМПЕР', jp: 'バリアジャンパー', cd: 9, desc: '4 с: бросок с отклонением назад — опека мешает на 55% меньше, накрыть труднее.',
+    run: buffRun('barrier_jumper', 4, { contest: 0.55, shot: 0.06, bw: 0.5 }), ai: (p, s) => s.has && s.dD < 110 && s.dH > 140 },
+  captain: { name: 'КАПИТАНСКИЙ ПРИЗЫВ', jp: 'キャプテンの檄', cd: 14, desc: '5 с: вся команда быстрее на 8%, бросает +5% и реагирует быстрее.',
+    run: (p, pw) => { teamBuff(p, true, { id: 'captain', dur: 5, power: pw, mods: { spd: 1.08, shot: 0.05, react: 0.85 } }); return true; }, ai: (p, s) => s.has || s.mateHas },
+  clutch: { name: 'КЛАТЧ-ТАЙМ', jp: 'クラッチタイム', ult: true, desc: '6 с: в решающий момент броски +20%, опека мешает вдвое меньше.',
+    run: buffRun('clutch', 6, { shot: 0.2, contest: 0.5 }), ai: (p, s) => s.has },
+  speed_drive: { name: 'СКОРОСТНОЙ ПРОХОД', jp: 'スピードドライブ', cd: 8, need: p => hasBall(p) ? null : 'нужен мяч', desc: '2.5 с: рывок к кольцу, скорость +30%, добивание +12%.',
+    run: (p, pw) => { addBuff(p, { id: 'speed_drive', dur: 2.5, power: pw, mods: { spd: 1.3, lay: 0.12 } }); driveBurst(p, true, 0.3); return true; }, ai: (p, s) => s.has && s.dH > 130 && s.dH < 330 },
+  leader_ult: { name: 'ДУХ КАПИТАНА', jp: 'キャプテンの意地', ult: true, desc: '6 с: вся команда быстрее на 12%, бросает +10%, перехваты +8%.',
+    run: (p) => { teamBuff(p, true, { id: 'leader_ult', dur: 6, mods: { spd: 1.12, shot: 0.1, steal: 0.08 } }); return true; }, ai: (p, s) => s.has || s.mateHas },
+  mind_read: { name: 'ЧТЕНИЕ МЫСЛЕЙ', jp: '読心術', cd: 11, desc: '4 с: предугадываешь движения соперников рядом, реакция быстрее, перехваты +12%.',
+    run: buffRun('mind_read', 4, { predict: true, react: 0.7, steal: 0.12, seeHidden: true }), ai: (p, s) => s.oppHas },
+  sly_trap: { name: 'ХИТРАЯ ЛОВУШКА', jp: '策略', cd: 10, need: need.opp, desc: 'Ближайший соперник на 3 с теряется: реагирует медленнее и хуже видит свою цель.',
+    run: (p, pw) => { const t = pillageTarget(p); addBuff(t, { id: 'confused', dur: 3 * pw, debuff: true, mods: { react: 1.6, blind: 0.3 } }); popup(t.x, t.y - 86, '?!', '#ffffff', 16); return true; }, ai: (p, s) => s.oppHas },
+  imayoshi_ult: { name: 'ГЕНИЙ ТАКТИКИ', jp: '妖怪の策', ult: true, desc: '5 с: все соперники хуже следят за игроками и медленнее реагируют, ты перехватываешь +20%.',
+    run: (p) => { oppDebuff(p, { id: 'confused', dur: 5, mods: { blind: 0.4, react: 1.5 } }); addBuff(p, { id: 'imayoshi_ult', dur: 5, mods: { steal: 0.2, predict: true } }); return true; }, ai: (p, s) => s.oppHas },
+  quick_release: { name: 'БЫСТРЫЙ БРОСОК', jp: 'クイックリリース', cd: 7, desc: 'До следующего броска: зелёная зона ×1.3, бросок +8%, накрыть труднее.',
+    run: buffRun('quick_release', 6, { sweet: 1.3, shot: 0.08, bw: 0.6 }, { untilShot: true }), ai: (p, s) => s.has && s.dH > 180 && s.dD > 60 },
+  apology: { name: 'ПРОСТИТЕ!', jp: 'すみません！', cd: 10, desc: '3 с: извиняется — и забивает: бросок +10%, опека мешает меньше.',
+    run: buffRun('apology', 3, { shot: 0.1, contest: 0.4 }), ai: (p, s) => s.has && s.dD < 120 },
+  sakurai_ult: { name: 'ШКВАЛ ТРЁХОЧКОВЫХ', jp: '連続スリー', ult: true, desc: 'До броска (8 с): нет штрафа за дистанцию, зелёная зона ×1.8, бросок +18%.',
+    run: buffRun('sakurai_ult', 8, { longRange: true, sweet: 1.8, shot: 0.18 }, { untilShot: true }), ai: (p, s) => s.has },
+  rebound_king: { name: 'КОРОЛЬ ПОДБОРА', jp: 'リバウンド王', cd: 9, desc: '5 с: подбор с дальней дистанции (+34), тебя не сдвинуть, мяч не выбить.',
+    run: buffRun('rebound_king', 5, { reb: 34, push: 2, stealRes: 0.6 }), ai: (p, s) => s.loose || (s.oppHas && dist(p, HOOP) < 170) },
+  post_block: { name: 'СТЕНА', jp: '壁', cd: 9, desc: '4 с: радиус блока +28, шанс ×1.4, прыжок выше.',
+    run: buffRun('post_block', 4, { blockR: 28, blockCh: 1.4, jump: 1.15 }), ai: (p, s) => s.oppHas && s.holder && dist(s.holder, HOOP) < 230 },
+  big_ult: { name: 'ХОЗЯИН КРАСКИ', jp: 'ペイントの主', ult: true, desc: '6 с: огромный радиус блока, подбор и сила в контакте.',
+    run: buffRun('big_ult', 6, { blockR: 45, blockCh: 1.8, reb: 30, push: 2.5 }), ai: (p, s) => s.oppHas || s.loose },
+  lightning: { name: 'МОЛНИЕНОСНЫЙ ДРИБЛИНГ', jp: '雷轟のドリブル', cd: 8, need: p => hasBall(p) ? null : 'нужен мяч', desc: '3 с: скорость +25%, анкл брейки +25%, мяч трудно выбить.',
+    run: (p, pw) => { addBuff(p, { id: 'lightning', dur: 3, power: pw, mods: { spd: 1.25, ankle: 0.25, stealRes: 0.6 } }); driveBurst(p, false, 0.2); return true; }, ai: (p, s) => s.has && s.dD < 110 },
+  lightning_ult: { name: 'ПЯТЬ ПАЛЬЦЕВ', jp: '五指のドリブル', ult: true, desc: '5 с: скорость +30%, анкл брейки +35%, добивание +12%.',
+    run: buffRun('lightning_ult', 5, { spd: 1.3, ankle: 0.35, stealRes: 0.4, lay: 0.12 }), ai: (p, s) => s.has },
+  heaven_shot: { name: 'НЕБЕСНЫЙ БРОСОК', jp: '天の射', cd: 9, desc: 'До броска: высокая дуга, опека мешает на 40% меньше, зелёная зона ×1.25.',
+    run: buffRun('heaven_shot', 6, { shot: 0.1, contest: 0.4, sweet: 1.25, arc: 1.4 }, { untilShot: true }), ai: (p, s) => s.has && s.dH > 150 },
+  earth_shot: { name: 'ЗЕМНОЙ БРОСОК', jp: '地の射', cd: 10, need: need.ballDef, desc: 'Финт броском: ближайший защитник прыгает на обман, следующий бросок +8%.',
+    run: (p) => { const d = oppsOf(p).sort((a, b) => dist(a, p) - dist(b, p))[0]; fool(p, d, 0.8); addBuff(p, { id: 'earth_shot', dur: 3, untilShot: true, mods: { shot: 0.08 } }); return true; }, ai: (p, s) => s.has && s.dD < 90 },
+  mibuchi_ult: { name: 'ПУСТОТНЫЙ БРОСОК', jp: '虚空', ult: true, need: p => hasBall(p) ? null : 'нужен мяч', desc: 'До броска (7 с): защитник не успевает среагировать — опека почти не мешает, бросок +15%.',
+    run: buffRun('mibuchi_ult', 7, { contest: 0.85, shot: 0.15, bw: 0.3 }, { untilShot: true }), ai: (p, s) => s.has },
+  muscle: { name: 'МЫШЕЧНЫЙ ПРОРЫВ', jp: '筋肉', cd: 9, desc: '5 с: сила в контакте ×3, добивание +18%, данки труднее накрыть.',
+    run: buffRun('muscle', 5, { push: 3, lay: 0.18, dunkGuard: 0.6 }), ai: (p, s) => s.has && s.dH < 260 },
+  nebuya_ult: { name: 'ДАНК НЕБУИ', jp: '根武谷ダンク', ult: true, need: p => !hasBall(p) ? 'нужен мяч' : dist(p, HOOP) > 210 ? 'подойди ближе к кольцу' : null, desc: 'С мячом ближе 6 м: силовой данк сквозь защиту.',
+    run: (p) => { addBuff(p, { id: 'nebuya_ult', dur: 2, mods: { dunkGuard: 0.5, lay: 0.15 } }); p.dunkName = 'ДАНК НЕБУИ'; p.state = 'idle'; startDrive(p, 'dunk'); return true; }, ai: (p, s) => s.has && s.dH < 200 },
+});
 // cooldowns are 1.6x the base numbers above
 for (const id in ABIL) { ABIL[id].id = id; if (ABIL[id].cd) ABIL[id].cd = Math.round(ABIL[id].cd * 1.6); }
 
@@ -1436,6 +1573,37 @@ const ROLE_STATS = {
   'Разыгрывающий': { spd: 1.04, shot: 0.01, steal: 0.03 }, 'Атакующий защитник': { spd: 1.02, shot: 0.04 }, 'Лёгкий форвард': { spd: 1.02, shot: 0.02 },
   'Тяжёлый форвард': { spd: 1.0, lay: 0.05, reb: 8, blockCh: 1.1 }, 'Центровой': { spd: 0.95, shot: -0.04, lay: 0.06, reb: 14, blockCh: 1.25, push: 1.5 }, 'Шестой игрок': { spd: 1.0, steal: 0.04 },
 };
+// side characters (NPC): appear as random team-mates and opponents, and can be picked too
+const NPC_LINE = (jp, ro, ru) => [[jp, ro, ru]];
+CHARS.push(
+  { id: 'hyuga', npc: true, short: 'ХЮГА', name: 'Дзюмпэй Хюга', jpName: '日向順平', school: 'Сэйрин', num: '4', role: 'Атакующий защитник', rating: 83,
+    color: '#e8e8e8', hair: '#1a1a1f', eyeL: '#2a2a2a', eyeR: '#2a2a2a', style: 'short', glasses: true, pitch: 0.95, abil: { J: 'barrier_jumper', K: 'captain', L: 'clutch' }, ai: { shoot3: 1.4 },
+    lines: { power: NPC_LINE('ここで決める！', 'Koko de kimeru!', 'Решаю здесь и сейчас!'), score: NPC_LINE('よっしゃ！', 'Yossha!', 'Есть!'), taunt: NPC_LINE('甘く見るな！', 'Amaku miru na!', 'Не недооценивай!'), win: NPC_LINE('セイリン、ファイ！', 'Seirin, fai!', 'Сэйрин, вперёд!') } },
+  { id: 'kasamatsu', npc: true, short: 'КАСАМАЦУ', name: 'Юкио Касамацу', jpName: '笠松幸男', school: 'Кайдзё', num: '4', role: 'Разыгрывающий', rating: 84,
+    color: '#7fb2ff', hair: '#141418', eyeL: '#2a2a3a', eyeR: '#2a2a3a', style: 'short', brows: 'thick', pitch: 0.95, abil: { J: 'speed_drive', K: 'captain', L: 'leader_ult' }, ai: { drive: 1.2, pass: 1 },
+    lines: { power: NPC_LINE('海常の主将をなめるな！', 'Kaijō no shushō o nameru na!', 'Не недооценивай капитана Кайдзё!'), score: NPC_LINE('次！', 'Tsugi!', 'Следующий!'), taunt: NPC_LINE('しばくぞ！', 'Shibaku zo!', 'Получишь у меня!'), win: NPC_LINE('全員でつかんだ勝利だ。', 'Zenin de tsukanda shōri da.', 'Это победа всей команды.') } },
+  { id: 'imayoshi', npc: true, short: 'ИМАЁСИ', name: 'Сёити Имаёси', jpName: '今吉翔一', school: 'Тоо', num: '4', role: 'Разыгрывающий', rating: 85,
+    color: '#c08bff', hair: '#16161c', eyeL: '#1a1a1a', eyeR: '#1a1a1a', style: 'center', glasses: true, pitch: 0.9, abil: { J: 'mind_read', K: 'sly_trap', L: 'imayoshi_ult' }, ai: { lane: 1.3, press: 1 },
+    lines: { power: NPC_LINE('全部お見通しや。', 'Zenbu omitōshi ya.', 'Я всё вижу насквозь.'), score: NPC_LINE('読み通りや。', 'Yomi dōri ya.', 'Как я и прочитал.'), taunt: NPC_LINE('嫌われ者でええわ。', 'Kirawaremono de ee wa.', 'Пусть меня ненавидят.'), win: NPC_LINE('ほな、またな。', 'Hona, mata na.', 'Ну, бывай.') } },
+  { id: 'sakurai', npc: true, short: 'САКУРАИ', name: 'Рё Сакураи', jpName: '桜井良', school: 'Тоо', num: '6', role: 'Атакующий защитник', rating: 82,
+    color: '#ffb36b', hair: '#8a5a33', skin: '#e8b88a', eyeL: '#4a2e1a', eyeR: '#4a2e1a', style: 'soft', pitch: 1.15, abil: { J: 'quick_release', K: 'apology', L: 'sakurai_ult' }, ai: { shoot3: 1.8 },
+    lines: { power: NPC_LINE('すみません！入れます！', 'Sumimasen! Iremasu!', 'Простите! Забиваю!'), score: NPC_LINE('すみません…', 'Sumimasen…', 'Извините…'), taunt: NPC_LINE('すみません、止められません！', 'Sumimasen, tomeraremasen!', 'Простите, но меня не остановить!'), win: NPC_LINE('勝ってすみません！', 'Katte sumimasen!', 'Простите, что победили!') } },
+  { id: 'wakamatsu', npc: true, short: 'ВАКАМАЦУ', name: 'Косукэ Вакамацу', jpName: '若松孝輔', school: 'Тоо', num: '7', role: 'Центровой', rating: 80, scale: 1.14,
+    color: '#ffd38a', hair: '#c9a24a', eyeL: '#3a2a1a', eyeR: '#3a2a1a', style: 'short', pitch: 0.82, abil: { J: 'rebound_king', K: 'post_block', L: 'big_ult' }, ai: { rim: 1.2, reb: 1.4 },
+    lines: { power: NPC_LINE('ゴール下は渡さねえ！', 'Gōru-shita wa watasanē!', 'Под кольцом — моё!'), score: NPC_LINE('どうだ！', 'Dō da!', 'Видал?!'), taunt: NPC_LINE('ぶっ潰すぞ！', 'Buttsubusu zo!', 'Размажу!'), win: NPC_LINE('当然だろうが！', 'Tōzen darō ga!', 'А как иначе!') } },
+  { id: 'hayama', npc: true, short: 'ХАЯМА', name: 'Котаро Хаяма', jpName: '葉山小太郎', school: 'Ракудзан', num: '7', role: 'Лёгкий форвард', rating: 86,
+    color: '#ffe066', hair: '#e8a43a', eyeL: '#5a3a1a', eyeR: '#5a3a1a', style: 'spiky', pitch: 1.12, abil: { J: 'lightning', K: 'speed_drive', L: 'lightning_ult' }, ai: { drive: 1.5, feint: 1.4 },
+    lines: { power: NPC_LINE('雷轟のドリブルだ！', 'Raigō no doriburu da!', 'Громовой дриблинг!'), score: NPC_LINE('いえーい！', 'Iēi!', 'Йе-е-е!'), taunt: NPC_LINE('ついて来られる？', 'Tsuite korareru?', 'Успеешь за мной?'), win: NPC_LINE('楽しかったー！', 'Tanoshikattā!', 'Было весело!') } },
+  { id: 'mibuchi', npc: true, short: 'МИБУТИ', name: 'Рео Мибути', jpName: '実渕玲央', school: 'Ракудзан', num: '5', role: 'Атакующий защитник', rating: 86,
+    color: '#ff9ecf', hair: '#151518', eyeL: '#2a1a2a', eyeR: '#2a1a2a', style: 'neat', pitch: 1.0, abil: { J: 'heaven_shot', K: 'earth_shot', L: 'mibuchi_ult' }, ai: { shoot3: 1.6, feint: 1 },
+    lines: { power: NPC_LINE('美しく決めるわ。', 'Utsukushiku kimeru wa.', 'Забью красиво.'), score: NPC_LINE('当然よ。', 'Tōzen yo.', 'Само собой.'), taunt: NPC_LINE('無粋ねえ。', 'Busui nē.', 'Как безвкусно.'), win: NPC_LINE('素敵な試合だったわ。', 'Suteki na shiai datta wa.', 'Прекрасный матч.') } },
+  { id: 'nebuya', npc: true, short: 'НЕБУЯ', name: 'Эйкити Небуя', jpName: '根武谷永吉', school: 'Ракудзан', num: '8', role: 'Центровой', rating: 85, scale: 1.18,
+    color: '#ffb07a', hair: '#1a1410', skin: '#b07a50', eyeL: '#1a1410', eyeR: '#1a1410', style: 'buzz', pitch: 0.75, abil: { J: 'muscle', K: 'rebound_king', L: 'nebuya_ult' }, ai: { drive: 1.4, reb: 1.4, rim: 0.8 },
+    lines: { power: NPC_LINE('筋肉は裏切らねえ！', 'Kinniku wa uragiranē!', 'Мускулы не подведут!'), score: NPC_LINE('メシ食いてえ！', 'Meshi kuitē!', 'Жрать хочу!'), taunt: NPC_LINE('どけどけ！', 'Doke doke!', 'С дороги!'), win: NPC_LINE('筋肉の勝利だ！', 'Kinniku no shōri da!', 'Победа мускулов!') } },
+  { id: 'liu', npc: true, short: 'ЛЮ ВЭЙ', name: 'Лю Вэй', jpName: '劉偉', school: 'Ёсэн', num: '11', role: 'Центровой', rating: 80, scale: 1.16,
+    color: '#b9a0ff', hair: '#141418', eyeL: '#1a1a1a', eyeR: '#1a1a1a', style: 'short', pitch: 0.8, abil: { J: 'post_block', K: 'rebound_king', L: 'big_ult' }, ai: { rim: 1.4, reb: 1.2 },
+    lines: { power: NPC_LINE('通さない。', 'Tōsanai.', 'Не пропущу.'), score: NPC_LINE('よし。', 'Yoshi.', 'Хорошо.'), taunt: NPC_LINE('小さいね。', 'Chiisai ne.', 'Маленький ты.'), win: NPC_LINE('陽泉の守りだ。', 'Yōsen no mamori da.', 'Вот защита Ёсэн.') } },
+);
 // school uniforms: body, shorts, trim, number colour
 const UNI = {
   'Сэйрин': { body: '#f3f4f6', shorts: '#e9eaee', trim: '#111318', num: '#c8102e' },
@@ -1449,7 +1617,7 @@ const UNI = {
   'Jabberwock': { body: '#121214', shorts: '#121214', trim: '#e2b33a', num: '#e2b33a' },
 };
 // heights relative to the base sprite
-const HEIGHT = { akashi: 0.97, aomine: 1.08, kise: 1.05, midorima: 1.08, murasakibara: 1.22, kuroko: 0.94, kagami: 1.08, himuro: 1.04, haizaki: 1.05, takao: 1.0, izuki: 1.0, kiyoshi: 1.12, hanamiya: 1.0, nash: 1.06, silver: 1.25 };
+const HEIGHT = { hyuga: 1.0, kasamatsu: 0.98, imayoshi: 1.02, sakurai: 0.98, wakamatsu: 1.14, hayama: 1.0, mibuchi: 1.06, nebuya: 1.18, liu: 1.16, akashi: 0.97, aomine: 1.08, kise: 1.05, midorima: 1.08, murasakibara: 1.22, kuroko: 0.94, kagami: 1.08, himuro: 1.04, haizaki: 1.05, takao: 1.0, izuki: 1.0, kiyoshi: 1.12, hanamiya: 1.0, nash: 1.06, silver: 1.25 };
 for (const c of CHARS) c.scale = HEIGHT[c.id] || 1;
 const LUCKY = ['плюшевая лягушка', 'кукла-кокеси', 'мишка-тануки', 'кактус в горшке', 'ракетка для бадминтона', 'бумажный журавлик'];
 let selectedCharId = 'akashi', oppMode = 'random';
@@ -1916,7 +2084,7 @@ function updatePlayer(p, inp, dt) {
     const ds = p.delayShot; ds.t -= dt;
     if (p.air && p.vz < 30) p.vz = 30;
     if (!hasBall(p) || G.phase !== 'live') p.delayShot = null;
-    else if (p.id === G.userCtrlId && pressed.KeyO && G.mode === '3v3') { p.delayShot = null; consumeShotBuffs(p); popup(p.x, p.y - 96, 'ПАС ИЗ ОТСРОЧКИ', '#d9a066', 15); passToTeammate(p); }
+    else if (p.id === G.userCtrlId && pressed.KeyO && G.mode !== '1v1') { p.delayShot = null; consumeShotBuffs(p); popup(p.x, p.y - 96, 'ПАС ИЗ ОТСРОЧКИ', '#d9a066', 15); passToTeammate(p); }
     else if (ds.t <= 0) {
       p.delayShot = null;
       oppsOf(p).forEach(o => { if (o.air && dist(o, p) < 100) addBuff(o, { id: 'fooled', dur: 0.7, debuff: true, mods: { fooled: true } }); });
@@ -2040,7 +2208,7 @@ function offenseActions(p, inp, dt, dir) {
   }
 
   // Passing (KeyO)
-  if (inp.passPress && G.mode === '3v3') {
+  if (inp.passPress && G.mode !== '1v1') {
     passToTeammate(p);
     return;
   }
@@ -2193,7 +2361,7 @@ function updatePass(dt) {
     if (target && target.state !== 'fallen') {
       gain(target);
       if (ps.assist) addBuff(target, { id: 'assist', dur: 2.5, mods: { shot: ps.assist } });
-      if (ps.alleyOop && target.id === G.userCtrlId && G.mode === '3v3' && dist(target, HOOP) < 205) {
+      if (ps.alleyOop && target.id === G.userCtrlId && G.mode !== '1v1' && dist(target, HOOP) < 205) {
         startAlleyOopDunk(target);
       }
       // User always stays Player 0 (MyCareer style)
@@ -2271,7 +2439,7 @@ function ankleBreak(d, att, dir) {
 }
 
 function isAlleyOopRun(p, sprinting) {
-  if (!p || G.mode !== '3v3' || !sprinting || dist(p, HOOP) >= 150) return false;
+  if (!p || G.mode === '1v1' || !sprinting || dist(p, HOOP) >= 150) return false;
   const speed = Math.hypot(p.vx, p.vy);
   if (speed <= 115) return false;
   const [hx, hy] = norm(HOOP.x - p.x, HOOP.y - p.y);
@@ -2280,7 +2448,7 @@ function isAlleyOopRun(p, sprinting) {
 
 function defenseActions(p, inp) {
   // KeyO when teammate has the ball: REQUEST PASS / CALL FOR BALL!
-  if (inp.passPress && p.id === G.userCtrlId && p.team === 0 && G.mode === '3v3' && ball.state === 'held' && P[ball.owner] && P[ball.owner].team === 0 && ball.owner !== p.id) {
+  if (inp.passPress && p.id === G.userCtrlId && p.team === 0 && G.mode !== '1v1' && ball.state === 'held' && P[ball.owner] && P[ball.owner].team === 0 && ball.owner !== p.id) {
     const holder = P[ball.owner];
     if (holder.state !== 'layup' && holder.state !== 'dunk' && holder.state !== 'fallen') {
       holder.state = 'idle';
@@ -2840,14 +3008,14 @@ function botOffense(b, inp, dt, mem) {
   if ((b.buffs || []).some(x => x.id === 'form')) { inp.mx = 0; inp.my = 0; return; }
   const fr = mod(b, 'dunkR');
   if (fr && dH < fr - 10) { steer(inp, b, HOOP.x, HOOP.y, 0); inp.sprint = true; inp.shootPress = true; return; }
-  if (ai.pass && G.mode === '3v3' && dD < 85 && Math.random() < 0.035 * ai.pass) { passToTeammate(b); return; }
+  if (ai.pass && G.mode !== '1v1' && dD < 85 && Math.random() < 0.035 * ai.pass) { passToTeammate(b); return; }
   if (ai.shoot3 && isThree(b.x, b.y) && dD > 85 && Math.random() < 0.04 * ai.shoot3) { botStartShot(b, inp, mem); return; }
   if (ai.feint && dD < 95 && b.crossCD <= 0 && Math.random() < 0.025 * ai.feint) {
     const s2 = Math.random() < 0.5 ? 1 : -1, [cx, cy] = norm(hy * s2 + hx * 0.5, -hx * s2 + hy * 0.5);
     inp.dribblePress = true; inp.mx = cx; inp.my = cy; mem.crossDir = [cx, cy]; mem.crossHold = 0.32; return;
   }
   if (ai.drive && dH < 320 && mem.spot && !mem.spot.drive && Math.random() < 0.02 * ai.drive) mem.spot = { x: HOOP.x, y: HOOP.y + 20, drive: true };
-  if (G.mode === '3v3' && dD < 48 && Math.random() < 0.05 * D.aggro) {
+  if (G.mode !== '1v1' && dD < 48 && Math.random() < 0.05 * D.aggro) {
     const teammates = P.filter(tm => tm.team === b.team && tm.id !== b.id);
     const openTm = teammates.find(tm => {
       const g = P[tm.matchupId];
@@ -2924,7 +3092,7 @@ function botDefenseFixed(b, inp, dt, mem) {
   const gap = dHt > 330 ? 90 : dHt > 200 ? 70 : 54;
   let tx = T.x + nx * gap * (prof.press ? 0.75 : 1), ty = T.y + ny * gap * (prof.press ? 0.75 : 1);
   if (prof.rim && dHt > 190) { tx = T.x + (HOOP.x - T.x) * 0.55; ty = T.y + (HOOP.y - T.y) * 0.55; }   // rim protector sags into the paint
-  if ((prof.lane || flag(b, 'lanes')) && holder && holder.team !== b.team && holder.id !== target.id && G.mode === '3v3') {   // deny the passing lane
+  if ((prof.lane || flag(b, 'lanes')) && holder && holder.team !== b.team && holder.id !== target.id && G.mode !== '1v1') {   // deny the passing lane
     tx = T.x + (holder.x - T.x) * 0.4; ty = T.y + (holder.y - T.y) * 0.4;
   }
 
@@ -3016,6 +3184,12 @@ function setupCheck(team) {
       ball.owner = 3;
       G.userCtrlId = 0;
     }
+  } else if (G.mode === '2v2') {
+    const off = P.filter(q => q.team === team), def = P.filter(q => q.team !== team);
+    resetPlayer(off[0], 480, 480); resetPlayer(off[1], 300, 380);
+    resetPlayer(def[0], 480, 415); resetPlayer(def[1], 330, 320);
+    ball.owner = off[0].id;
+    G.userCtrlId = 0;
   } else {
     const off = P[team], def = P[1 - team];
     resetPlayer(off, 480, 470); resetPlayer(def, 480, 405);
@@ -3967,7 +4141,7 @@ function updateHUD() {
   
   const clk = G.clock < 5 ? G.clock.toFixed(1) : String(Math.ceil(G.clock));
   const userPlayer = P[G.userCtrlId];
-  const alleyReady = G.phase === 'live' && G.mode === '3v3' && G.offense === 0 && userPlayer && userPlayer.id !== ball.owner
+  const alleyReady = G.phase === 'live' && G.mode !== '1v1' && G.offense === 0 && userPlayer && userPlayer.id !== ball.owner
     && ball.state === 'held' && P[ball.owner] && P[ball.owner].team === 0
     && isAlleyOopRun(userPlayer, !!(keys.Space || keys.ShiftLeft || keys.ShiftRight));
   const key = G.score.join() + clk + status + G.offense + G.userCtrlId + (alleyReady ? 'ally' : '');
@@ -3979,7 +4153,7 @@ function updateHUD() {
   const attacking=G.phase==='menu'||G.offense===0;
   document.getElementById('touchShoot').firstChild.textContent=attacking?'БРОСОК':'БЛОК';
   document.getElementById('touchSteal').textContent=attacking?'ФИНТ / СПИН':'ПЕРЕХВАТ';
-  document.getElementById('touchPass').textContent=attacking?(alleyReady?'АЛЛЕЙ-УП!':G.mode==='3v3'&&ball.state==='held'&&P[ball.owner]&&P[ball.owner].team===0&&ball.owner!==G.userCtrlId?'ЗАПРОС ПАСА':'ПАС'):'ПАС';
+  document.getElementById('touchPass').textContent=attacking?(alleyReady?'АЛЛЕЙ-УП!':G.mode!=='1v1'&&ball.state==='held'&&P[ball.owner]&&P[ball.owner].team===0&&ball.owner!==G.userCtrlId?'ЗАПРОС ПАСА':'ПАС'):'ПАС';
   const youOff = G.phase === 'menu' ? true : G.offense === 0;
   hud.off.classList.toggle('on', youOff); hud.def.classList.toggle('on', !youOff);
 }
@@ -4005,9 +4179,9 @@ function setupSeg(id, onPick) {
 }
 setupSeg('mode', v => {
   G.mode = v;
-  el('menu-title').innerHTML = v === '3v3' ? '3 <span class="x">на</span> 3' : '1 <span class="x">на</span> 1';
-  el('team0-name').textContent = v === '3v3' ? 'Твоя команда' : 'Ты';
-  el('team1-name').textContent = v === '3v3' ? 'Соперники' : 'Соперник';
+  el('menu-title').innerHTML = modeTitle(v);
+  el('team0-name').textContent = v !== '1v1' ? 'Твоя команда' : 'Ты';
+  el('team1-name').textContent = v !== '1v1' ? 'Соперники' : 'Соперник';
   initPlayers(G.mode);
 });setupSeg('diff', v => { G.diffKey = v; G.diff = DIFFS[v]; });
 setupSeg('target', v => { G.target = v === 'infinite' ? Infinity : Number(v); });
@@ -4038,7 +4212,9 @@ function setPaused(v) {
 }
 function toMenu() {
   sfx.setHype(0.06);
-  if (NET.active) netLeave(false);
+  if (NET.role === 'host') { if (NET.active) { NET.active = false; NET.broadcast({ t: 'lobby' }); } }
+  else if (NET.role === 'guest' && NET.active) netLeave(false);
+  setTimeout(netLobby, 0);
   document.body.classList.remove('playing');
   if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(() => {});
   requestAnimationFrame(resize);
@@ -4083,7 +4259,7 @@ function endGame() {
     ['Фолы соперника', b.fouls, a.fouls], ['Данки', a.dunks, b.dunks], ['Блоки', a.blocks, b.blocks],
     ['Перехваты', a.steals, b.steals], ['Анкл брейки', a.ankles, b.ankles], ['Понты', a.taunts, '—'], ['Танцы', a.dances, b.dances], ['Техники', a.powers, b.powers],
   ];
-  el('over-stats').innerHTML = '<thead><tr><th></th><th class="y">' + (G.mode === '3v3' ? 'Команда' : 'Ты') + '</th><th class="b">' + (G.mode === '3v3' ? 'Соперники' : 'Соперник') + '</th></tr></thead><tbody>' +
+  el('over-stats').innerHTML = '<thead><tr><th></th><th class="y">' + (G.mode !== '1v1' ? 'Команда' : 'Ты') + '</th><th class="b">' + (G.mode !== '1v1' ? 'Соперники' : 'Соперник') + '</th></tr></thead><tbody>' +
     rows.map(r => '<tr><td>' + r[0] + '</td><td>' + r[1] + '</td><td>' + r[2] + '</td></tr>').join('') + '</tbody>';
   const me = P[0].st;
   const pts = (win ? 50 : 0) + margin * 3 + me.dunks * 4 + me.threes * 3 + me.ankles * 4 + me.blocks * 3 + me.steals * 2 + G.match.perfects * 2 + G.match.showoffs * 2;
@@ -4093,13 +4269,14 @@ function endGame() {
   el('over-ach').textContent = G.match.newAch.length ? '🏆 Новые достижения: ' + G.match.newAch.join(', ') : '';
   showCard('over'); sfx.buzzer(); lastHud = '';
 }
+function modeTitle(m) { const n = m === '3v3' ? 3 : m === '2v2' ? 2 : 1; return n + ' <span class="x">на</span> ' + n; }
 function escapeHTML(s) { return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function createTournament() {
  G.mode=el('tournamentMode').value;
  document.querySelectorAll('#mode button').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.v===G.mode)));
- el('menu-title').innerHTML=G.mode==='3v3'?'3 <span class="x">на</span> 3':'1 <span class="x">на</span> 1';
- el('team0-name').textContent=G.mode==='3v3'?'Твоя команда':'Ты';
- el('team1-name').textContent=G.mode==='3v3'?'Боты':'Бот';
+ el('menu-title').innerHTML=modeTitle(G.mode);
+ el('team0-name').textContent=G.mode!=='1v1'?'Твоя команда':'Ты';
+ el('team1-name').textContent=G.mode!=='1v1'?'Боты':'Бот';
  const custom=el('teamName').value.trim()||'Моя команда';
  const rest=teamNames.filter(n=>n.toLowerCase()!==custom.toLowerCase());
  while(rest.length<47) rest.push('Команда '+(rest.length+1));
@@ -4117,7 +4294,7 @@ function renderTournamentGroups() {
  root.innerHTML='<div class="row" style="align-items:flex-start">'+tournament.groups.map((g,i)=>'<section style="flex:1 1 300px;background:#0b0e14;border:1px solid var(--line);border-radius:8px;padding:10px;margin:4px"><h2>Группа '+String.fromCharCode(65+i)+'</h2><table class="stats"><thead><tr><th>Команда</th><th>И</th><th>В</th><th>П</th><th>РМ</th></tr></thead><tbody>'+standings(g).map((t,n)=>'<tr><td>'+(n<2?'⭐ ':'')+escapeHTML(t.name)+'</td><td>'+t.played+'</td><td>'+t.w+'</td><td>'+t.l+'</td><td>'+(t.pf-t.pa)+'</td></tr>').join('')+'</tbody></table></section>').join('')+'</div><h2>Плей-офф</h2><p class="note">1/8 финала: 12 победителей групп и 4 лучшие команды со второго места. Матчи до 30 очков.</p>';
 }
 function showTournamentPage(show) {el('tournamentPage').hidden=!show;document.querySelector('.stage').hidden=show;document.querySelector('.board').hidden=show;document.querySelector('.legend').hidden=show;document.querySelector('.foot').hidden=show;document.getElementById('abilBar').hidden=show;}
-el('tabTournament').addEventListener('click',()=>showTournamentPage(true));el('tabGame').addEventListener('click',()=>showTournamentPage(false));el('backGame').addEventListener('click',()=>showTournamentPage(false));el('createTournament').addEventListener('click',createTournament);el('playTournamentMatch').addEventListener('click',()=>{if(!tournament||tournament.done)return;G.diffKey=el('tournamentDifficulty').value;G.diff=DIFFS[G.diffKey];showTournamentPage(false);G.target=30;startGame();});
+el('tabTournament').addEventListener('click',()=>showTournamentPage(true));el('tabGame').addEventListener('click',()=>showTournamentPage(false));el('backGame').addEventListener('click',()=>showTournamentPage(false));el('createTournament').addEventListener('click',createTournament);el('playTournamentMatch').addEventListener('click',()=>{if(!tournament||tournament.done)return;G.diffKey=el('tournamentDifficulty').value;G.diff=DIFFS[G.diffKey];showTournamentPage(false);G.target=30;if(netHostHasGuests()){netStartMatch(true);return;}startGame();});
 function tournamentOpponent(){if(!tournament)return 'Боты';if(tournament.phase==='groups'){const f=tournament.fixtures.find(x=>x.g===0&&x.round===tournament.userGame&&(x.a===0||x.b===0));return f?tournament.groups[0][f.a===0?f.b:f.a].name:'Плей-офф';}return ['1/8 финала','Четвертьфинал','Полуфинал','Финал'][tournament.round]||'Финал';}
 function finishTournamentMatch(){
  if(!tournament)return '';
@@ -4142,12 +4319,12 @@ el('resume').addEventListener('click', () => setPaused(false));
 el('tomenu1').addEventListener('click', toMenu);
 el('tomenu2').addEventListener('click', toMenu);
 el('tournamentStart').addEventListener('click', () => showTournamentPage(true));
-el('tournamentNext').addEventListener('click', startGame);
+el('tournamentNext').addEventListener('click', () => { if (netHostHasGuests()) netStartMatch(true); else startGame(); });
 
 // ---------- tournament format: groups to 15, 24-team bracket, best-of-five to 21 ----------
 function tournamentTargets(mode) {
   const m = mode || (tournament && tournament.mode) || G.mode;
-  return m === '1v1' ? { group: 12, playoff: 15 } : { group: 15, playoff: 21 };
+  return m === '1v1' ? { group: 12, playoff: 15 } : m === '2v2' ? { group: 13, playoff: 18 } : { group: 15, playoff: 21 };
 }
 function tournamentTarget() {
   if (!tournament) return selectedTarget();
@@ -4298,9 +4475,9 @@ function renderTournamentGroups() {
 function createTournament() {
   G.mode = el('tournamentMode').value;
   document.querySelectorAll('#mode button').forEach(b => b.setAttribute('aria-checked', String(b.dataset.v === G.mode)));
-  el('menu-title').innerHTML = G.mode === '3v3' ? '3 <span class="x">на</span> 3' : '1 <span class="x">на</span> 1';
-  el('team0-name').textContent = G.mode === '3v3' ? 'Твоя команда' : 'Ты';
-  el('team1-name').textContent = G.mode === '3v3' ? 'Соперники' : 'Соперник';
+  el('menu-title').innerHTML = modeTitle(G.mode);
+  el('team0-name').textContent = G.mode !== '1v1' ? 'Твоя команда' : 'Ты';
+  el('team1-name').textContent = G.mode !== '1v1' ? 'Соперники' : 'Соперник';
   const custom = el('teamName').value.trim() || 'Моя команда';
   const rest = teamNames.filter(n => n.toLowerCase() !== custom.toLowerCase());
   while (rest.length < 47) rest.push('Команда ' + (rest.length + 1));
@@ -4402,7 +4579,7 @@ function startGame() {
   if (tournament && tournament.mode && G.mode !== tournament.mode) {
     G.mode = tournament.mode;
     document.querySelectorAll('#mode button').forEach(b => b.setAttribute('aria-checked', String(b.dataset.v === G.mode)));
-    el('menu-title').innerHTML = G.mode === '3v3' ? '3 <span class="x">на</span> 3' : '1 <span class="x">на</span> 1';
+    el('menu-title').innerHTML = modeTitle(G.mode);
   }
   initPlayers(G.mode);
   G.diff = tournamentStageDifficulty();
@@ -4420,8 +4597,8 @@ function startGame() {
   showCard(null); setupCheck(0); lastHud = '';
   const cap = P.find(p => p.team === 1);
   if (!tournament) {
-    el('team0-name').textContent = G.mode === '3v3' ? 'Твоя команда' : P[0].char.short;
-    el('team1-name').textContent = G.mode === '3v3' ? 'Команда ' + cap.char.short : cap.char.short;
+    el('team0-name').textContent = G.mode !== '1v1' ? 'Твоя команда' : P[0].char.short;
+    el('team1-name').textContent = G.mode !== '1v1' ? 'Команда ' + cap.char.short : cap.char.short;
   }
   G.vs = { t: 0, life: 2.6 }; G.phaseT = 2.6;
   const mid = P.find(p => p.char && p.char.id === 'midorima');
@@ -4503,6 +4680,7 @@ document.addEventListener('visibilitychange', () => {
 window.addEventListener('keydown', () => { sfx.init(); }, { once: true });
 window.addEventListener('pointerdown', () => { sfx.init(); }, { once: true });
 document.addEventListener('click', e => { if (e.target.closest('.btn, .seg button')) sfx.uiClick(); });
+['contextmenu', 'selectstart', 'dragstart'].forEach(t => document.addEventListener(t, e => { if (document.body.classList.contains('playing')) e.preventDefault(); }));
 el('netHostBtn').addEventListener('click', () => { sfx.init(); netHost(); });
 el('netJoinBtn').addEventListener('click', () => {
   sfx.init();
@@ -4510,7 +4688,10 @@ el('netJoinBtn').addEventListener('click', () => {
   netJoin(el('netCode').value);
 });
 el('netCode').addEventListener('keydown', e => { e.stopPropagation(); if (e.key === 'Enter') el('netJoinBtn').click(); });
-el('netStartBtn').addEventListener('click', netStartMatch);
+el('netStartBtn').addEventListener('click', () => netStartMatch(false));
+el('netTourBtn').addEventListener('click', () => netStartMatch(true));
+setupSeg('netModeSeg', v => { NET.mode = v; });
+setupSeg('netTeamSeg', v => { NET.together = v === 'together'; });
 // install as an app (no browser bars): Android / desktop Chrome get a button, iPhone gets a hint
 const isStandalone = matchMedia('(display-mode: fullscreen)').matches || matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
 let deferredInstall = null;
@@ -4543,7 +4724,7 @@ function renderChars() {
     const ab = ['J', 'K', 'L'].map(k => { const a = ABIL[c.abil[k]]; return '<li><kbd>' + k + '</kbd> <b>' + a.name + '</b> <span class="jp">' + a.jp + (a.cd ? ' · ' + a.cd + ' с' : ' · ульта') + '</span><span>' + a.desc + '</span></li>'; }).join('');
     const l = c.lines.power[0];
     return '<article class="charcard' + (sel ? ' sel' : '') + '" style="--c:' + c.color + '"><canvas data-c="' + c.id + '"></canvas><div>' +
-      '<h3>' + c.name + '</h3><div class="jp">' + c.jpName + ' · ' + c.school + ' · №' + c.num + '</div>' +
+      '<h3>' + c.name + (c.npc ? ' <span class="jp">· NPC</span>' : '') + '</h3><div class="jp">' + c.jpName + ' · ' + c.school + ' · №' + c.num + '</div>' +
       '<div class="pw">' + c.role + ' · рейтинг ' + c.rating + '</div><p>「' + l[0] + '」 ' + l[2] + '</p></div>' +
       '<ul>' + ab + '</ul>' +
       '<button class="btn' + (sel ? ' primary' : '') + '" type="button" data-pick="' + c.id + '">' + (sel ? 'Выбран' : 'Играть за ' + c.short) + '</button></article>';
@@ -4598,7 +4779,7 @@ el('charsGrid').addEventListener('click', e => {
   if (G.phase === 'menu') initPlayers(G.mode);
 });
 el('tabChars').addEventListener('click', () => showCharsPage(true));
-el('tabGame').addEventListener('click', () => showCharsPage(false));
+el('tabGame').addEventListener('click', () => { showCharsPage(false); netLobby(); });
 el('tabTournament').addEventListener('click', () => { el('charsPage').hidden = true; });
 el('charsBack').addEventListener('click', () => showCharsPage(false));
 el('charPick').addEventListener('click', () => showCharsPage(true));
